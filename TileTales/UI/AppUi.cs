@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace TileTales.UI
 {
-    internal class MyraUI
+    internal class AppUI
     {
 
         private Desktop _desktop;
@@ -19,7 +19,7 @@ namespace TileTales.UI
         private Grid _uiContainer;
         private ArtistUI _artistUI;
         private GameUI _gameUI;
-        public MyraUI(Game game, GraphicsDeviceManager graphics)
+        public AppUI(Game game, GraphicsDeviceManager graphics)
         {
             _graphics = graphics;
             _game = game;
@@ -28,7 +28,6 @@ namespace TileTales.UI
         }
         public void LoadContent()
         {
-            
             _game.IsMouseVisible = true;
             _game.Window.AllowUserResizing = true;
             _desktop = new Desktop
@@ -44,9 +43,7 @@ namespace TileTales.UI
 
             _uiContainer = new Grid
             {
-                Background = new Myra.Graphics2D.Brushes.SolidBrush(Color.Aqua)
-                //Width = WINDOW_WIDTH,
-                //Height = WINDOW_HEIGHT
+                //Background = new Myra.Graphics2D.Brushes.SolidBrush(Color.Beige)
             };
             _uiContainer.ColumnsProportions.Add(new Proportion());
             _uiContainer.RowsProportions.Add(new Proportion());
@@ -68,7 +65,7 @@ namespace TileTales.UI
 
             _desktop.Root = _uiContainer;
 
-            //createTestWindow();
+            //createLoginWindow();
         }
 
         public void Draw()
@@ -118,26 +115,7 @@ namespace TileTales.UI
             return tabPanel;
         }
 
-        private void createTestGrid()
-        {
-            Grid g = new Grid();
-            var panel = new Panel();
-            panel.Widgets.Add(new TextBox() { Text = "this.X=W.w/4;this.Y=W.h/2", Id = "Expression", Top = 25, Width = 100, Height = 100 });
-            var btnA = new TextButton();
-            var btnB = new TextButton() { Text = "Button", Left = 500, Top = 500 };
-            btnB.Click += (sender, e) => { Console.WriteLine(btnB.Layout2d.Expresion); };
-
-            btnA.Text = "Calc";
-            btnA.Click += (sender, e) => { btnB.Layout2d.Expresion = (_desktop.GetWidgetByID("Expression") as TextBox).Text; _desktop.InvalidateLayout(); _desktop.UpdateLayout(); };
-            panel.Widgets.Add(btnA);
-
-            g.Widgets.Add(panel);
-            g.Widgets.Add(btnB);
-
-            _desktop.Root = g;
-        }
-
-        private void createTestWindow()
+        private void createLoginWindow()
         {
             Window window = new Window
             {
@@ -151,6 +129,41 @@ namespace TileTales.UI
             };
 
             window.Content = button;
+
+            window.Closed += (s, a) =>
+            {
+                // Called when window is closed
+            };
+
+            window.ShowModal(_desktop);
+        }
+
+        internal void popConnectErrorUI(String technicalInfo)
+        {
+            Window window = new Window
+            {
+                Title = "Connection error"
+            };
+
+            VerticalStackPanel verticalStackPanel = new VerticalStackPanel
+            {
+                ShowGridLines = true,
+                Spacing = 8
+            };
+
+            var textBlock1 = new Label();
+            textBlock1.Text = technicalInfo;
+            textBlock1.Wrap = true;
+            verticalStackPanel.Widgets.Add(textBlock1);
+
+            TextButton button = new TextButton
+            {
+                Text = "wtf!",
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+            verticalStackPanel.Widgets.Add(button);
+
+            window.Content = verticalStackPanel;
 
             window.Closed += (s, a) =>
             {
