@@ -15,7 +15,7 @@ namespace TileTales.Utils
         private string _pathToSettingsFile;
         private Settings _settings;
 
-        public SettingsReader(string pathToSettingsFile)
+        private SettingsReader(string pathToSettingsFile)
         {
             _pathToSettingsFile = pathToSettingsFile;
         }

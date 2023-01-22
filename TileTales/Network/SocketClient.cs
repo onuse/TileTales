@@ -37,33 +37,49 @@ namespace TileTales.Network
             }
         }
 
-        public void SendMessageBytes(byte[] message)
+        public void SendMessageBytes(byte[] messageBytes)
         {
             // Send a message to the server
-            stream.Write(message, 0, message.Length);
+            stream.Write(messageBytes, 0, messageBytes.Length);
+            System.Diagnostics.Debug.WriteLine("SENT: SendMessageBytes: " + messageBytes);
+            System.Diagnostics.Debug.WriteLine("SENT2: SendMessageBytes.Length: " + messageBytes.Length);
+            // Create String from byte[]
+            string strMessage = Encoding.UTF8.GetString(messageBytes);
+            System.Diagnostics.Debug.WriteLine("SENT3: SendMessageBytes as string: " + strMessage);
         }
 
         public void SendMessage(Any message)
         {
             byte[] messageBytes = message.ToByteArray();
-            stream.Write(messageBytes, 0, messageBytes.Length);
+            SendMessageBytes(messageBytes);
         }
 
-        public void ReadFromStream(object callback)
+        public void ReadFromStream(MessageCallback messageCallback)
         {
-            MessageCallback messageCallback = callback as MessageCallback;
             while (true)
             {
                 // Receive a message from the server
-                byte[] messageBytes = new byte[4096];
-                int bytesRead = stream.Read(messageBytes, 0, messageBytes.Length);
+                byte[] buffer = new byte[1024];
+                int bytesRead = stream.Read(buffer, 0, buffer.Length);
                 if (bytesRead == 0)
                 {
                     // Connection was closed
                     break;
                 }
-                messageCallback(Any.Parser.ParseFrom(messageBytes));
+                System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream bytesRead: " + bytesRead);
+                byte[] readBytes = new byte[bytesRead];
+                Array.Copy(buffer, 0, readBytes, 0, bytesRead);
+                messageCallback(Any.Parser.ParseFrom(readBytes));
             }
+        }
+
+        public bool isConnected()
+        {
+            if (client != null && stream != null)
+            {
+                return client.Connected && stream.CanRead;
+            }
+            return false;
         }
     }
 }

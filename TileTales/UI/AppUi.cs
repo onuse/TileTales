@@ -3,23 +3,28 @@ using Myra;
 using Myra.Graphics2D.UI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TileTales.Utils;
 
 namespace TileTales.UI
 {
     internal class AppUI
     {
-
         private Desktop _desktop;
         private GraphicsDeviceManager _graphics;
-        private Game _game;
-        private Grid _uiContainer;
-        private ArtistUI _artistUI;
-        private GameUI _gameUI;
-        public AppUI(Game game, GraphicsDeviceManager graphics)
+        private TileTalesGame _game;
+        private VerticalStackPanel _uiContainer;
+        private Widget _currentTab;
+
+        internal MainMenu _mainMenu;
+        // Tab contents
+        internal ArtistUI _artistUI;
+        internal GameUI _gameUI;
+        public AppUI(TileTalesGame game, GraphicsDeviceManager graphics)
         {
             _graphics = graphics;
             _game = game;
@@ -41,31 +46,22 @@ namespace TileTales.UI
                 _desktop.OnChar(a.Character);
             };
 
-            _uiContainer = new Grid
-            {
-                //Background = new Myra.Graphics2D.Brushes.SolidBrush(Color.Beige)
-            };
-            _uiContainer.ColumnsProportions.Add(new Proportion());
-            _uiContainer.RowsProportions.Add(new Proportion());
-            _uiContainer.RowsProportions.Add(new Proportion());
-
+            _uiContainer = new VerticalStackPanel();
             StackPanel tabPanel = createTabPanel();
-            tabPanel.GridRow = 1;
             _uiContainer.Widgets.Add(tabPanel);
             
             _artistUI = new ArtistUI();
-            Widget artistUiWidget = _artistUI.GetWidget();
-            artistUiWidget.GridRow = 2;
-            _uiContainer.Widgets.Add(artistUiWidget);
-
             _gameUI = new GameUI();
-            Widget gameUiWidget = _gameUI.GetWidget();
-            gameUiWidget.GridRow = 2;
-            _uiContainer.Widgets.Add(gameUiWidget);
-
-            _desktop.Root = _uiContainer;
-
-            //createLoginWindow();
+            _mainMenu = new MainMenu();
+            
+            EventBus.Instance.Subscribe("loadgame", (data) =>
+            {
+                _desktop.Root = _uiContainer;
+            });
+            EventBus.Instance.Subscribe("connectfailed", (data) =>
+            {
+                popConnectErrorUI((string)data);
+            });
         }
 
         public void Draw()
@@ -97,8 +93,7 @@ namespace TileTales.UI
             btnArtist.Height = 40;
             btnArtist.Click += (s, a) =>
             {
-                _artistUI.GetWidget().Visible = true;
-                _gameUI.GetWidget().Visible = false;
+                setTab(_artistUI.GetWidget());
             };
             tabPanel.Widgets.Add(btnArtist);
 
@@ -107,12 +102,21 @@ namespace TileTales.UI
             btnGame.Height = 40;
             btnGame.Click += (s, a) =>
             {
-                _artistUI.GetWidget().Visible = false;
-                _gameUI.GetWidget().Visible = true;
+                setTab(_gameUI.GetWidget());
             };
             tabPanel.Widgets.Add(btnGame);
 
             return tabPanel;
+        }
+
+        private void setTab(Widget tab)
+        {
+            if (_currentTab != null)
+            {
+                _uiContainer.RemoveChild(_currentTab);
+            }
+            _currentTab = tab;
+            _uiContainer.AddChild(_currentTab);
         }
 
         private void createLoginWindow()
@@ -158,8 +162,12 @@ namespace TileTales.UI
 
             TextButton button = new TextButton
             {
-                Text = "wtf!",
+                Text = "OK",
                 HorizontalAlignment = HorizontalAlignment.Center
+            };
+            button.Click += (s, a) =>
+            {
+                window.Close();
             };
             verticalStackPanel.Widgets.Add(button);
 
@@ -171,6 +179,12 @@ namespace TileTales.UI
             };
 
             window.ShowModal(_desktop);
+        }
+
+        internal MainMenu ShowStartMenu()
+        {
+            _desktop.Root = _mainMenu.GetWidget();
+            return _mainMenu;
         }
     }
 }

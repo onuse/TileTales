@@ -7,16 +7,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MonoGame.Extended.Timers;
+using TileTales.Utils;
 
 namespace TileTales.GameContent
 {
     internal class StateManager
     {
+        private static StateManager _instance;
+        public static StateManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new StateManager();
+                }
+                return _instance;
+            }
+        }
+
         private readonly Stack<BaseState> _states = new Stack<BaseState>();
+
+        private StateManager()
+        {
+        }
+
+        public BaseState GetCurrentState()
+        {
+            return _states.Peek();
+        }
 
         public void PushState(BaseState state)
         {
             _states.Push(state);
+            state.Enter();
         }
 
         public void PopState()
@@ -45,15 +69,6 @@ namespace TileTales.GameContent
                 return;
             }
             _states.Peek().Draw(gameTime, spriteBatch);
-        }
-
-        internal void Activate()
-        {
-            if (_states.Count == 0)
-            {
-                return;
-            }
-            _states.Peek().Activate();
         }
     }
 }

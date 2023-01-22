@@ -9,24 +9,45 @@ namespace TileTales.UI
 {
     internal class GameUI
     {
-        private Grid _gameActionsPanel;
+        private MultipleItemsContainerBase panel;
+
+        internal readonly TextButton paddedCenteredButton;
+        internal readonly TextButton fixedSizeButton;
 
         public GameUI()
         {
-            _gameActionsPanel = new Grid
-            {
-                ShowGridLines = true,
-                ColumnSpacing = 8,
-                RowSpacing = 8,
-            };
+            panel = new Panel();
+            var positionedText = new Label();
+            positionedText.Text = "Positioned Text";
+            positionedText.Left = 50;
+            positionedText.Top = 100;
+            panel.Widgets.Add(positionedText);
+
+            paddedCenteredButton = new TextButton();
+            paddedCenteredButton.Text = "Padded Centered Button";
+            paddedCenteredButton.HorizontalAlignment = HorizontalAlignment.Center;
+            paddedCenteredButton.VerticalAlignment = VerticalAlignment.Center;
+            panel.Widgets.Add(paddedCenteredButton);
+
+            var rightBottomText = new Label();
+            rightBottomText.Text = "Right Bottom Text";
+            rightBottomText.Left = -30;
+            rightBottomText.Top = -20;
+            rightBottomText.HorizontalAlignment = HorizontalAlignment.Right;
+            rightBottomText.VerticalAlignment = VerticalAlignment.Bottom;
+            panel.Widgets.Add(rightBottomText);
+
+            fixedSizeButton = new TextButton();
+            fixedSizeButton.Text = "Fixed Size Button";
+            fixedSizeButton.Width = 110;
+            fixedSizeButton.Height = 80;
+            panel.Widgets.Add(fixedSizeButton);
 
         }
 
-
-
         public Widget GetWidget()
         {
-            return _gameActionsPanel;
+            return panel;
         }
     }
 }

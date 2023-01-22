@@ -23,6 +23,9 @@ namespace TileTales.Utils
             }
         }
 
+        private EventBus() {
+        }
+
         public void Subscribe(string eventName, Action<object> callback)
         {
             if (!_eventListeners.ContainsKey(eventName))

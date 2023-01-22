@@ -9,42 +9,53 @@ using System.Threading.Tasks;
 
 namespace TileTales.UI
 {
-    partial class MainMenu
+    internal partial class MainMenu
     {
-        private void BuildUI()
+        private VerticalStackPanel panel;
+
+        internal readonly MenuItem menuStartNewGame;
+        internal readonly MenuItem menuOptions;
+        internal readonly MenuItem menuQuit;
+
+        public MainMenu()
         {
             var textBlock1 = new TextBox();
-            textBlock1.Text = "My Game";
+            textBlock1.Text = "TileTales";
             textBlock1.TextColor = Color.Orange;
             textBlock1.HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment.Center;
 
-            _menuStartNewGame = new MenuItem();
-            _menuStartNewGame.Id = "_menuStartNewGame";
-            _menuStartNewGame.Text = "Start New Game";
+            menuStartNewGame = new MenuItem();
+            menuStartNewGame.Id = "_menuStartGame";
+            menuStartNewGame.Text = "Start Game";
 
-            _menuOptions = new MenuItem();
-            _menuOptions.Id = "_menuOptions";
-            _menuOptions.Text = "Options";
+            menuOptions = new MenuItem();
+            menuOptions.Id = "_menuOptions";
+            menuOptions.Text = "Options";
 
-            _menuQuit = new MenuItem();
-            _menuQuit.Id = "_menuQuit";
-            _menuQuit.Text = "Quit";
+            menuQuit = new MenuItem();
+            menuQuit.Id = "_menuQuit";
+            menuQuit.Text = "Quit"; 
 
             var verticalMenu1 = new VerticalMenu();
             verticalMenu1.HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment.Center;
             verticalMenu1.VerticalAlignment = Myra.Graphics2D.UI.VerticalAlignment.Center;
-            verticalMenu1.Items.Add(_menuStartNewGame);
-            verticalMenu1.Items.Add(_menuOptions);
-            verticalMenu1.Items.Add(_menuQuit);
+            verticalMenu1.Items.Add(menuStartNewGame);
+            verticalMenu1.Items.Add(menuOptions);
+            verticalMenu1.Items.Add(menuQuit);
 
+            panel = new VerticalStackPanel();
 
-            //Widgets.Add(textBlock1);
-            //Widgets.Add(verticalMenu1);
+            panel.AddChild(textBlock1);
+            panel.AddChild(verticalMenu1);
+
+            panel.HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment.Center;
+            panel.VerticalAlignment = Myra.Graphics2D.UI.VerticalAlignment.Center;
         }
 
+        public Widget GetWidget()
+        {
+            return panel;
+        }
 
-        public MenuItem _menuStartNewGame;
-        public MenuItem _menuOptions;
-        public MenuItem _menuQuit;
     }
 }

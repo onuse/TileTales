@@ -6,17 +6,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TileTales.Network;
+using TileTales.Utils;
 
 namespace TileTales.GameContent
 {
     internal abstract class BaseState
     {
-        // The StateManager that manages this state
         protected StateManager stateManager;
+        protected ServerConnector serverConnector;
+        protected UI.AppUI ui;
+        protected TileTalesGame game;
+        protected EventBus eventBus;
 
-        public BaseState(StateManager stateManager)
+        public BaseState(StateManager stateManager, ServerConnector serverConnector, UI.AppUI ui, TileTalesGame game)
         {
             this.stateManager = stateManager;
+            this.serverConnector = serverConnector;
+            this.ui = ui;
+            this.game = game;
+            this.eventBus = EventBus.Instance;
         }
 
         // Called when this state becomes the current state
@@ -31,7 +40,7 @@ namespace TileTales.GameContent
         // Called when the game is drawn
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch) { }
 
-        // Only called from TileTalesGame.Activate()
+        // Only called from TileTalesGame.Initialize()
         public virtual void Activate() { }
     }
 }

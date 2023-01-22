@@ -13,7 +13,6 @@ namespace TileTales
     {
         private readonly SettingsReader _settingsReader;
         private readonly StateManager _stateManager;
-        private readonly EventBus _eventBus;
         private readonly GraphicsDeviceManager _graphics;
         private readonly UI.AppUI _ui;
         private readonly ServerConnector _serverConnector;
@@ -25,19 +24,20 @@ namespace TileTales
             System.Console.WriteLine("Hello TileTalesGame World!");
             _settingsReader = SettingsReader.Instance;
             Content.RootDirectory = "Content";
-            _stateManager = new StateManager();
-            _eventBus = EventBus.Instance;
+            _stateManager = StateManager.Instance;
 
             _graphics = new GraphicsDeviceManager(this);
             _graphics.PreferredBackBufferWidth = _settingsReader.GetSettings().WindowWidth;
             _graphics.PreferredBackBufferHeight = _settingsReader.GetSettings().WindowHeight;
             _graphics.ApplyChanges();
 
-            _serverConnector = new ServerConnector(_eventBus, _settingsReader);
-
+            _serverConnector = new ServerConnector();
+            
             Window.ClientSizeChanged += OnClientSizeChanged;
 
             _ui = new UI.AppUI(this, _graphics);
+
+            EventBus.Instance.Subscribe("quit", (data) => Exit());
         }
 
         protected override void LoadContent()
@@ -45,14 +45,12 @@ namespace TileTales
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _ui.LoadContent();
-            _stateManager.PushState(new StartupState(_stateManager, _serverConnector, _ui));
         }
 
         protected override void Initialize()
         {
-
             base.Initialize();
-            _stateManager.Activate();
+            _stateManager.PushState(new StartupState(_stateManager, _serverConnector, _ui, this));
         }
 
         protected override void Update(GameTime gameTime)

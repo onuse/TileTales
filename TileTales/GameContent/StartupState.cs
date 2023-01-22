@@ -13,24 +13,28 @@ namespace TileTales.GameContent
         private ServerConnector _serverConnector;
         private readonly UI.AppUI _ui;
 
-        public StartupState(StateManager stateManager) : base(stateManager)
+        public StartupState(StateManager stateManager, ServerConnector serverConnector, UI.AppUI ui, TileTalesGame game) : base(stateManager, serverConnector, ui, game)
         {
             this._stateManager = stateManager;
-        }
-
-        public StartupState(StateManager stateManager, ServerConnector serverConnector, UI.AppUI ui) : this(stateManager)
-        {
             this._serverConnector = serverConnector;
             this._ui = ui;
         }
 
-        public override void Activate()
+        public override void Enter()
         {
-            Exception errorMessage = _serverConnector.connectToServer();
-            if (errorMessage != null)
+            UI.MainMenu menu = _ui.ShowStartMenu();
+
+            menu.menuStartNewGame.Selected += (s, a) =>
             {
-                _ui.popConnectErrorUI(errorMessage.Message);
-            }
+                eventBus.Publish("loadgame", null);
+                stateManager.ChangeState(new GameState(stateManager, serverConnector, _ui, game));
+            };
+
+
+            menu.menuQuit.Selected += (s, a) =>
+            {
+                eventBus.Publish("quit", null);
+            };
         }
     }
 }
