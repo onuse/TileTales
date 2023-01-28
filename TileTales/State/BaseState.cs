@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using TileTales.Network;
 using TileTales.Utils;
 
-namespace TileTales.GameContent
+namespace TileTales.State
 {
     internal abstract class BaseState
     {
@@ -25,7 +25,7 @@ namespace TileTales.GameContent
             this.serverConnector = serverConnector;
             this.ui = ui;
             this.game = game;
-            this.eventBus = EventBus.Instance;
+            eventBus = EventBus.Instance;
         }
 
         // Called when this state becomes the current state

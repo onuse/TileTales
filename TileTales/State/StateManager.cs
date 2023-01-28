@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using MonoGame.Extended.Timers;
 using TileTales.Utils;
 
-namespace TileTales.GameContent
+namespace TileTales.State
 {
     internal class StateManager
     {

@@ -6,16 +6,19 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Net.Tiletales.Network.Protomsg.App;
+using Net.Tiletales.Network.Proto.App;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+using System.IO;
 
 namespace TileTales.Network
 {
     public class SocketClient
     {
+        private static int BUFFER_SIZE = 1024 * 64 * 16; // 1MB read buffer
         private TcpClient client;
         private NetworkStream stream;
+        private Boolean keepReading = true;
 
         public delegate void MessageCallback(Any message);
 
@@ -56,21 +59,43 @@ namespace TileTales.Network
 
         public void ReadFromStream(MessageCallback messageCallback)
         {
-            while (true)
+            byte[] buffer = new byte[BUFFER_SIZE];
+            while (keepReading)
             {
-                // Receive a message from the server
-                byte[] buffer = new byte[1024];
-                int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                if (bytesRead == 0)
+                int bytesRead = 0;
+                int totalBytesRead = 0;
+                do
                 {
-                    // Connection was closed
-                    break;
-                }
+                    try
+                    {
+                        bytesRead = stream.Read(buffer, totalBytesRead, buffer.Length - totalBytesRead);
+                    }
+                    catch (Exception e) {
+                        handleReadException(e);
+                        break;
+                    }
+                    if (bytesRead != -1)
+                    {
+                        totalBytesRead += bytesRead;
+                    }
+                    else
+                    {
+                        shutdown();
+                        break;
+                    }
+                } while (bytesRead > 0);
+
                 System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream bytesRead: " + bytesRead);
                 byte[] readBytes = new byte[bytesRead];
                 Array.Copy(buffer, 0, readBytes, 0, bytesRead);
+                buffer = null;
                 messageCallback(Any.Parser.ParseFrom(readBytes));
             }
+        }
+
+        private void handleReadException(Exception e)
+        {
+            shutdown();
         }
 
         public bool isConnected()
@@ -80,6 +105,29 @@ namespace TileTales.Network
                 return client.Connected && stream.CanRead;
             }
             return false;
+        }
+
+        public void shutdown()
+        {
+            System.Diagnostics.Debug.WriteLine("SocketClient.shutdown()");
+            keepReading = false;
+            if (stream != null)
+            {
+                try
+                {
+                    stream.DisposeAsync();
+                    stream.Socket.Shutdown(SocketShutdown.Both);
+                } catch (Exception e) { }
+            }
+            if (client != null)
+            {
+                try
+                {
+                    client.Close();
+                    client.Dispose();
+                }
+                catch (Exception e) { }
+            }
         }
     }
 }

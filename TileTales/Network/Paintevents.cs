@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Net.Tiletales.Network.Protomsg.Paint {
+namespace Net.Tiletales.Network.Proto.Paint {
 
   /// <summary>Holder for reflection information generated from paintevents.proto</summary>
   public static partial class PainteventsReflection {
@@ -24,26 +24,25 @@ namespace Net.Tiletales.Network.Protomsg.Paint {
     static PainteventsReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChFwYWludGV2ZW50cy5wcm90bxIkbmV0LnRpbGV0YWxlcy5uZXR3b3JrLnBy",
-            "b3RvbXNnLnBhaW50IkIKD0RyYXdUaWxlUmVxdWVzdBIJCgF4GAEgASgFEgkK",
-            "AXkYAiABKAUSCQoBehgDIAEoBRIOCgZ0aWxlSWQYBCABKA0iXAoURHJhd011",
-            "bHRpVGlsZVJlcXVlc3QSRAoFdGlsZXMYASADKAsyNS5uZXQudGlsZXRhbGVz",
-            "Lm5ldHdvcmsucHJvdG9tc2cucGFpbnQuRHJhd1RpbGVSZXF1ZXN0IkQKEUJ1",
-            "Y2tldEZpbGxSZXF1ZXN0EgkKAXgYASABKAUSCQoBeRgCIAEoBRIJCgF6GAMg",
-            "ASgFEg4KBnRpbGVJZBgEIAEoDSJpCg9EcmF3TGluZVJlcXVlc3QSCgoCeDEY",
-            "ASABKAUSCgoCeTEYAiABKAUSCgoCejEYAyABKAUSCgoCeDIYBCABKAUSCgoC",
-            "eTIYBSABKAUSCgoCejIYBiABKAUSDgoGdGlsZUlkGAcgASgNIlwKFERyYXdN",
-            "dWx0aUxpbmVSZXF1ZXN0EkQKBWxpbmVzGAEgAygLMjUubmV0LnRpbGV0YWxl",
-            "cy5uZXR3b3JrLnByb3RvbXNnLnBhaW50LkRyYXdMaW5lUmVxdWVzdGIGcHJv",
-            "dG8z"));
+            "ChFwYWludGV2ZW50cy5wcm90bxIhbmV0LnRpbGV0YWxlcy5uZXR3b3JrLnBy",
+            "b3RvLnBhaW50IkIKD0RyYXdUaWxlUmVxdWVzdBIJCgF4GAEgASgFEgkKAXkY",
+            "AiABKAUSCQoBehgDIAEoBRIOCgZ0aWxlSWQYBCABKA0iWQoURHJhd011bHRp",
+            "VGlsZVJlcXVlc3QSQQoFdGlsZXMYASADKAsyMi5uZXQudGlsZXRhbGVzLm5l",
+            "dHdvcmsucHJvdG8ucGFpbnQuRHJhd1RpbGVSZXF1ZXN0IkQKEUJ1Y2tldEZp",
+            "bGxSZXF1ZXN0EgkKAXgYASABKAUSCQoBeRgCIAEoBRIJCgF6GAMgASgFEg4K",
+            "BnRpbGVJZBgEIAEoDSJpCg9EcmF3TGluZVJlcXVlc3QSCgoCeDEYASABKAUS",
+            "CgoCeTEYAiABKAUSCgoCejEYAyABKAUSCgoCeDIYBCABKAUSCgoCeTIYBSAB",
+            "KAUSCgoCejIYBiABKAUSDgoGdGlsZUlkGAcgASgNIlkKFERyYXdNdWx0aUxp",
+            "bmVSZXF1ZXN0EkEKBWxpbmVzGAEgAygLMjIubmV0LnRpbGV0YWxlcy5uZXR3",
+            "b3JrLnByb3RvLnBhaW50LkRyYXdMaW5lUmVxdWVzdGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Protomsg.Paint.DrawTileRequest), global::Net.Tiletales.Network.Protomsg.Paint.DrawTileRequest.Parser, new[]{ "X", "Y", "Z", "TileId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Protomsg.Paint.DrawMultiTileRequest), global::Net.Tiletales.Network.Protomsg.Paint.DrawMultiTileRequest.Parser, new[]{ "Tiles" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Protomsg.Paint.BucketFillRequest), global::Net.Tiletales.Network.Protomsg.Paint.BucketFillRequest.Parser, new[]{ "X", "Y", "Z", "TileId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Protomsg.Paint.DrawLineRequest), global::Net.Tiletales.Network.Protomsg.Paint.DrawLineRequest.Parser, new[]{ "X1", "Y1", "Z1", "X2", "Y2", "Z2", "TileId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Protomsg.Paint.DrawMultiLineRequest), global::Net.Tiletales.Network.Protomsg.Paint.DrawMultiLineRequest.Parser, new[]{ "Lines" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Paint.DrawTileRequest), global::Net.Tiletales.Network.Proto.Paint.DrawTileRequest.Parser, new[]{ "X", "Y", "Z", "TileId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Paint.DrawMultiTileRequest), global::Net.Tiletales.Network.Proto.Paint.DrawMultiTileRequest.Parser, new[]{ "Tiles" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Paint.BucketFillRequest), global::Net.Tiletales.Network.Proto.Paint.BucketFillRequest.Parser, new[]{ "X", "Y", "Z", "TileId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Paint.DrawLineRequest), global::Net.Tiletales.Network.Proto.Paint.DrawLineRequest.Parser, new[]{ "X1", "Y1", "Z1", "X2", "Y2", "Z2", "TileId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Paint.DrawMultiLineRequest), global::Net.Tiletales.Network.Proto.Paint.DrawMultiLineRequest.Parser, new[]{ "Lines" }, null, null, null, null)
           }));
     }
     #endregion
@@ -64,7 +63,7 @@ namespace Net.Tiletales.Network.Protomsg.Paint {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Protomsg.Paint.PainteventsReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Net.Tiletales.Network.Proto.Paint.PainteventsReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -367,7 +366,7 @@ namespace Net.Tiletales.Network.Protomsg.Paint {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Protomsg.Paint.PainteventsReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Net.Tiletales.Network.Proto.Paint.PainteventsReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -399,12 +398,12 @@ namespace Net.Tiletales.Network.Protomsg.Paint {
 
     /// <summary>Field number for the "tiles" field.</summary>
     public const int TilesFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Net.Tiletales.Network.Protomsg.Paint.DrawTileRequest> _repeated_tiles_codec
-        = pb::FieldCodec.ForMessage(10, global::Net.Tiletales.Network.Protomsg.Paint.DrawTileRequest.Parser);
-    private readonly pbc::RepeatedField<global::Net.Tiletales.Network.Protomsg.Paint.DrawTileRequest> tiles_ = new pbc::RepeatedField<global::Net.Tiletales.Network.Protomsg.Paint.DrawTileRequest>();
+    private static readonly pb::FieldCodec<global::Net.Tiletales.Network.Proto.Paint.DrawTileRequest> _repeated_tiles_codec
+        = pb::FieldCodec.ForMessage(10, global::Net.Tiletales.Network.Proto.Paint.DrawTileRequest.Parser);
+    private readonly pbc::RepeatedField<global::Net.Tiletales.Network.Proto.Paint.DrawTileRequest> tiles_ = new pbc::RepeatedField<global::Net.Tiletales.Network.Proto.Paint.DrawTileRequest>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Net.Tiletales.Network.Protomsg.Paint.DrawTileRequest> Tiles {
+    public pbc::RepeatedField<global::Net.Tiletales.Network.Proto.Paint.DrawTileRequest> Tiles {
       get { return tiles_; }
     }
 
@@ -545,7 +544,7 @@ namespace Net.Tiletales.Network.Protomsg.Paint {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Protomsg.Paint.PainteventsReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Net.Tiletales.Network.Proto.Paint.PainteventsReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -845,7 +844,7 @@ namespace Net.Tiletales.Network.Protomsg.Paint {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Protomsg.Paint.PainteventsReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Net.Tiletales.Network.Proto.Paint.PainteventsReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1256,7 +1255,7 @@ namespace Net.Tiletales.Network.Protomsg.Paint {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Protomsg.Paint.PainteventsReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Net.Tiletales.Network.Proto.Paint.PainteventsReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1288,12 +1287,12 @@ namespace Net.Tiletales.Network.Protomsg.Paint {
 
     /// <summary>Field number for the "lines" field.</summary>
     public const int LinesFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Net.Tiletales.Network.Protomsg.Paint.DrawLineRequest> _repeated_lines_codec
-        = pb::FieldCodec.ForMessage(10, global::Net.Tiletales.Network.Protomsg.Paint.DrawLineRequest.Parser);
-    private readonly pbc::RepeatedField<global::Net.Tiletales.Network.Protomsg.Paint.DrawLineRequest> lines_ = new pbc::RepeatedField<global::Net.Tiletales.Network.Protomsg.Paint.DrawLineRequest>();
+    private static readonly pb::FieldCodec<global::Net.Tiletales.Network.Proto.Paint.DrawLineRequest> _repeated_lines_codec
+        = pb::FieldCodec.ForMessage(10, global::Net.Tiletales.Network.Proto.Paint.DrawLineRequest.Parser);
+    private readonly pbc::RepeatedField<global::Net.Tiletales.Network.Proto.Paint.DrawLineRequest> lines_ = new pbc::RepeatedField<global::Net.Tiletales.Network.Proto.Paint.DrawLineRequest>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Net.Tiletales.Network.Protomsg.Paint.DrawLineRequest> Lines {
+    public pbc::RepeatedField<global::Net.Tiletales.Network.Proto.Paint.DrawLineRequest> Lines {
       get { return lines_; }
     }
 

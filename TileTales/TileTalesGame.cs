@@ -3,9 +3,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Net;
-using TileTales.GameContent;
+using TileTales.State;
 using TileTales.Network;
 using TileTales.Utils;
+using Microsoft.Xna.Framework.Content;
+using System.Collections.Generic;
+using System.IO;
+using TileTales.GameContent;
+using Google.Protobuf.Collections;
+using Myra.Graphics2D.UI;
 
 namespace TileTales
 {
@@ -17,6 +23,10 @@ namespace TileTales
         private readonly UI.AppUI _ui;
         private readonly ServerConnector _serverConnector;
         private SpriteBatch _spriteBatch;
+        private ContentLibrary _contentLibrary;
+        private ContentManager xnbContentManager;
+
+        Texture2D chestTexture;
 
         public TileTalesGame()
         {
@@ -35,6 +45,10 @@ namespace TileTales
             
             Window.ClientSizeChanged += OnClientSizeChanged;
 
+            Exiting += Shutdown;
+
+            _contentLibrary = new ContentLibrary(GraphicsDevice);
+
             _ui = new UI.AppUI(this, _graphics);
 
             EventBus.Instance.Subscribe("quit", (data) => Exit());
@@ -44,6 +58,11 @@ namespace TileTales
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            xnbContentManager = new ContentManager(Services, "Content");
+            _contentLibrary.LoadPrepackagedContent();
+
+            chestTexture = _contentLibrary.GetSprite("chest.png");
+
             _ui.LoadContent();
         }
 
@@ -66,10 +85,15 @@ namespace TileTales
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            
+
             _stateManager.Draw(gameTime, _spriteBatch);
 
             _ui.Draw();
+
+            // draw chestTexture
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(chestTexture, new Vector2(100, 100), Color.White);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
@@ -80,5 +104,11 @@ namespace TileTales
             _settingsReader.GetSettings().WindowWidth = Window.ClientBounds.Height;
             _settingsReader.SaveSettings();
         }
+        public void Shutdown(object sender, EventArgs e)
+        {
+            _serverConnector.Shutdown();
+            //Checking if Shutdown works, and it does.
+            Console.WriteLine("Exiting Game");
+}
     }
 }

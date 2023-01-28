@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TileTales.Network;
 
-namespace TileTales.GameContent
+namespace TileTales.State
 {
     internal class StartupState : BaseState
     {
@@ -15,9 +15,9 @@ namespace TileTales.GameContent
 
         public StartupState(StateManager stateManager, ServerConnector serverConnector, UI.AppUI ui, TileTalesGame game) : base(stateManager, serverConnector, ui, game)
         {
-            this._stateManager = stateManager;
-            this._serverConnector = serverConnector;
-            this._ui = ui;
+            _stateManager = stateManager;
+            _serverConnector = serverConnector;
+            _ui = ui;
         }
 
         public override void Enter()

@@ -144,9 +144,21 @@ namespace TileTales.UI
 
         internal void popConnectErrorUI(String technicalInfo)
         {
+            ShowPopupMessage("Error", technicalInfo);
+        }
+
+        internal MainMenu ShowStartMenu()
+        {
+            _desktop.Root = _mainMenu.GetWidget();
+            return _mainMenu;
+        }
+
+        internal void ShowPopupMessage(string title, string message)
+        {
+
             Window window = new Window
             {
-                Title = "Connection error"
+                Title = title
             };
 
             VerticalStackPanel verticalStackPanel = new VerticalStackPanel
@@ -156,7 +168,7 @@ namespace TileTales.UI
             };
 
             var textBlock1 = new Label();
-            textBlock1.Text = technicalInfo;
+            textBlock1.Text = message;
             textBlock1.Wrap = true;
             verticalStackPanel.Widgets.Add(textBlock1);
 
@@ -179,12 +191,6 @@ namespace TileTales.UI
             };
 
             window.ShowModal(_desktop);
-        }
-
-        internal MainMenu ShowStartMenu()
-        {
-            _desktop.Root = _mainMenu.GetWidget();
-            return _mainMenu;
         }
     }
 }

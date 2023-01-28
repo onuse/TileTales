@@ -48,25 +48,23 @@ namespace TileTales.Network
         public void startReadingStream()
         {
             System.Diagnostics.Debug.WriteLine("ServerConnector.startReadingStream()");
-            // Start a new thread to receive messages from the server
-            //thread = new Thread(_socketClient.ReadFromStream);
-            //thread.Start(MessageCallback);
-
             thread = new Thread(() => _socketClient.ReadFromStream(MessageCallback));
             thread.Start();
         }
         public void MessageCallback(Any message)
         {
+            String typeUrl = message.TypeUrl;
             System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message: " + message);
-            System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message.TypeUrl: " + message.TypeUrl);
-            _eventBus.Publish(message.TypeUrl, message);
+            System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message.TypeUrl: " + typeUrl);
+            String type = typeUrl.Substring(typeUrl.LastIndexOf(".") + 1);
+            System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message type: " + type);
+            _eventBus.Publish(type, message);
         }
 
         public void SendMessage(Any message)
         {
             _socketClient.SendMessage(message);
         }
-
         public void SendMessageBytes(byte[] messageBytes)
         {
             _socketClient.SendMessageBytes(messageBytes);
@@ -75,6 +73,12 @@ namespace TileTales.Network
         public bool isConnected()
         {
             return _socketClient.isConnected();
+        }
+
+        internal void Shutdown()
+        {
+            if (_socketClient != null)
+                _socketClient.shutdown();
         }
     }
 }
