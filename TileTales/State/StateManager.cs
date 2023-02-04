@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MonoGame.Extended.Timers;
 using TileTales.Utils;
+using TileTales.GameContent;
 
 namespace TileTales.State
 {

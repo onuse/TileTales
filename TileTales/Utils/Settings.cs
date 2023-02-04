@@ -20,7 +20,7 @@ namespace TileTales.Utils
         {
             // Set default values for the variables
             ServerAdress = "127.0.0.1";
-            ServerPort = 8080;
+            ServerPort = 27020;
             AccountUsername = "admin";
             AccountPassword = "admin";
             WindowHeight = 900;

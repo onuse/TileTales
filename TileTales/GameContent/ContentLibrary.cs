@@ -1,8 +1,10 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Google.Protobuf;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,7 +18,7 @@ namespace TileTales.GameContent
         private Dictionary<string, Texture2D> tiles;
         private Dictionary<string, Texture2D> sprites;
         private Dictionary<string, Texture2D> maps;
-        
+
         private GraphicsDevice _graphicsDevice;
         public ContentLibrary(GraphicsDevice graphicsDevice)
         {
@@ -51,6 +53,25 @@ namespace TileTales.GameContent
             {
                 Utils.ContentWriter.WriteFile(FOLDER_SPRITES + "/" + name, texture);
             }
+        }
+
+        public void AddTexture(string name, ByteString data, Boolean saveToDisc)
+        {
+            AddTexture(name, Utils.ContentReader.textureFromByteString(data, _graphicsDevice), saveToDisc);
+        }
+
+        public void AddTexture(string name, Texture2D texture, Boolean saveToDisc)
+        {
+            maps[name] = texture;
+            if (saveToDisc)
+            {
+                Utils.ContentWriter.WriteFile(FOLDER_MAPS + "/" + name, texture);
+            }
+        }
+
+        public static String CreateMapName(int x, int y, int z, int zoomLevel)
+        {
+            return x + "_" + y + "_" + z + ".png";
         }
     }
 }

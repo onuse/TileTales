@@ -18,13 +18,14 @@ namespace TileTales
     internal class TileTalesGame : Game
     {
         private readonly SettingsReader _settingsReader;
+        private readonly EventBus _eventBus;
         private readonly StateManager _stateManager;
         private readonly GraphicsDeviceManager _graphics;
         private readonly UI.AppUI _ui;
         private readonly ServerConnector _serverConnector;
         private SpriteBatch _spriteBatch;
-        private ContentLibrary _contentLibrary;
         private ContentManager xnbContentManager;
+        public readonly ContentLibrary ContentLibrary;
 
         Texture2D chestTexture;
 
@@ -35,11 +36,14 @@ namespace TileTales
             _settingsReader = SettingsReader.Instance;
             Content.RootDirectory = "Content";
             _stateManager = StateManager.Instance;
+            _eventBus = EventBus.Instance;
 
             _graphics = new GraphicsDeviceManager(this);
             _graphics.PreferredBackBufferWidth = _settingsReader.GetSettings().WindowWidth;
             _graphics.PreferredBackBufferHeight = _settingsReader.GetSettings().WindowHeight;
             _graphics.ApplyChanges();
+
+            ContentLibrary = new ContentLibrary(GraphicsDevice);
 
             _serverConnector = new ServerConnector();
             
@@ -47,11 +51,9 @@ namespace TileTales
 
             Exiting += Shutdown;
 
-            _contentLibrary = new ContentLibrary(GraphicsDevice);
-
             _ui = new UI.AppUI(this, _graphics);
 
-            EventBus.Instance.Subscribe("quit", (data) => Exit());
+            _eventBus.Subscribe("quit", (data) => Exit());
         }
 
         protected override void LoadContent()
@@ -59,9 +61,9 @@ namespace TileTales
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             xnbContentManager = new ContentManager(Services, "Content");
-            _contentLibrary.LoadPrepackagedContent();
+            ContentLibrary.LoadPrepackagedContent();
 
-            chestTexture = _contentLibrary.GetSprite("chest.png");
+            chestTexture = ContentLibrary.GetSprite("chest.png");
 
             _ui.LoadContent();
         }
@@ -77,7 +79,8 @@ namespace TileTales
             _stateManager.Update(gameTime, Keyboard.GetState(), Mouse.GetState());
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+
+            _eventBus.Update();
 
             base.Update(gameTime);
         }

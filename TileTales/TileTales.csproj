@@ -35,4 +35,7 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Content\assets\gfx\maps\" />
+	</ItemGroup>
 </Project>

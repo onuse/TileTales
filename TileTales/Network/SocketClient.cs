@@ -59,36 +59,35 @@ namespace TileTales.Network
 
         public void ReadFromStream(MessageCallback messageCallback)
         {
+            System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream START");
             byte[] buffer = new byte[BUFFER_SIZE];
             while (keepReading)
             {
+                System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream keepReading: " + keepReading);
                 int bytesRead = 0;
                 int totalBytesRead = 0;
-                do
+                try
                 {
-                    try
-                    {
-                        bytesRead = stream.Read(buffer, totalBytesRead, buffer.Length - totalBytesRead);
-                    }
-                    catch (Exception e) {
-                        handleReadException(e);
-                        break;
-                    }
-                    if (bytesRead != -1)
-                    {
-                        totalBytesRead += bytesRead;
-                    }
-                    else
-                    {
-                        shutdown();
-                        break;
-                    }
-                } while (bytesRead > 0);
+                    bytesRead = stream.Read(buffer, totalBytesRead, buffer.Length - totalBytesRead);
+                }
+                catch (Exception e)
+                {
+                    handleReadException(e);
+                    break;
+                }
+                if (bytesRead == -1)
+                {
+                    shutdown();
+                    break;
+                }
+                else
+                {
+                    totalBytesRead += bytesRead;
+                }
 
                 System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream bytesRead: " + bytesRead);
                 byte[] readBytes = new byte[bytesRead];
                 Array.Copy(buffer, 0, readBytes, 0, bytesRead);
-                buffer = null;
                 messageCallback(Any.Parser.ParseFrom(readBytes));
             }
         }

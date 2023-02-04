@@ -1,4 +1,6 @@
-﻿using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
+using Net.Tiletales.Network.Proto.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +56,7 @@ namespace TileTales.Network
         public void MessageCallback(Any message)
         {
             String typeUrl = message.TypeUrl;
-            System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message: " + message);
+            System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message RECIEVED: " + message);
             System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message.TypeUrl: " + typeUrl);
             String type = typeUrl.Substring(typeUrl.LastIndexOf(".") + 1);
             System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message type: " + type);
@@ -64,6 +66,11 @@ namespace TileTales.Network
         public void SendMessage(Any message)
         {
             _socketClient.SendMessage(message);
+        }
+        public void SendMessage(IMessage message)
+        {
+            Any msg = Any.Pack(message);
+            _socketClient.SendMessage(msg);
         }
         public void SendMessageBytes(byte[] messageBytes)
         {

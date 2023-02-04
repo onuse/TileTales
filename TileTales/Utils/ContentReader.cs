@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Google.Protobuf;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ namespace TileTales.Utils
 {
     internal static class ContentReader
     {
-
         public static Dictionary<string, Texture2D> readTexturesInDirectory(GraphicsDevice graphicsDecvice, string relativeDirectory)
         {
             DirectoryInfo dir = new DirectoryInfo(relativeDirectory);
@@ -29,6 +29,12 @@ namespace TileTales.Utils
                 fileStream.Dispose();
             }
             return result;
+        }
+
+        public static Texture2D textureFromByteString(ByteString byteString, GraphicsDevice graphicsDecvice)
+        {
+            MemoryStream stream = new MemoryStream(byteString.ToByteArray());
+            return Texture2D.FromStream(graphicsDecvice, stream);
         }
     }
 }

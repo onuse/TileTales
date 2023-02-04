@@ -10,6 +10,7 @@ namespace TileTales.Utils
     {
         private static EventBus _instance;
         private readonly Dictionary<string, List<Action<object>>> _eventListeners = new Dictionary<string, List<Action<object>>>();
+        private readonly Stack<Event> queue= new Stack<Event>();
 
         public static EventBus Instance
         {
@@ -44,7 +45,7 @@ namespace TileTales.Utils
             _eventListeners[eventName].Remove(callback);
         }
 
-        public void Publish(string eventName, object data)
+        /*public void Publish(string eventName, object data)
         {
             if (!_eventListeners.ContainsKey(eventName))
             {
@@ -53,6 +54,26 @@ namespace TileTales.Utils
             foreach (var callback in _eventListeners[eventName])
             {
                 callback(data);
+            }
+        }*/
+        public void Publish(string eventName, object data)
+        {
+            if (!_eventListeners.ContainsKey(eventName))
+            {
+                return;
+            }
+            queue.Push(new Event(eventName, data));
+        }
+
+        public void Update()
+        {
+            while (queue.Count > 0)
+            {
+                Event e = queue.Pop();
+                foreach (var callback in _eventListeners[e.eventName])
+                {
+                    callback(e.data);
+                }
             }
         }
     }

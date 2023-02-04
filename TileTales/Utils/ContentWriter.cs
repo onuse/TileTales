@@ -12,7 +12,7 @@ namespace TileTales.Utils
 {
     internal static class ContentWriter
     {
-        private static readonly String FOLDER_CONTENT = "Content/";
+        private static readonly String FOLDER_CONTENT = "";
 
         internal static void WriteFile(string filename, byte[] bytes)
         {
@@ -35,7 +35,9 @@ namespace TileTales.Utils
 
         internal static void WriteFile(string filename, Texture2D texture)
         {
-            texture.SaveAsPng(new FileStream(FOLDER_CONTENT + filename, FileMode.Create), texture.Width, texture.Height);
+            FileStream fs = new FileStream(FOLDER_CONTENT + filename, FileMode.Create);
+            texture.SaveAsPng(fs, texture.Width, texture.Height);
+            fs.Close();
         }
     }
 }
