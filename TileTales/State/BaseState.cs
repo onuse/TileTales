@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TileTales.GameContent;
 using TileTales.Network;
 using TileTales.Utils;
 
 namespace TileTales.State
 {
-    internal abstract class BaseState
+    internal abstract class BaseState: ITTDrawble
     {
         protected StateManager stateManager;
         protected ServerConnector serverConnector;
@@ -19,12 +20,12 @@ namespace TileTales.State
         protected TileTalesGame game;
         protected EventBus eventBus;
 
-        public BaseState(StateManager stateManager, ServerConnector serverConnector, UI.AppUI ui, TileTalesGame game)
+        public BaseState(TileTalesGame game)
         {
-            this.stateManager = stateManager;
-            this.serverConnector = serverConnector;
-            this.ui = ui;
             this.game = game;
+            this.stateManager = game.StateManager;
+            this.serverConnector = game.ServerConnector;
+            this.ui = game.AppUI;
             eventBus = EventBus.Instance;
         }
 
@@ -36,11 +37,12 @@ namespace TileTales.State
 
         // Called when the game is updated
         public virtual void Update(GameTime gameTime, KeyboardState keyboardState, MouseState mouseState) { }
-
-        // Called when the game is drawn
-        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch) { }
-
+        
         // Only called from TileTalesGame.Initialize()
         public virtual void Activate() { }
+
+        public virtual void Draw(GameTime gameTime, SpriteBatch sprite, float zoomLevel) { }
+
+        internal virtual void OnClientSizeChanged(int newWindowWidth, int newWindowHeight) { }
     }
 }

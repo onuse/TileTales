@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TileTales.Utils
 {
-    internal class Settings
+    internal class UserSettings
     {
         public string ServerAdress { get; set; }
         public int ServerPort { get; set; }
@@ -16,7 +17,7 @@ namespace TileTales.Utils
         public int WindowWidth { get; set; }
         public bool Fullscreen { get; set; }
 
-        public Settings()
+        public UserSettings()
         {
             // Set default values for the variables
             ServerAdress = "127.0.0.1";
@@ -26,6 +27,11 @@ namespace TileTales.Utils
             WindowHeight = 900;
             WindowWidth = 1400;
             Fullscreen = false;
+        }
+
+        public override String ToString()
+        {
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

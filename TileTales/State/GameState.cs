@@ -1,6 +1,8 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Net.Tiletales.Network.Proto.App;
 using Net.Tiletales.Network.Proto.Game;
 using System;
@@ -19,11 +21,17 @@ namespace TileTales.State
     internal class GameState : BaseState
     {
         private readonly GameUI _gameUI;
-        public GameState(StateManager stateManager, ServerConnector serverConnector, AppUI ui, TileTalesGame game) : base(stateManager, serverConnector, ui, game)
+        bool _hasLoadedWorld = false;
+        private int windowWidth;
+        private int windowHeight;
+
+        public GameState(TileTalesGame game) : base(game)
         {
             _gameUI = ui._gameUI;
             _gameUI.paddedCenteredButton.Click += (s, a) =>
             {
+                windowWidth = SettingsReader.Instance.GetSettings().WindowWidth;
+                windowHeight = SettingsReader.Instance.GetSettings().WindowHeight;
                 Login();
             };
 
@@ -37,7 +45,7 @@ namespace TileTales.State
                 ZoneMapResponse response = ZoneMapResponse.Parser.ParseFrom((o as Any).Value);
                 ByteString mapBytes = response.Map;
                 String mapName = ContentLibrary.CreateMapName(response.X, response.Y, response.Z, response.ZoomLevel);
-                game.ContentLibrary.AddTexture(mapName, mapBytes, true);
+                game.ContentLibrary.AddMap(mapName, mapBytes, true, true);
             });
 
             eventBus.Subscribe(ZoneMapsResponse.Descriptor.Name, (o) => {
@@ -46,7 +54,8 @@ namespace TileTales.State
                 {
                     ByteString mapBytes = map.Map;
                     String mapName = ContentLibrary.CreateMapName(map.X, map.Y, map.Z, map.ZoomLevel);
-                    game.ContentLibrary.AddTexture(mapName, mapBytes, true);
+                    game.ContentLibrary.AddMap(mapName, mapBytes, true, true);
+                    _hasLoadedWorld = true;
                 });
             });
         }
@@ -55,7 +64,7 @@ namespace TileTales.State
         {
             if (serverConnector.isConnected())
             {
-                Settings settings = SettingsReader.Instance.GetSettings();
+                UserSettings settings = SettingsReader.Instance.GetSettings();
                 AccountLoginRequest loginRequest = new AccountLoginRequest
                 {
                     Username = settings.AccountUsername,
@@ -95,6 +104,34 @@ namespace TileTales.State
         public override void Enter()
         {
             eventBus.Publish("connect", null);
+        }
+
+        internal override void OnClientSizeChanged(int newWindowWidth, int newWindowHeight) 
+        {
+            windowWidth = newWindowWidth;
+            windowHeight = newWindowHeight;
+        }
+        
+        public override void Update(GameTime gameTime, KeyboardState ks, MouseState ms)
+        {
+            if (ks.IsKeyDown(Keys.Up))
+                game.GameWorld.MovePlayer(0, -1);
+            if (ks.IsKeyDown(Keys.Down))
+                game.GameWorld.MovePlayer(0, 1);
+            if (ks.IsKeyDown(Keys.Left))
+                game.GameWorld.MovePlayer(-1, 0);
+            if (ks.IsKeyDown(Keys.Right))
+                game.GameWorld.MovePlayer(+1, 0);
+
+            game.Canvas.scrollWheelValue(ms.ScrollWheelValue);
+        }
+
+        public override void Draw(GameTime gameTime, SpriteBatch sprite, float zoomLevel)
+        {
+            if (_hasLoadedWorld)
+            {
+                game.Canvas.Draw(game.GameWorld, gameTime, windowWidth, windowHeight);
+            }
         }
     }
 }

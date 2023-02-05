@@ -12,7 +12,7 @@ using TileTales.GameContent;
 
 namespace TileTales.State
 {
-    internal class StateManager
+    internal class StateManager : ITTDrawble
     {
         private static StateManager _instance;
         public static StateManager Instance
@@ -27,7 +27,7 @@ namespace TileTales.State
             }
         }
 
-        private readonly Stack<BaseState> _states = new Stack<BaseState>();
+        private readonly Queue<BaseState> _states = new Queue<BaseState>();
 
         private StateManager()
         {
@@ -40,13 +40,13 @@ namespace TileTales.State
 
         public void PushState(BaseState state)
         {
-            _states.Push(state);
+            _states.Enqueue(state);
             state.Enter();
         }
 
         public void PopState()
         {
-            _states.Pop();
+            _states.Dequeue();
         }
 
         public void ChangeState(BaseState state)
@@ -63,13 +63,14 @@ namespace TileTales.State
             _states.Peek().Update(gameTime, keyboardState, mouseState);
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public void Draw(GameTime gameTime, SpriteBatch sprite, float zoomLevel)
         {
-            if (_states.Count == 0)
-            {
-                return;
-            }
-            _states.Peek().Draw(gameTime, spriteBatch);
+            _states.Peek().Draw(gameTime, sprite, zoomLevel);
+        }
+
+        internal void OnClientSizeChanged(int newWindowWidth, int newWindowHeight)
+        {
+            _states.Peek().OnClientSizeChanged(newWindowWidth, newWindowHeight);
         }
     }
 }

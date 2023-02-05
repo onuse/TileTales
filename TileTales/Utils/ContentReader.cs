@@ -31,6 +31,26 @@ namespace TileTales.Utils
             return result;
         }
 
+        public static Dictionary<string, Texture2D> readTilesInDirectory(GraphicsDevice graphicsDecvice, string relativeDirectory)
+        {
+            DirectoryInfo dir = new DirectoryInfo(relativeDirectory);
+            System.Diagnostics.Debug.WriteLine("Tiles dir: " + dir);
+            if (!dir.Exists)
+                throw new DirectoryNotFoundException();
+            Dictionary<String, Texture2D> result = new Dictionary<String, Texture2D>();
+
+            FileInfo[] files = dir.GetFiles("*.png");
+            foreach (FileInfo file in files)
+            {
+                FileStream fileStream = new FileStream(file.FullName, FileMode.Open);
+                String tileName = file.Name.Substring(2, file.Name.Length - 6);
+                System.Diagnostics.Debug.WriteLine("Add Tile: " + tileName);
+                result[tileName] = Texture2D.FromStream(graphicsDecvice, fileStream);
+                fileStream.Dispose();
+            }
+            return result;
+        }
+
         public static Texture2D textureFromByteString(ByteString byteString, GraphicsDevice graphicsDecvice)
         {
             MemoryStream stream = new MemoryStream(byteString.ToByteArray());

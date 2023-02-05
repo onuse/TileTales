@@ -33,7 +33,7 @@ namespace TileTales.Network
         {
             // Initialize the SocketClient
             _socketClient = new SocketClient();
-            Settings set = _settingsReader.GetSettings();
+            UserSettings set = _settingsReader.GetSettings();
             Exception e = _socketClient.Connect(IPAddress.Parse(set.ServerAdress), set.ServerPort);
             if (e != null)
             {

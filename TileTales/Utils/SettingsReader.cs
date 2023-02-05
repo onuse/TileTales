@@ -13,7 +13,7 @@ namespace TileTales.Utils
         private static string HARDCODED_PATH = "settings.json";
         private static SettingsReader _instance;
         private string _pathToSettingsFile;
-        private Settings _settings;
+        private UserSettings _settings;
 
         private SettingsReader(string pathToSettingsFile)
         {
@@ -32,7 +32,7 @@ namespace TileTales.Utils
             }
         }
 
-        public Settings GetSettings()
+        public UserSettings GetSettings()
         {
             if (_settings != null)
             {
@@ -42,17 +42,19 @@ namespace TileTales.Utils
             return ReadSettingsFromPersistance();
         }
 
-        public Settings ReadSettingsFromPersistance()
+        public UserSettings ReadSettingsFromPersistance()
         {
+            System.Diagnostics.Debug.WriteLine("ReadSettingsFromPersistance() File.Exists(_pathToSettingsFile): " + File.Exists(_pathToSettingsFile));
             try
             {
                 if (File.Exists(_pathToSettingsFile))
                 {
                     string json = File.ReadAllText(_pathToSettingsFile);
-                    _settings = JsonConvert.DeserializeObject<Settings>(json);
+                    System.Diagnostics.Debug.WriteLine("Reading settings file: " + json);
+                    _settings = JsonConvert.DeserializeObject<UserSettings>(json);
                 } else
                 {
-                    _settings = new Settings();
+                    _settings = new UserSettings();
                     SaveSettings();
                 }
             }

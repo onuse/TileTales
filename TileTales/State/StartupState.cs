@@ -13,7 +13,7 @@ namespace TileTales.State
         private ServerConnector _serverConnector;
         private readonly UI.AppUI _ui;
 
-        public StartupState(StateManager stateManager, ServerConnector serverConnector, UI.AppUI ui, TileTalesGame game) : base(stateManager, serverConnector, ui, game)
+        public StartupState(TileTalesGame game) : base(game)
         {
             _stateManager = stateManager;
             _serverConnector = serverConnector;
@@ -27,7 +27,7 @@ namespace TileTales.State
             menu.menuStartNewGame.Selected += (s, a) =>
             {
                 eventBus.Publish("loadgame", null);
-                stateManager.ChangeState(new GameState(stateManager, serverConnector, _ui, game));
+                stateManager.ChangeState(new GameState(game));
             };
 
 
