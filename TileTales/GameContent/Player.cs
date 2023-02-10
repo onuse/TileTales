@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
+using Net.Tiletales.Network.Proto.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace TileTales.GameContent
     internal class Player
     {
         private Location location = new Location(0, 0, 0);
+        private int _objectId;
 
         public Player()
         {
@@ -30,6 +32,20 @@ namespace TileTales.GameContent
         {
             get { return location.Z; }
             set { location.Z = value; }
+        }
+
+        public int ObjectId
+        {
+            get { return _objectId; }
+        }
+
+        internal void init(PlayerObjectInfo playerObjectInfo)
+        {
+            X = playerObjectInfo.X;
+            Y = playerObjectInfo.Y;
+            Z = playerObjectInfo.Z;
+            _objectId = playerObjectInfo.ObjectId;
+
         }
 
         internal void Move(int x, int y, int z)

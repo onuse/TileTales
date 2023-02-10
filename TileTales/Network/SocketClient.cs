@@ -40,15 +40,21 @@ namespace TileTales.Network
             }
         }
 
-        public void SendMessageBytes(byte[] messageBytes)
-        {
-            // Send a message to the server
+        private void Send(byte[] messageBytes) {
             stream.Write(messageBytes, 0, messageBytes.Length);
             System.Diagnostics.Debug.WriteLine("SENT: SendMessageBytes: " + messageBytes);
             System.Diagnostics.Debug.WriteLine("SENT2: SendMessageBytes.Length: " + messageBytes.Length);
             // Create String from byte[]
             string strMessage = Encoding.UTF8.GetString(messageBytes);
             System.Diagnostics.Debug.WriteLine("SENT3: SendMessageBytes as string: " + strMessage);
+        }
+
+        public void SendMessageBytes(byte[] messageBytes)
+        {
+            // Send a message to the server in its own thread
+            Task.Run(() => Send(messageBytes));
+
+            //Send(messageBytes);
         }
 
         public void SendMessage(Any message)

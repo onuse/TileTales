@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using Net.Tiletales.Network.Proto.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TileTales.Graphics;
 using TileTales.Utils;
 
 namespace TileTales.GameContent
@@ -57,6 +59,23 @@ namespace TileTales.GameContent
         internal void MovePlayer(int x, int y)
         {
             player.Move(x, y, 0);
+        }
+
+        internal Point getChunksIndex(long playerX, long playerY)
+        {
+            CoordinateTranslator.getMapIndexForTileIndex(player.X, player.Y, contentLibrary, out int PlayerMapX, out int PlayerMapY);
+            return new Point(PlayerMapX, PlayerMapY);
+        }
+        
+        internal static bool isSeen(int drawChunkX, int drawChunkY, int destWidth, int destHeight, int viewPortWidth, int viewPortHeight, int v1, int v2)
+        {
+            return true;
+        }
+
+        internal Player createPlayerObject(PlayerObjectInfo playerObjectInfo)
+        {
+            player.init(playerObjectInfo);
+            return player;
         }
     }
 }

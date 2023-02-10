@@ -1,8 +1,10 @@
 ﻿using Google.Protobuf;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using TileTales.Graphics;
 
 namespace TileTales.GameContent
 {
@@ -12,18 +14,20 @@ namespace TileTales.GameContent
         private static readonly String FOLDER_SPRITES = "Content/assets/gfx/sprites";
         private static readonly String FOLDER_TILES = "Content/assets/gfx/tiles";
         private static readonly String FOLDER_MAPS = "Content/assets/gfx/maps";
+        private static String NoTile = "000000";
+        private static String Water = "0000FF";
         //private readonly Dictionary<int, Dictionary<Point, WeakReference<Chunk>>> _chunkLayers = new Dictionary<int, Dictionary<Point, WeakReference<Chunk>>>();
         private readonly Dictionary<Location, Chunk> _chunks = new Dictionary<Location, Chunk> ();
         private readonly ChunkFactory _chunkFactory;
         //private readonly Dictionary<Point, WeakReference<Chunk>> _chunks = new Dictionary<Point, WeakReference<Chunk>>();
-        private Dictionary<string, Texture2D> tiles;
-        private Dictionary<string, Texture2D> sprites;
-        private Dictionary<string, Texture2D> maps;
+        private Dictionary<string, SKBitmap> tiles;
+        private Dictionary<string, SKBitmap> sprites;
+        private Dictionary<string, SKBitmap> maps;
 
         private GraphicsDevice _graphicsDevice;
-
-        private String NoTile = "000000";
-        private String Water = "0000FF";
+        private SKBitmap waterMap;
+        private SKColor water;
+        private Chunk waterChunk;
 
         public int ChunkWidth { get; private set; }
         public int ChunkHeight { get; private set; }
@@ -45,17 +49,37 @@ namespace TileTales.GameContent
             tiles = Utils.ContentReader.readTilesInDirectory(_graphicsDevice, FOLDER_TILES);
             maps = Utils.ContentReader.readTexturesInDirectory(_graphicsDevice, FOLDER_MAPS);
 
+            waterMap = new SKBitmap(100, 100, true);
+            water = SKColor.Parse(Water);
+            waterChunk = createWaterChunk();
+
             //TODO temp, remove
             TileWidth = 16;
             TileHeight = 16;
+            MapWidth = 100;
+            MapHeight = 100;
         }
 
-        public Texture2D GetSprite(string name)
+        private Chunk createWaterChunk()
+        {
+            SKBitmap waterMap = new SKBitmap(100, 100, true);
+            SKColor water = SKColor.Parse(Water);
+            for (int y = 0; y < 100; y++)
+            {
+                for (int x = 0; x < 100; x++)
+                {
+                    waterMap.SetPixel(x, y, water);
+                }
+            }
+         return _chunkFactory.CreateChunkFromMap(waterMap);
+        }
+
+        public SKBitmap GetSprite(string name)
         {
             return sprites[name];
         }
 
-        public Texture2D GetTile(string colorRGB)
+        public SKBitmap GetTile(string colorRGB)
         {
             if (colorRGB == NoTile)
             {
@@ -68,29 +92,29 @@ namespace TileTales.GameContent
             return tiles[colorRGB];
         }
         
-        public Texture2D GetTile(byte r, byte g, byte b)
+        public SKBitmap GetTile(byte r, byte g, byte b)
         {
             return GetTile(string.Format("{0:X2}{1:X2}{2:X2}", r, g, b));
         }
 
-        public void SetTile(byte r, byte g, byte b, Texture2D texture)
+        public void SetTile(byte r, byte g, byte b, SKBitmap texture)
         {
             SetTile(string.Format("{0:X2}{1:X2}{2:X2}"), texture);
         }
 
-        public void SetTile(string colorRGB, Texture2D texture)
+        public void SetTile(string colorRGB, SKBitmap texture)
         {
             tiles[colorRGB] = texture;
             TileWidth = texture.Width;
             TileHeight = texture.Height;
         }
 
-        public Texture2D GetMap(string name)
+        public SKBitmap GetMap(string name)
         {
             return maps[name];
         }
 
-        public void AddSprite(string name, Texture2D texture, Boolean saveToDisc)
+        public void AddSprite(string name, SKBitmap texture, Boolean saveToDisc)
         {
             sprites[name] = texture;
             if (saveToDisc)
@@ -104,7 +128,7 @@ namespace TileTales.GameContent
             AddMap(name, Utils.ContentReader.textureFromByteString(data, _graphicsDevice), saveToDisc, createChunk);
         }
 
-        public void AddMap(string name, Texture2D texture, Boolean saveToDisc, bool createChunk)
+        public void AddMap(string name, SKBitmap texture, Boolean saveToDisc, bool createChunk)
         {
             maps[name] = texture;
             MapWidth = texture.Width;
@@ -115,7 +139,7 @@ namespace TileTales.GameContent
             }
             if (createChunk)
             {
-                Chunk chunk = _chunkFactory.CreateChunkFromTexture(texture);
+                Chunk chunk = _chunkFactory.CreateChunkFromMap(texture);
                 Location location = createLocationFromMapName(name);
                 SetChunk(location, chunk);
             }
@@ -149,7 +173,7 @@ namespace TileTales.GameContent
             {
                 return _chunks[key];
             }
-            return null;
+            return waterChunk;
         }
 
         public void SetChunk(int x, int y, int z, Chunk chunk)

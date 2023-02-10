@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TileTales.GameContent
+namespace TileTales.Graphics
 {
     /**
      * A chunk is a map of tiles that is loaded into memory.
@@ -15,19 +16,21 @@ namespace TileTales.GameContent
      * */
     internal class Chunk
     {
-        public Chunk(Texture2D texture, Texture2D[] tiles, int width, int height, Color[] pixelData)
+        public Chunk(Texture2D texture, SKBitmap[] tiles, SKBitmap map, int width, int height, SKColor[] pixelData)
         {
             Texture = texture;
             Tiles = tiles;
+            Map = map;
             Width = width;
             Height = height;
             PixelData = pixelData;
         }
-        
+
         public Texture2D Texture { get; }
-        public Texture2D[] Tiles { get; }
+        public SKBitmap[] Tiles { get; }
+        public SKBitmap Map { get; }
         public int Width { get; }
         public int Height { get; }
-        public Color[] PixelData { get; }
+        public SKColor[] PixelData { get; }
     }
 }

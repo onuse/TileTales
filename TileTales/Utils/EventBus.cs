@@ -70,6 +70,10 @@ namespace TileTales.Utils
             while (queue.Count > 0)
             {
                 Event e = queue.Pop();
+                if (e == null)
+                {
+                    continue;
+                }
                 foreach (var callback in _eventListeners[e.eventName])
                 {
                     callback(e.data);

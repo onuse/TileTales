@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MonoGame.Extended.Timers;
 using TileTales.Utils;
-using TileTales.GameContent;
+using TileTales.Graphics;
 
 namespace TileTales.State
 {
@@ -63,9 +63,9 @@ namespace TileTales.State
             _states.Peek().Update(gameTime, keyboardState, mouseState);
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch sprite, float zoomLevel)
+        public void Draw(GameTime gameTime)
         {
-            _states.Peek().Draw(gameTime, sprite, zoomLevel);
+            _states.Peek().Draw(gameTime);
         }
 
         internal void OnClientSizeChanged(int newWindowWidth, int newWindowHeight)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,19 @@ namespace TileTales.Utils
 
             mapX = x / (mapWidth * tileWidth);
             mapY = y / (mapHeight * tileHeight);
+        }
+
+        public static Point getMapIndexForTileIndex(int x, int y, ContentLibrary contentLibrary)
+        {
+            int mapWidth = contentLibrary.MapWidth;
+            int mapHeight = contentLibrary.MapHeight;
+            int tileWidth = contentLibrary.TileWidth;
+            int tileHeight = contentLibrary.TileHeight;
+
+            int mapX = x / (mapWidth * tileWidth);
+            int mapY = y / (mapHeight * tileHeight);
+
+            return new Point(mapX, mapY);
         }
 
         public static void getTileIndexForMapIndex(int x, int y, ContentLibrary contentLibrary, out int tileX, out int tileY)

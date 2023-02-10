@@ -4,9 +4,11 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using TileTales.GameContent;
+using TileTales.Graphics;
 using TileTales.Network;
 using TileTales.Utils;
 
@@ -19,6 +21,8 @@ namespace TileTales.State
         protected UI.AppUI ui;
         protected TileTalesGame game;
         protected EventBus eventBus;
+        protected RequestFactory rf;
+        protected Player Player;
 
         public BaseState(TileTalesGame game)
         {
@@ -26,7 +30,9 @@ namespace TileTales.State
             this.stateManager = game.StateManager;
             this.serverConnector = game.ServerConnector;
             this.ui = game.AppUI;
-            eventBus = EventBus.Instance;
+            this.Player = game.GameWorld.player;
+            this.eventBus = EventBus.Instance;
+            this.rf = RequestFactory.Instance;
         }
 
         // Called when this state becomes the current state
@@ -41,7 +47,7 @@ namespace TileTales.State
         // Only called from TileTalesGame.Initialize()
         public virtual void Activate() { }
 
-        public virtual void Draw(GameTime gameTime, SpriteBatch sprite, float zoomLevel) { }
+        public virtual void Draw(GameTime gameTime) { }
 
         internal virtual void OnClientSizeChanged(int newWindowWidth, int newWindowHeight) { }
     }

@@ -14,6 +14,10 @@ namespace TileTales.GameContent
         public int WORLD_WIDTH { get; }
         public int WORLD_HEIGHT { get; }
 
+        //public int PIXELS_PER_CHUNK { get; }
+
+        public static int PIXELS_PER_CHUNK = 1600;
+
         public GameSettings(int worldWidth, int worldHeight, int tileWidth, int tileHeight)
         {
             // TODO Get this from Server
@@ -21,6 +25,8 @@ namespace TileTales.GameContent
             WORLD_HEIGHT = worldHeight;
             TILE_WIDTH = tileWidth;
             TILE_HEIGHT = tileHeight;
+
+            PIXELS_PER_CHUNK = 100 * 16;
         }
     }
 }

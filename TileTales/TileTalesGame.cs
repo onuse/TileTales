@@ -12,6 +12,7 @@ using System.IO;
 using TileTales.GameContent;
 using Google.Protobuf.Collections;
 using Myra.Graphics2D.UI;
+using TileTales.Graphics;
 
 namespace TileTales
 {
@@ -19,12 +20,13 @@ namespace TileTales
     {
         public readonly EventBus EventBus;
         public readonly ContentLibrary ContentLibrary;
-        public readonly Canvas Canvas;
+        public readonly GameRenderer renderer;
         public readonly UI.AppUI AppUI;
         public readonly ServerConnector ServerConnector;
         public readonly StateManager StateManager;
         public readonly GameWorld GameWorld;
         public readonly GameSettings GameSettings;
+        public readonly GraphicsDeviceManager GraphicsManager;
 
         private readonly SettingsReader _settingsReader;
         private ContentManager xnbContentManager;
@@ -39,17 +41,17 @@ namespace TileTales
             EventBus = EventBus.Instance;
             GameSettings = new GameSettings(int.MaxValue, int.MaxValue, 16, 16);
 
-            GraphicsDeviceManager graphicsManager = new GraphicsDeviceManager(this);
-            graphicsManager.PreferredBackBufferWidth = _settingsReader.GetSettings().WindowWidth;
-            graphicsManager.PreferredBackBufferHeight = _settingsReader.GetSettings().WindowHeight;
-            graphicsManager.ApplyChanges();
+            GraphicsManager = new GraphicsDeviceManager(this);
+            GraphicsManager.PreferredBackBufferWidth = _settingsReader.GetSettings().WindowWidth;
+            GraphicsManager.PreferredBackBufferHeight = _settingsReader.GetSettings().WindowHeight;
+            GraphicsManager.ApplyChanges();
 
             ServerConnector = new ServerConnector();
 
             ContentLibrary = new ContentLibrary(GraphicsDevice);
             GameWorld = new GameWorld(this);
-            Canvas = new Canvas(this, graphicsManager);
-            AppUI = new UI.AppUI(this, graphicsManager);
+            renderer = new GameRenderer(this, GraphicsManager);
+            AppUI = new UI.AppUI(this, GraphicsManager);
 
             Window.ClientSizeChanged += OnClientSizeChanged;
             Exiting += Shutdown;
@@ -61,7 +63,7 @@ namespace TileTales
             // Create a new SpriteBatch, which can be used to draw textures.
             xnbContentManager = new ContentManager(Services, "Content");
             ContentLibrary.LoadPrepackagedContent();
-            Canvas.LoadContent();
+            renderer.LoadContent();
             AppUI.LoadContent();
         }
 
@@ -90,7 +92,7 @@ namespace TileTales
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            StateManager.Draw(gameTime, null, 0);
+            StateManager.Draw(gameTime);
             AppUI.Draw();
             base.Draw(gameTime);
         }
@@ -99,8 +101,12 @@ namespace TileTales
         {
             System.Diagnostics.Debug.WriteLine("OnClientSizeChanged w: " + Window.ClientBounds.Width + " h: " + Window.ClientBounds.Height);
             StateManager.OnClientSizeChanged(Window.ClientBounds.Width, Window.ClientBounds.Height);
-            _settingsReader.GetSettings().WindowWidth = Window.ClientBounds.Width;
-            _settingsReader.GetSettings().WindowHeight = Window.ClientBounds.Height;
+            UserSettings userSettings = _settingsReader.GetSettings();
+            userSettings.WindowWidth = Window.ClientBounds.Width;
+            userSettings.WindowHeight = Window.ClientBounds.Height;
+            GraphicsManager.PreferredBackBufferWidth = userSettings.WindowWidth;
+            GraphicsManager.PreferredBackBufferHeight = userSettings.WindowHeight;
+            GraphicsManager.ApplyChanges();
             _settingsReader.SaveSettings();
         }
         public void Shutdown(object sender, EventArgs e)

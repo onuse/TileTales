@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,10 +34,17 @@ namespace TileTales.Utils
             }
         }
 
-        internal static void WriteFile(string filename, Texture2D texture)
+        /*internal static void WriteFile(string filename, Texture2D texture)
         {
             FileStream fs = new FileStream(FOLDER_CONTENT + filename, FileMode.Create);
             texture.SaveAsPng(fs, texture.Width, texture.Height);
+            fs.Close();
+        }*/
+
+        internal static void WriteFile(string filename, SKBitmap texture)
+        {
+            FileStream fs = new FileStream(FOLDER_CONTENT + filename, FileMode.Create);
+            texture.Encode(fs, SKEncodedImageFormat.Png, 100);
             fs.Close();
         }
     }

@@ -24,9 +24,33 @@ namespace TileTales.State
         bool _hasLoadedWorld = false;
         private int windowWidth;
         private int windowHeight;
+        private int lastScrollWheelValue = 0;
+        private int zoomLevel = 1;
+
+        private static List<float> SCALE_VALUES = new float[] {
+            8,
+            4,
+            2,
+            1,
+            1f / 2f,
+            1f / 4f,
+            1f / 8f,
+            1f / 16f,
+            1f / 32f,
+            1f / 64f,
+            1f / 128,
+            1f / 256,
+            1f / 512,
+            1f / 1024,
+            1f / 2048
+        }.ToList();
+
+        private static List<float> SCALES_INVERSE = SCALE_VALUES.ToArray().ToList();
+        private object moveRequestThrottle;
 
         public GameState(TileTalesGame game) : base(game)
         {
+            SCALES_INVERSE.Reverse();
             _gameUI = ui._gameUI;
             _gameUI.paddedCenteredButton.Click += (s, a) =>
             {
@@ -35,31 +59,49 @@ namespace TileTales.State
                 Login();
             };
 
-            eventBus.Subscribe(PlayerDetailResponse.Descriptor.Name, (o) => {
-                PlayerDetailResponse response = PlayerDetailResponse.Parser.ParseFrom((o as Any).Value);
-                ZoneMapRequest zoneMapRequest = createZoneMapRequest(response.X, response.Y, response.Z, 0);
-                serverConnector.SendMessage(createZoneMapsRequest(response.X, response.Y, response.Z, 0));
+            eventBus.Subscribe(PlayerObjectInfo.Descriptor.Name, (o) => {
+                PlayerObjectInfo response = PlayerObjectInfo.Parser.ParseFrom((o as Any).Value);
+                Player p = game.GameWorld.createPlayerObject(response);
+                ZoneMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0);
+                serverConnector.SendMessage(zoneMapsRequest);
+            });
+
+            eventBus.Subscribe(ObjectLocationUpdate.Descriptor.Name, (o) => {
+                ObjectLocationUpdate response = ObjectLocationUpdate.Parser.ParseFrom((o as Any).Value);
+                if (response.ObjectId == Player.ObjectId)
+                {
+                    Player.X = response.X;
+                    Player.Y = response.Y;
+                    Player.Z = response.Z;
+                }
             });
 
             eventBus.Subscribe(ZoneMapResponse.Descriptor.Name, (o) => {
                 ZoneMapResponse response = ZoneMapResponse.Parser.ParseFrom((o as Any).Value);
-                ByteString mapBytes = response.Map;
-                String mapName = ContentLibrary.CreateMapName(response.X, response.Y, response.Z, response.ZoomLevel);
-                game.ContentLibrary.AddMap(mapName, mapBytes, true, true);
+                Task.Run(() => LoadMap(response));
             });
 
             eventBus.Subscribe(ZoneMapsResponse.Descriptor.Name, (o) => {
                 ZoneMapsResponse response = ZoneMapsResponse.Parser.ParseFrom((o as Any).Value);
-                response.Maps.ToList().ForEach((map) =>
-                {
-                    ByteString mapBytes = map.Map;
-                    String mapName = ContentLibrary.CreateMapName(map.X, map.Y, map.Z, map.ZoomLevel);
-                    game.ContentLibrary.AddMap(mapName, mapBytes, true, true);
-                    _hasLoadedWorld = true;
-                });
+                // Start new thread to load maps
+                Task.Run(() => LoadMaps(response));
+                _hasLoadedWorld = true;
             });
         }
-        
+
+        private void LoadMaps(ZoneMapsResponse response)
+        {
+            response.Maps.ToList().ForEach(response => LoadMap(response));
+        }
+
+        private void LoadMap(ZoneMapResponse response)
+        {
+            ByteString mapBytes = response.Map;
+            String mapName = ContentLibrary.CreateMapName(response.X, response.Y, response.Z, response.ZoomLevel);
+            game.ContentLibrary.AddMap(mapName, mapBytes, true, true);
+        }
+
+
         private void Login()
         {
             if (serverConnector.isConnected())
@@ -72,33 +114,6 @@ namespace TileTales.State
                 };
                 serverConnector.SendMessage(loginRequest);
             }
-        }
-
-        private ZoneMapsRequest createZoneMapsRequest(int x, int y, int z, int zoomLevel)
-        {
-            ZoneMapsRequest zoneMapRequest = new ZoneMapsRequest
-            {
-                CenterX = x,
-                CenterY = y,
-                Z = z,
-                Width = 3,
-                Height = 3,
-                ZoomLevel = zoomLevel
-            };
-            return zoneMapRequest;
-        }
-
-        private ZoneMapRequest createZoneMapRequest(int x, int y, int z, int zoomLevel)
-        {
-            ZoneMapRequest zoneMapRequest = new ZoneMapRequest
-            {
-                X = x,
-                Y = y,
-                Z = z,
-                ZoomLevel = zoomLevel,
-                MyVersion = 0
-            };
-            return zoneMapRequest;
         }
 
         public override void Enter()
@@ -114,23 +129,67 @@ namespace TileTales.State
         
         public override void Update(GameTime gameTime, KeyboardState ks, MouseState ms)
         {
-            if (ks.IsKeyDown(Keys.Up))
-                game.GameWorld.MovePlayer(0, -1);
-            if (ks.IsKeyDown(Keys.Down))
-                game.GameWorld.MovePlayer(0, 1);
-            if (ks.IsKeyDown(Keys.Left))
-                game.GameWorld.MovePlayer(-1, 0);
-            if (ks.IsKeyDown(Keys.Right))
-                game.GameWorld.MovePlayer(+1, 0);
+            int deltaX = 0;
+            int deltaY = 0;
+            int deltaZ = 0;
+            if (ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W))
+                deltaY = -16;
+            if (ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S))
+                deltaY = 16;
+            if (ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A))
+                deltaX = -16;
+            if (ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D))
+                deltaX = +16;
 
-            game.Canvas.scrollWheelValue(ms.ScrollWheelValue);
+            if (deltaX != 0 || deltaY != 0 || deltaZ != 0)
+            {
+                sendMoveRequestThrottled(deltaX, deltaY, deltaZ);
+            }
+
+            int dir = ms.ScrollWheelValue - lastScrollWheelValue;
+            if (dir != 0)
+            {
+                if (dir > 0)
+                {
+                    ZoomIn();
+                }
+                else
+                {
+                    ZoomOut();
+                }
+            }
+            lastScrollWheelValue = ms.ScrollWheelValue;
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch sprite, float zoomLevel)
+        private void sendMoveRequestThrottled(int deltaX, int deltaY, int deltaZ)
+        {
+            if (moveRequestThrottle == null)
+            {
+                moveRequestThrottle = new Timer((o) =>
+                {
+                    MoveRequest moveRequest = rf.createMoveRequest(deltaX, deltaY, deltaZ);
+                    serverConnector.SendMessage(moveRequest);
+                    moveRequestThrottle = null;
+                }, null, 150, Timeout.Infinite);
+            }
+        }
+
+        private void ZoomIn()
+        {
+            if (--zoomLevel <= -1)
+                zoomLevel = 0;
+        }
+        private void ZoomOut()
+        {
+            if (++zoomLevel >= SCALE_VALUES.Count)
+                zoomLevel = SCALE_VALUES.Count - 1;
+        }
+
+        public override void Draw(GameTime gameTime)
         {
             if (_hasLoadedWorld)
             {
-                game.Canvas.Draw(game.GameWorld, gameTime, windowWidth, windowHeight);
+                game.renderer.Draw(game.GameWorld, gameTime, windowWidth, windowHeight, SCALE_VALUES[zoomLevel]);
             }
         }
     }

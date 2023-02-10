@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TileTales.GameContent
+namespace TileTales.Graphics
 {
     internal interface ITTDrawble
     {
-        public void Draw(GameTime gameTime, SpriteBatch sprite, float zoomLevel);
+        public void Draw(GameTime gameTime);
     }
 }

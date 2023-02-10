@@ -25,13 +25,15 @@ namespace Net.Tiletales.Network.Proto.Game {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChBnYW1lZXZlbnRzLnByb3RvEiBuZXQudGlsZXRhbGVzLm5ldHdvcmsucHJv",
-            "dG8uZ2FtZSInChNQbGF5ZXJEZXRhaWxSZXF1ZXN0EhAKCHBsYXllcklkGAEg",
-            "ASgFInwKFFBsYXllckRldGFpbFJlc3BvbnNlEhAKCHBsYXllcklkGAEgASgF",
-            "EgwKBG5hbWUYAiABKAkSCQoBeBgDIAEoBRIJCgF5GAQgASgFEgkKAXoYBSAB",
-            "KAUSDgoGYXZhdGFyGAYgASgFEhMKC2ludmVudG9yeUlkGAcgASgFIkAKC01v",
-            "dmVSZXF1ZXN0EgkKAXgYASABKAUSCQoBeRgCIAEoBRIJCgF6GAMgASgFEhAK",
-            "CHBsYXllcklkGAQgASgJIj8KDE1vdmVSZXNwb25zZRIJCgF4GAEgASgFEgkK",
-            "AXkYAiABKAUSCQoBehgDIAEoBRIOCgZzdGF0dXMYBCABKAkiLwoNQWN0aW9u",
+            "dG8uZ2FtZSJjChBQbGF5ZXJPYmplY3RJbmZvEhAKCG9iamVjdElkGAEgASgF",
+            "EgkKAXgYAiABKAUSCQoBeRgDIAEoBRIJCgF6GAQgASgFEgwKBG5hbWUYBSAB",
+            "KAkSDgoGYXZhdGFyGAYgASgJIj0KC01vdmVSZXF1ZXN0Eg4KBmRlbHRhWBgB",
+            "IAEoBRIOCgZkZWx0YVkYAiABKAUSDgoGZGVsdGFaGAMgASgFIjIKD1RlbGVw",
+            "b3J0UmVxdWVzdBIJCgF4GAEgASgFEgkKAXkYAiABKAUSCQoBehgDIAEoBSJJ",
+            "ChRPYmplY3RMb2NhdGlvblVwZGF0ZRIQCghvYmplY3RJZBgBIAEoBRIJCgF4",
+            "GAIgASgFEgkKAXkYAyABKAUSCQoBehgEIAEoBSInChNPYmplY3REZXRhaWxS",
+            "ZXF1ZXN0EhAKCG9iamVjdElkGAEgASgFIjYKFE9iamVjdERldGFpbFJlc3Bv",
+            "bnNlEhAKCG9iamVjdElkGAEgASgFEgwKBG5hbWUYAiABKAkiLwoNQWN0aW9u",
             "UmVxdWVzdBIOCgZhY3Rpb24YASABKAkSDgoGdGFyZ2V0GAIgASgJIiAKDkFj",
             "dGlvblJlc3BvbnNlEg4KBnN0YXR1cxgBIAEoCSIuCgtQbGF5ZXJFdmVudBIQ",
             "CghwbGF5ZXJJZBgBIAEoCRINCgVldmVudBgCIAEoCSIlChNQbGF5ZXJFdmVu",
@@ -51,10 +53,12 @@ namespace Net.Tiletales.Network.Proto.Game {
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.PlayerDetailRequest), global::Net.Tiletales.Network.Proto.Game.PlayerDetailRequest.Parser, new[]{ "PlayerId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.PlayerDetailResponse), global::Net.Tiletales.Network.Proto.Game.PlayerDetailResponse.Parser, new[]{ "PlayerId", "Name", "X", "Y", "Z", "Avatar", "InventoryId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.MoveRequest), global::Net.Tiletales.Network.Proto.Game.MoveRequest.Parser, new[]{ "X", "Y", "Z", "PlayerId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.MoveResponse), global::Net.Tiletales.Network.Proto.Game.MoveResponse.Parser, new[]{ "X", "Y", "Z", "Status" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.PlayerObjectInfo), global::Net.Tiletales.Network.Proto.Game.PlayerObjectInfo.Parser, new[]{ "ObjectId", "X", "Y", "Z", "Name", "Avatar" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.MoveRequest), global::Net.Tiletales.Network.Proto.Game.MoveRequest.Parser, new[]{ "DeltaX", "DeltaY", "DeltaZ" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.TeleportRequest), global::Net.Tiletales.Network.Proto.Game.TeleportRequest.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.ObjectLocationUpdate), global::Net.Tiletales.Network.Proto.Game.ObjectLocationUpdate.Parser, new[]{ "ObjectId", "X", "Y", "Z" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.ObjectDetailRequest), global::Net.Tiletales.Network.Proto.Game.ObjectDetailRequest.Parser, new[]{ "ObjectId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.ObjectDetailResponse), global::Net.Tiletales.Network.Proto.Game.ObjectDetailResponse.Parser, new[]{ "ObjectId", "Name" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.ActionRequest), global::Net.Tiletales.Network.Proto.Game.ActionRequest.Parser, new[]{ "Action", "Target" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.ActionResponse), global::Net.Tiletales.Network.Proto.Game.ActionResponse.Parser, new[]{ "Status" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Game.PlayerEvent), global::Net.Tiletales.Network.Proto.Game.PlayerEvent.Parser, new[]{ "PlayerId", "Event" }, null, null, null, null),
@@ -72,16 +76,16 @@ namespace Net.Tiletales.Network.Proto.Game {
 
   }
   #region Messages
-  public sealed partial class PlayerDetailRequest : pb::IMessage<PlayerDetailRequest>
+  public sealed partial class PlayerObjectInfo : pb::IMessage<PlayerObjectInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<PlayerDetailRequest> _parser = new pb::MessageParser<PlayerDetailRequest>(() => new PlayerDetailRequest());
+    private static readonly pb::MessageParser<PlayerObjectInfo> _parser = new pb::MessageParser<PlayerObjectInfo>(() => new PlayerObjectInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<PlayerDetailRequest> Parser { get { return _parser; } }
+    public static pb::MessageParser<PlayerObjectInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -97,7 +101,7 @@ namespace Net.Tiletales.Network.Proto.Game {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerDetailRequest() {
+    public PlayerObjectInfo() {
       OnConstruction();
     }
 
@@ -105,238 +109,36 @@ namespace Net.Tiletales.Network.Proto.Game {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerDetailRequest(PlayerDetailRequest other) : this() {
-      playerId_ = other.playerId_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerDetailRequest Clone() {
-      return new PlayerDetailRequest(this);
-    }
-
-    /// <summary>Field number for the "playerId" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private int playerId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int PlayerId {
-      get { return playerId_; }
-      set {
-        playerId_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as PlayerDetailRequest);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(PlayerDetailRequest other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (PlayerId != other.PlayerId) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (PlayerId != 0) hash ^= PlayerId.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (PlayerId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(PlayerId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (PlayerId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(PlayerId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (PlayerId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PlayerId);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(PlayerDetailRequest other) {
-      if (other == null) {
-        return;
-      }
-      if (other.PlayerId != 0) {
-        PlayerId = other.PlayerId;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            PlayerId = input.ReadInt32();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            PlayerId = input.ReadInt32();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class PlayerDetailResponse : pb::IMessage<PlayerDetailResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<PlayerDetailResponse> _parser = new pb::MessageParser<PlayerDetailResponse>(() => new PlayerDetailResponse());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<PlayerDetailResponse> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[1]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerDetailResponse() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerDetailResponse(PlayerDetailResponse other) : this() {
-      playerId_ = other.playerId_;
-      name_ = other.name_;
+    public PlayerObjectInfo(PlayerObjectInfo other) : this() {
+      objectId_ = other.objectId_;
       x_ = other.x_;
       y_ = other.y_;
       z_ = other.z_;
+      name_ = other.name_;
       avatar_ = other.avatar_;
-      inventoryId_ = other.inventoryId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public PlayerDetailResponse Clone() {
-      return new PlayerDetailResponse(this);
+    public PlayerObjectInfo Clone() {
+      return new PlayerObjectInfo(this);
     }
 
-    /// <summary>Field number for the "playerId" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private int playerId_;
+    /// <summary>Field number for the "objectId" field.</summary>
+    public const int ObjectIdFieldNumber = 1;
+    private int objectId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int PlayerId {
-      get { return playerId_; }
+    public int ObjectId {
+      get { return objectId_; }
       set {
-        playerId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "name" field.</summary>
-    public const int NameFieldNumber = 2;
-    private string name_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Name {
-      get { return name_; }
-      set {
-        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        objectId_ = value;
       }
     }
 
     /// <summary>Field number for the "x" field.</summary>
-    public const int XFieldNumber = 3;
+    public const int XFieldNumber = 2;
     private int x_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -348,7 +150,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     }
 
     /// <summary>Field number for the "y" field.</summary>
-    public const int YFieldNumber = 4;
+    public const int YFieldNumber = 3;
     private int y_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -360,7 +162,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     }
 
     /// <summary>Field number for the "z" field.</summary>
-    public const int ZFieldNumber = 5;
+    public const int ZFieldNumber = 4;
     private int z_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -371,52 +173,51 @@ namespace Net.Tiletales.Network.Proto.Game {
       }
     }
 
-    /// <summary>Field number for the "avatar" field.</summary>
-    public const int AvatarFieldNumber = 6;
-    private int avatar_;
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 5;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Avatar {
-      get { return avatar_; }
+    public string Name {
+      get { return name_; }
       set {
-        avatar_ = value;
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "inventoryId" field.</summary>
-    public const int InventoryIdFieldNumber = 7;
-    private int inventoryId_;
+    /// <summary>Field number for the "avatar" field.</summary>
+    public const int AvatarFieldNumber = 6;
+    private string avatar_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int InventoryId {
-      get { return inventoryId_; }
+    public string Avatar {
+      get { return avatar_; }
       set {
-        inventoryId_ = value;
+        avatar_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as PlayerDetailResponse);
+      return Equals(other as PlayerObjectInfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(PlayerDetailResponse other) {
+    public bool Equals(PlayerObjectInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (PlayerId != other.PlayerId) return false;
-      if (Name != other.Name) return false;
+      if (ObjectId != other.ObjectId) return false;
       if (X != other.X) return false;
       if (Y != other.Y) return false;
       if (Z != other.Z) return false;
+      if (Name != other.Name) return false;
       if (Avatar != other.Avatar) return false;
-      if (InventoryId != other.InventoryId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -424,13 +225,12 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (PlayerId != 0) hash ^= PlayerId.GetHashCode();
-      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
       if (X != 0) hash ^= X.GetHashCode();
       if (Y != 0) hash ^= Y.GetHashCode();
       if (Z != 0) hash ^= Z.GetHashCode();
-      if (Avatar != 0) hash ^= Avatar.GetHashCode();
-      if (InventoryId != 0) hash ^= InventoryId.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Avatar.Length != 0) hash ^= Avatar.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -449,33 +249,29 @@ namespace Net.Tiletales.Network.Proto.Game {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (PlayerId != 0) {
+      if (ObjectId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(PlayerId);
-      }
-      if (Name.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Name);
+        output.WriteInt32(ObjectId);
       }
       if (X != 0) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(16);
         output.WriteInt32(X);
       }
       if (Y != 0) {
-        output.WriteRawTag(32);
+        output.WriteRawTag(24);
         output.WriteInt32(Y);
       }
       if (Z != 0) {
-        output.WriteRawTag(40);
+        output.WriteRawTag(32);
         output.WriteInt32(Z);
       }
-      if (Avatar != 0) {
-        output.WriteRawTag(48);
-        output.WriteInt32(Avatar);
+      if (Name.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Name);
       }
-      if (InventoryId != 0) {
-        output.WriteRawTag(56);
-        output.WriteInt32(InventoryId);
+      if (Avatar.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(Avatar);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -487,33 +283,29 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (PlayerId != 0) {
+      if (ObjectId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(PlayerId);
-      }
-      if (Name.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Name);
+        output.WriteInt32(ObjectId);
       }
       if (X != 0) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(16);
         output.WriteInt32(X);
       }
       if (Y != 0) {
-        output.WriteRawTag(32);
+        output.WriteRawTag(24);
         output.WriteInt32(Y);
       }
       if (Z != 0) {
-        output.WriteRawTag(40);
+        output.WriteRawTag(32);
         output.WriteInt32(Z);
       }
-      if (Avatar != 0) {
-        output.WriteRawTag(48);
-        output.WriteInt32(Avatar);
+      if (Name.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Name);
       }
-      if (InventoryId != 0) {
-        output.WriteRawTag(56);
-        output.WriteInt32(InventoryId);
+      if (Avatar.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(Avatar);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -525,11 +317,8 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (PlayerId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PlayerId);
-      }
-      if (Name.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      if (ObjectId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ObjectId);
       }
       if (X != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(X);
@@ -540,11 +329,11 @@ namespace Net.Tiletales.Network.Proto.Game {
       if (Z != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Z);
       }
-      if (Avatar != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Avatar);
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (InventoryId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(InventoryId);
+      if (Avatar.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Avatar);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -554,15 +343,12 @@ namespace Net.Tiletales.Network.Proto.Game {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(PlayerDetailResponse other) {
+    public void MergeFrom(PlayerObjectInfo other) {
       if (other == null) {
         return;
       }
-      if (other.PlayerId != 0) {
-        PlayerId = other.PlayerId;
-      }
-      if (other.Name.Length != 0) {
-        Name = other.Name;
+      if (other.ObjectId != 0) {
+        ObjectId = other.ObjectId;
       }
       if (other.X != 0) {
         X = other.X;
@@ -573,11 +359,11 @@ namespace Net.Tiletales.Network.Proto.Game {
       if (other.Z != 0) {
         Z = other.Z;
       }
-      if (other.Avatar != 0) {
-        Avatar = other.Avatar;
+      if (other.Name.Length != 0) {
+        Name = other.Name;
       }
-      if (other.InventoryId != 0) {
-        InventoryId = other.InventoryId;
+      if (other.Avatar.Length != 0) {
+        Avatar = other.Avatar;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -595,31 +381,27 @@ namespace Net.Tiletales.Network.Proto.Game {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            PlayerId = input.ReadInt32();
+            ObjectId = input.ReadInt32();
             break;
           }
-          case 18: {
-            Name = input.ReadString();
-            break;
-          }
-          case 24: {
+          case 16: {
             X = input.ReadInt32();
             break;
           }
-          case 32: {
+          case 24: {
             Y = input.ReadInt32();
             break;
           }
-          case 40: {
+          case 32: {
             Z = input.ReadInt32();
             break;
           }
-          case 48: {
-            Avatar = input.ReadInt32();
+          case 42: {
+            Name = input.ReadString();
             break;
           }
-          case 56: {
-            InventoryId = input.ReadInt32();
+          case 50: {
+            Avatar = input.ReadString();
             break;
           }
         }
@@ -638,31 +420,27 @@ namespace Net.Tiletales.Network.Proto.Game {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            PlayerId = input.ReadInt32();
+            ObjectId = input.ReadInt32();
             break;
           }
-          case 18: {
-            Name = input.ReadString();
-            break;
-          }
-          case 24: {
+          case 16: {
             X = input.ReadInt32();
             break;
           }
-          case 32: {
+          case 24: {
             Y = input.ReadInt32();
             break;
           }
-          case 40: {
+          case 32: {
             Z = input.ReadInt32();
             break;
           }
-          case 48: {
-            Avatar = input.ReadInt32();
+          case 42: {
+            Name = input.ReadString();
             break;
           }
-          case 56: {
-            InventoryId = input.ReadInt32();
+          case 50: {
+            Avatar = input.ReadString();
             break;
           }
         }
@@ -686,7 +464,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -706,10 +484,9 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public MoveRequest(MoveRequest other) : this() {
-      x_ = other.x_;
-      y_ = other.y_;
-      z_ = other.z_;
-      playerId_ = other.playerId_;
+      deltaX_ = other.deltaX_;
+      deltaY_ = other.deltaY_;
+      deltaZ_ = other.deltaZ_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -719,51 +496,39 @@ namespace Net.Tiletales.Network.Proto.Game {
       return new MoveRequest(this);
     }
 
-    /// <summary>Field number for the "x" field.</summary>
-    public const int XFieldNumber = 1;
-    private int x_;
+    /// <summary>Field number for the "deltaX" field.</summary>
+    public const int DeltaXFieldNumber = 1;
+    private int deltaX_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int X {
-      get { return x_; }
+    public int DeltaX {
+      get { return deltaX_; }
       set {
-        x_ = value;
+        deltaX_ = value;
       }
     }
 
-    /// <summary>Field number for the "y" field.</summary>
-    public const int YFieldNumber = 2;
-    private int y_;
+    /// <summary>Field number for the "deltaY" field.</summary>
+    public const int DeltaYFieldNumber = 2;
+    private int deltaY_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Y {
-      get { return y_; }
+    public int DeltaY {
+      get { return deltaY_; }
       set {
-        y_ = value;
+        deltaY_ = value;
       }
     }
 
-    /// <summary>Field number for the "z" field.</summary>
-    public const int ZFieldNumber = 3;
-    private int z_;
+    /// <summary>Field number for the "deltaZ" field.</summary>
+    public const int DeltaZFieldNumber = 3;
+    private int deltaZ_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Z {
-      get { return z_; }
+    public int DeltaZ {
+      get { return deltaZ_; }
       set {
-        z_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "playerId" field.</summary>
-    public const int PlayerIdFieldNumber = 4;
-    private string playerId_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string PlayerId {
-      get { return playerId_; }
-      set {
-        playerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        deltaZ_ = value;
       }
     }
 
@@ -782,10 +547,9 @@ namespace Net.Tiletales.Network.Proto.Game {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (X != other.X) return false;
-      if (Y != other.Y) return false;
-      if (Z != other.Z) return false;
-      if (PlayerId != other.PlayerId) return false;
+      if (DeltaX != other.DeltaX) return false;
+      if (DeltaY != other.DeltaY) return false;
+      if (DeltaZ != other.DeltaZ) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -793,10 +557,9 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (X != 0) hash ^= X.GetHashCode();
-      if (Y != 0) hash ^= Y.GetHashCode();
-      if (Z != 0) hash ^= Z.GetHashCode();
-      if (PlayerId.Length != 0) hash ^= PlayerId.GetHashCode();
+      if (DeltaX != 0) hash ^= DeltaX.GetHashCode();
+      if (DeltaY != 0) hash ^= DeltaY.GetHashCode();
+      if (DeltaZ != 0) hash ^= DeltaZ.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -815,21 +578,17 @@ namespace Net.Tiletales.Network.Proto.Game {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (X != 0) {
+      if (DeltaX != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(X);
+        output.WriteInt32(DeltaX);
       }
-      if (Y != 0) {
+      if (DeltaY != 0) {
         output.WriteRawTag(16);
-        output.WriteInt32(Y);
+        output.WriteInt32(DeltaY);
       }
-      if (Z != 0) {
+      if (DeltaZ != 0) {
         output.WriteRawTag(24);
-        output.WriteInt32(Z);
-      }
-      if (PlayerId.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(PlayerId);
+        output.WriteInt32(DeltaZ);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -841,21 +600,17 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (X != 0) {
+      if (DeltaX != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(X);
+        output.WriteInt32(DeltaX);
       }
-      if (Y != 0) {
+      if (DeltaY != 0) {
         output.WriteRawTag(16);
-        output.WriteInt32(Y);
+        output.WriteInt32(DeltaY);
       }
-      if (Z != 0) {
+      if (DeltaZ != 0) {
         output.WriteRawTag(24);
-        output.WriteInt32(Z);
-      }
-      if (PlayerId.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(PlayerId);
+        output.WriteInt32(DeltaZ);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -867,17 +622,14 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (X != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(X);
+      if (DeltaX != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DeltaX);
       }
-      if (Y != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Y);
+      if (DeltaY != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DeltaY);
       }
-      if (Z != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Z);
-      }
-      if (PlayerId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(PlayerId);
+      if (DeltaZ != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DeltaZ);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -891,17 +643,14 @@ namespace Net.Tiletales.Network.Proto.Game {
       if (other == null) {
         return;
       }
-      if (other.X != 0) {
-        X = other.X;
+      if (other.DeltaX != 0) {
+        DeltaX = other.DeltaX;
       }
-      if (other.Y != 0) {
-        Y = other.Y;
+      if (other.DeltaY != 0) {
+        DeltaY = other.DeltaY;
       }
-      if (other.Z != 0) {
-        Z = other.Z;
-      }
-      if (other.PlayerId.Length != 0) {
-        PlayerId = other.PlayerId;
+      if (other.DeltaZ != 0) {
+        DeltaZ = other.DeltaZ;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -919,19 +668,15 @@ namespace Net.Tiletales.Network.Proto.Game {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            X = input.ReadInt32();
+            DeltaX = input.ReadInt32();
             break;
           }
           case 16: {
-            Y = input.ReadInt32();
+            DeltaY = input.ReadInt32();
             break;
           }
           case 24: {
-            Z = input.ReadInt32();
-            break;
-          }
-          case 34: {
-            PlayerId = input.ReadString();
+            DeltaZ = input.ReadInt32();
             break;
           }
         }
@@ -950,19 +695,15 @@ namespace Net.Tiletales.Network.Proto.Game {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            X = input.ReadInt32();
+            DeltaX = input.ReadInt32();
             break;
           }
           case 16: {
-            Y = input.ReadInt32();
+            DeltaY = input.ReadInt32();
             break;
           }
           case 24: {
-            Z = input.ReadInt32();
-            break;
-          }
-          case 34: {
-            PlayerId = input.ReadString();
+            DeltaZ = input.ReadInt32();
             break;
           }
         }
@@ -972,21 +713,21 @@ namespace Net.Tiletales.Network.Proto.Game {
 
   }
 
-  public sealed partial class MoveResponse : pb::IMessage<MoveResponse>
+  public sealed partial class TeleportRequest : pb::IMessage<TeleportRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<MoveResponse> _parser = new pb::MessageParser<MoveResponse>(() => new MoveResponse());
+    private static readonly pb::MessageParser<TeleportRequest> _parser = new pb::MessageParser<TeleportRequest>(() => new TeleportRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<MoveResponse> Parser { get { return _parser; } }
+    public static pb::MessageParser<TeleportRequest> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -997,7 +738,7 @@ namespace Net.Tiletales.Network.Proto.Game {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public MoveResponse() {
+    public TeleportRequest() {
       OnConstruction();
     }
 
@@ -1005,18 +746,17 @@ namespace Net.Tiletales.Network.Proto.Game {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public MoveResponse(MoveResponse other) : this() {
+    public TeleportRequest(TeleportRequest other) : this() {
       x_ = other.x_;
       y_ = other.y_;
       z_ = other.z_;
-      status_ = other.status_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public MoveResponse Clone() {
-      return new MoveResponse(this);
+    public TeleportRequest Clone() {
+      return new TeleportRequest(this);
     }
 
     /// <summary>Field number for the "x" field.</summary>
@@ -1055,27 +795,15 @@ namespace Net.Tiletales.Network.Proto.Game {
       }
     }
 
-    /// <summary>Field number for the "status" field.</summary>
-    public const int StatusFieldNumber = 4;
-    private string status_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Status {
-      get { return status_; }
-      set {
-        status_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as MoveResponse);
+      return Equals(other as TeleportRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(MoveResponse other) {
+    public bool Equals(TeleportRequest other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1085,7 +813,6 @@ namespace Net.Tiletales.Network.Proto.Game {
       if (X != other.X) return false;
       if (Y != other.Y) return false;
       if (Z != other.Z) return false;
-      if (Status != other.Status) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1096,7 +823,6 @@ namespace Net.Tiletales.Network.Proto.Game {
       if (X != 0) hash ^= X.GetHashCode();
       if (Y != 0) hash ^= Y.GetHashCode();
       if (Z != 0) hash ^= Z.GetHashCode();
-      if (Status.Length != 0) hash ^= Status.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1127,10 +853,6 @@ namespace Net.Tiletales.Network.Proto.Game {
         output.WriteRawTag(24);
         output.WriteInt32(Z);
       }
-      if (Status.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(Status);
-      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1153,10 +875,6 @@ namespace Net.Tiletales.Network.Proto.Game {
         output.WriteRawTag(24);
         output.WriteInt32(Z);
       }
-      if (Status.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(Status);
-      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1176,9 +894,6 @@ namespace Net.Tiletales.Network.Proto.Game {
       if (Z != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Z);
       }
-      if (Status.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Status);
-      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1187,7 +902,7 @@ namespace Net.Tiletales.Network.Proto.Game {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(MoveResponse other) {
+    public void MergeFrom(TeleportRequest other) {
       if (other == null) {
         return;
       }
@@ -1199,9 +914,6 @@ namespace Net.Tiletales.Network.Proto.Game {
       }
       if (other.Z != 0) {
         Z = other.Z;
-      }
-      if (other.Status.Length != 0) {
-        Status = other.Status;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1228,10 +940,6 @@ namespace Net.Tiletales.Network.Proto.Game {
           }
           case 24: {
             Z = input.ReadInt32();
-            break;
-          }
-          case 34: {
-            Status = input.ReadString();
             break;
           }
         }
@@ -1261,8 +969,719 @@ namespace Net.Tiletales.Network.Proto.Game {
             Z = input.ReadInt32();
             break;
           }
-          case 34: {
-            Status = input.ReadString();
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class ObjectLocationUpdate : pb::IMessage<ObjectLocationUpdate>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ObjectLocationUpdate> _parser = new pb::MessageParser<ObjectLocationUpdate>(() => new ObjectLocationUpdate());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ObjectLocationUpdate> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectLocationUpdate() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectLocationUpdate(ObjectLocationUpdate other) : this() {
+      objectId_ = other.objectId_;
+      x_ = other.x_;
+      y_ = other.y_;
+      z_ = other.z_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectLocationUpdate Clone() {
+      return new ObjectLocationUpdate(this);
+    }
+
+    /// <summary>Field number for the "objectId" field.</summary>
+    public const int ObjectIdFieldNumber = 1;
+    private int objectId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int ObjectId {
+      get { return objectId_; }
+      set {
+        objectId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "x" field.</summary>
+    public const int XFieldNumber = 2;
+    private int x_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int X {
+      get { return x_; }
+      set {
+        x_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "y" field.</summary>
+    public const int YFieldNumber = 3;
+    private int y_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Y {
+      get { return y_; }
+      set {
+        y_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "z" field.</summary>
+    public const int ZFieldNumber = 4;
+    private int z_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Z {
+      get { return z_; }
+      set {
+        z_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ObjectLocationUpdate);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ObjectLocationUpdate other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ObjectId != other.ObjectId) return false;
+      if (X != other.X) return false;
+      if (Y != other.Y) return false;
+      if (Z != other.Z) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
+      if (X != 0) hash ^= X.GetHashCode();
+      if (Y != 0) hash ^= Y.GetHashCode();
+      if (Z != 0) hash ^= Z.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (ObjectId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ObjectId);
+      }
+      if (X != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(X);
+      }
+      if (Y != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Y);
+      }
+      if (Z != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Z);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (ObjectId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ObjectId);
+      }
+      if (X != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(X);
+      }
+      if (Y != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Y);
+      }
+      if (Z != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Z);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (ObjectId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ObjectId);
+      }
+      if (X != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(X);
+      }
+      if (Y != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Y);
+      }
+      if (Z != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Z);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ObjectLocationUpdate other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ObjectId != 0) {
+        ObjectId = other.ObjectId;
+      }
+      if (other.X != 0) {
+        X = other.X;
+      }
+      if (other.Y != 0) {
+        Y = other.Y;
+      }
+      if (other.Z != 0) {
+        Z = other.Z;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            ObjectId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            X = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            Y = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            Z = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            ObjectId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            X = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            Y = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            Z = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class ObjectDetailRequest : pb::IMessage<ObjectDetailRequest>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ObjectDetailRequest> _parser = new pb::MessageParser<ObjectDetailRequest>(() => new ObjectDetailRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ObjectDetailRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectDetailRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectDetailRequest(ObjectDetailRequest other) : this() {
+      objectId_ = other.objectId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectDetailRequest Clone() {
+      return new ObjectDetailRequest(this);
+    }
+
+    /// <summary>Field number for the "objectId" field.</summary>
+    public const int ObjectIdFieldNumber = 1;
+    private int objectId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int ObjectId {
+      get { return objectId_; }
+      set {
+        objectId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ObjectDetailRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ObjectDetailRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ObjectId != other.ObjectId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (ObjectId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ObjectId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (ObjectId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ObjectId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (ObjectId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ObjectId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ObjectDetailRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ObjectId != 0) {
+        ObjectId = other.ObjectId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            ObjectId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            ObjectId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class ObjectDetailResponse : pb::IMessage<ObjectDetailResponse>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ObjectDetailResponse> _parser = new pb::MessageParser<ObjectDetailResponse>(() => new ObjectDetailResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ObjectDetailResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectDetailResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectDetailResponse(ObjectDetailResponse other) : this() {
+      objectId_ = other.objectId_;
+      name_ = other.name_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectDetailResponse Clone() {
+      return new ObjectDetailResponse(this);
+    }
+
+    /// <summary>Field number for the "objectId" field.</summary>
+    public const int ObjectIdFieldNumber = 1;
+    private int objectId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int ObjectId {
+      get { return objectId_; }
+      set {
+        objectId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 2;
+    private string name_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ObjectDetailResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ObjectDetailResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ObjectId != other.ObjectId) return false;
+      if (Name != other.Name) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (ObjectId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ObjectId);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (ObjectId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ObjectId);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (ObjectId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ObjectId);
+      }
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ObjectDetailResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ObjectId != 0) {
+        ObjectId = other.ObjectId;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            ObjectId = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            ObjectId = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            Name = input.ReadString();
             break;
           }
         }
@@ -1286,7 +1705,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1512,7 +1931,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1701,7 +2120,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1927,7 +2346,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2116,7 +2535,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2453,7 +2872,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[9]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2827,7 +3246,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[10]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3201,7 +3620,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[11]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3379,7 +3798,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[12]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3568,7 +3987,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[13]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[15]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3794,7 +4213,7 @@ namespace Net.Tiletales.Network.Proto.Game {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[14]; }
+      get { return global::Net.Tiletales.Network.Proto.Game.GameeventsReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

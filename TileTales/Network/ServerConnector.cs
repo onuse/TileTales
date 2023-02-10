@@ -67,14 +67,14 @@ namespace TileTales.Network
         {
             _socketClient.SendMessage(message);
         }
-        public void SendMessage(IMessage message)
-        {
-            Any msg = Any.Pack(message);
-            _socketClient.SendMessage(msg);
-        }
         public void SendMessageBytes(byte[] messageBytes)
         {
             _socketClient.SendMessageBytes(messageBytes);
+        }
+        public void SendMessage(IMessage message)
+        {
+            Any msg = Any.Pack(message);
+            SendMessage(msg);
         }
 
         public bool isConnected()
