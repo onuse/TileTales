@@ -23,6 +23,7 @@ namespace TileTales.State
         protected EventBus eventBus;
         protected RequestFactory rf;
         protected Player Player;
+        protected ContentLibrary content;
 
         public BaseState(TileTalesGame game)
         {
@@ -33,6 +34,7 @@ namespace TileTales.State
             this.Player = game.GameWorld.player;
             this.eventBus = EventBus.Instance;
             this.rf = RequestFactory.Instance;
+            this.content = game.ContentLibrary;
         }
 
         // Called when this state becomes the current state

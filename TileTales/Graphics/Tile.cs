@@ -10,26 +10,27 @@ namespace TileTales.Graphics
 {
     internal class Tile : IEquatable<Tile>, IComparable<Tile>
     {
-        public Tile(int id)
+        public Tile(int replacementColor)
         {
-            Id = id;
+            ReplacementColor = replacementColor;
         }
-        public Tile(int id, SKBitmap image)
+        public Tile(int replacementColor, SKBitmap image)
         {
-            Id = id;
+            ReplacementColor = replacementColor;
             Image = image;
         }
-        public int Id { get; }
+        public int ReplacementColor { get; }
         public SKBitmap Image { get; set; }
+        public int LegacyColor { get; set; }
 
         public int CompareTo(Tile other)
         {
-            return Id.CompareTo(other.Id);
+            return ReplacementColor.CompareTo(other.ReplacementColor);
         }
 
         public bool Equals(Tile other)
         {
-            return Id == other.Id;
+            return ReplacementColor == other.ReplacementColor;
         }
 
         public override bool Equals(object obj)
@@ -42,7 +43,7 @@ namespace TileTales.Graphics
 
         public override int GetHashCode()
         {
-            return Id;
+            return ReplacementColor;
         }
     }
 }

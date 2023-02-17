@@ -16,23 +16,23 @@ namespace TileTales.Network
 
         }
 
-        public ZoneMapsRequest CreateZoneMapsRequest(int x, int y, int z, int zoomLevel)
+        public MapsRequest CreateZoneMapsRequest(int x, int y, int z, int zoomLevel)
         {
-            ZoneMapsRequest zoneMapsRequest = new ZoneMapsRequest
+            MapsRequest zoneMapsRequest = new MapsRequest
             {
                 CenterX = x,
                 CenterY = y,
                 Z = z,
-                Width = 32,
-                Height = 32,
+                Width = 3,
+                Height = 3,
                 ZoomLevel = zoomLevel
             };
             return zoneMapsRequest;
         }
 
-        public ZoneMapRequest createZoneMapRequest(int x, int y, int z, int zoomLevel)
+        public MapRequest createZoneMapRequest(int x, int y, int z, int zoomLevel)
         {
-            ZoneMapRequest zoneMapRequest = new ZoneMapRequest
+            MapRequest zoneMapRequest = new MapRequest
             {
                 X = x,
                 Y = y,
@@ -52,6 +52,15 @@ namespace TileTales.Network
                 DeltaZ = deltaZ
             };
             return moveRequest;
+        }
+
+        internal AllTilesRequest CreateAllTilesRequest()
+        {
+            AllTilesRequest request = new AllTilesRequest
+            {
+                MyVersion = 0
+            };
+            return request;
         }
     }
  }

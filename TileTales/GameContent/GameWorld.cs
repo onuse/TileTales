@@ -77,5 +77,10 @@ namespace TileTales.GameContent
             player.init(playerObjectInfo);
             return player;
         }
+
+        internal Player GetPlayer()
+        {
+            return player;
+        }
     }
 }

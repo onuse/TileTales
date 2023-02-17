@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Net.Tiletales.Network.Proto.App;
 using Net.Tiletales.Network.Proto.Game;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TileTales.GameContent;
+using TileTales.Graphics;
 using TileTales.Network;
 using TileTales.UI;
 using TileTales.Utils;
@@ -59,14 +61,35 @@ namespace TileTales.State
                 Login();
             };
 
+            /*eventBus.Subscribe(AccountLoginResponse.Descriptor.Name, (o) => {
+                AccountLoginResponse response = AccountLoginResponse.Parser.ParseFrom((o as Any).Value);
+                if (response.Success)
+                {
+                    AllTilesRequest allTilesRequest = rf.CreateAllTilesRequest();
+                    serverConnector.SendMessage(allTilesRequest);
+                }
+            });*/
+
             eventBus.Subscribe(PlayerObjectInfo.Descriptor.Name, (o) => {
                 PlayerObjectInfo response = PlayerObjectInfo.Parser.ParseFrom((o as Any).Value);
-                Player p = game.GameWorld.createPlayerObject(response);
-                ZoneMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0);
+                game.GameWorld.createPlayerObject(response);
+                AllTilesRequest allTilesRequest = rf.CreateAllTilesRequest();
+                System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(PlayerObjectInfo");
+                serverConnector.SendMessage(allTilesRequest);
+            });
+
+            eventBus.Subscribe(AllTilesResponse.Descriptor.Name, (o) => {
+                System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(AllTilesResponse");
+                AllTilesResponse response = AllTilesResponse.Parser.ParseFrom((o as Any).Value);
+                response.Tiles.ToList().ForEach(tile => AddTile(tile));
+                content.CreateWaterChunk();
+                Player p = game.GameWorld.GetPlayer();
+                MapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0);
                 serverConnector.SendMessage(zoneMapsRequest);
             });
 
             eventBus.Subscribe(ObjectLocationUpdate.Descriptor.Name, (o) => {
+                System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(ObjectLocationUpdate");
                 ObjectLocationUpdate response = ObjectLocationUpdate.Parser.ParseFrom((o as Any).Value);
                 if (response.ObjectId == Player.ObjectId)
                 {
@@ -76,25 +99,34 @@ namespace TileTales.State
                 }
             });
 
-            eventBus.Subscribe(ZoneMapResponse.Descriptor.Name, (o) => {
-                ZoneMapResponse response = ZoneMapResponse.Parser.ParseFrom((o as Any).Value);
+            eventBus.Subscribe(MapResponse.Descriptor.Name, (o) => {
+                MapResponse response = MapResponse.Parser.ParseFrom((o as Any).Value);
                 Task.Run(() => LoadMap(response));
             });
 
-            eventBus.Subscribe(ZoneMapsResponse.Descriptor.Name, (o) => {
-                ZoneMapsResponse response = ZoneMapsResponse.Parser.ParseFrom((o as Any).Value);
+            eventBus.Subscribe(MapsResponse.Descriptor.Name, (o) => {
+                System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(MapsResponse");
+                MapsResponse response = MapsResponse.Parser.ParseFrom((o as Any).Value);
                 // Start new thread to load maps
                 Task.Run(() => LoadMaps(response));
                 _hasLoadedWorld = true;
             });
         }
+        
+        private void AddTile(TileData tileData)
+        {
+            Tile tile = new Tile(tileData.ReplacementColor);
+            tile.LegacyColor = tileData.LegacyColor;
+            tile.Image = SKBitmap.Decode(tileData.Image.ToByteArray());
+            content.AddTile(tile);
+        }
 
-        private void LoadMaps(ZoneMapsResponse response)
+        private void LoadMaps(MapsResponse response)
         {
             response.Maps.ToList().ForEach(response => LoadMap(response));
         }
 
-        private void LoadMap(ZoneMapResponse response)
+        private void LoadMap(MapResponse response)
         {
             ByteString mapBytes = response.Map;
             String mapName = ContentLibrary.CreateMapName(response.X, response.Y, response.Z, response.ZoomLevel);

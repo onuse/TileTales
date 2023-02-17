@@ -1,6 +1,7 @@
 ﻿using Google.Protobuf;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Myra.Graphics2D.UI;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,9 @@ namespace TileTales.GameContent
         private readonly Dictionary<Location, Chunk> _chunks = new Dictionary<Location, Chunk> ();
         private readonly ChunkFactory _chunkFactory;
         //private readonly Dictionary<Point, WeakReference<Chunk>> _chunks = new Dictionary<Point, WeakReference<Chunk>>();
-        private Dictionary<string, SKBitmap> tiles;
-        private Dictionary<string, SKBitmap> sprites;
-        private Dictionary<string, SKBitmap> maps;
+        private Dictionary<string, SKBitmap> tiles = new Dictionary<string, SKBitmap>();
+        private Dictionary<string, SKBitmap> sprites = new Dictionary<string, SKBitmap>();
+        private Dictionary<string, SKBitmap> maps = new Dictionary<string, SKBitmap>();
 
         private GraphicsDevice _graphicsDevice;
         private SKBitmap waterMap;
@@ -45,13 +46,11 @@ namespace TileTales.GameContent
         }
         public void LoadPrepackagedContent()
         {
-            sprites = Utils.ContentReader.readTexturesInDirectory(_graphicsDevice, FOLDER_SPRITES);
-            tiles = Utils.ContentReader.readTilesInDirectory(_graphicsDevice, FOLDER_TILES);
-            maps = Utils.ContentReader.readTexturesInDirectory(_graphicsDevice, FOLDER_MAPS);
+            //sprites = Utils.ContentReader.readTexturesInDirectory(_graphicsDevice, FOLDER_SPRITES);
+            //tiles = Utils.ContentReader.readTilesInDirectory(_graphicsDevice, FOLDER_TILES);
+            //maps = Utils.ContentReader.readTexturesInDirectory(_graphicsDevice, FOLDER_MAPS);
 
-            waterMap = new SKBitmap(100, 100, true);
-            water = SKColor.Parse(Water);
-            waterChunk = createWaterChunk();
+            //waterChunk = createWaterChunk();
 
             //TODO temp, remove
             TileWidth = 16;
@@ -60,7 +59,7 @@ namespace TileTales.GameContent
             MapHeight = 100;
         }
 
-        private Chunk createWaterChunk()
+        public void CreateWaterChunk()
         {
             SKBitmap waterMap = new SKBitmap(100, 100, true);
             SKColor water = SKColor.Parse(Water);
@@ -71,7 +70,7 @@ namespace TileTales.GameContent
                     waterMap.SetPixel(x, y, water);
                 }
             }
-         return _chunkFactory.CreateChunkFromMap(waterMap);
+            waterChunk = _chunkFactory.CreateChunkFromMap(waterMap);
         }
 
         public SKBitmap GetSprite(string name)
@@ -97,9 +96,26 @@ namespace TileTales.GameContent
             return GetTile(string.Format("{0:X2}{1:X2}{2:X2}", r, g, b));
         }
 
+        internal void AddTile(Tile tile)
+        {
+            System.Diagnostics.Debug.WriteLine("AddTile tile.LegacyColor: " + tile.LegacyColor + " (#"+ tile.LegacyColor.ToString("X6") + "), image.width: " + tile.Image.Width);
+            // ToDo change LegacyColor to ReplacementColor
+            SetTile(tile.LegacyColor, tile.Image);
+            if (tile.LegacyColor == 255)
+            {
+                System.Diagnostics.Debug.WriteLine("Adding water");
+                tiles[Water] = tile.Image;
+            }
+        }
+
         public void SetTile(byte r, byte g, byte b, SKBitmap texture)
         {
             SetTile(string.Format("{0:X2}{1:X2}{2:X2}"), texture);
+        }
+
+        public void SetTile(int color, SKBitmap texture)
+        {
+            SetTile(color.ToString("X6"), texture);
         }
 
         public void SetTile(string colorRGB, SKBitmap texture)
@@ -125,6 +141,10 @@ namespace TileTales.GameContent
 
         public void AddMap(string name, ByteString data, Boolean saveToDisc, bool createChunk)
         {
+            if (data == null || data.Length == 0 || data == ByteString.Empty)
+            {
+                return;
+            }
             AddMap(name, Utils.ContentReader.textureFromByteString(data, _graphicsDevice), saveToDisc, createChunk);
         }
 
