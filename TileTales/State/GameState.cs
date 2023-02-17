@@ -74,12 +74,12 @@ namespace TileTales.State
                 PlayerObjectInfo response = PlayerObjectInfo.Parser.ParseFrom((o as Any).Value);
                 game.GameWorld.createPlayerObject(response);
                 AllTilesRequest allTilesRequest = rf.CreateAllTilesRequest();
-                System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(PlayerObjectInfo");
+               // System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(PlayerObjectInfo");
                 serverConnector.SendMessage(allTilesRequest);
             });
 
             eventBus.Subscribe(AllTilesResponse.Descriptor.Name, (o) => {
-                System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(AllTilesResponse");
+                //System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(AllTilesResponse");
                 AllTilesResponse response = AllTilesResponse.Parser.ParseFrom((o as Any).Value);
                 response.Tiles.ToList().ForEach(tile => AddTile(tile));
                 content.CreateWaterChunk();
@@ -89,7 +89,7 @@ namespace TileTales.State
             });
 
             eventBus.Subscribe(ObjectLocationUpdate.Descriptor.Name, (o) => {
-                System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(ObjectLocationUpdate");
+                //System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(ObjectLocationUpdate");
                 ObjectLocationUpdate response = ObjectLocationUpdate.Parser.ParseFrom((o as Any).Value);
                 if (response.ObjectId == Player.ObjectId)
                 {
@@ -105,7 +105,7 @@ namespace TileTales.State
             });
 
             eventBus.Subscribe(MapsResponse.Descriptor.Name, (o) => {
-                System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(MapsResponse");
+                //System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(MapsResponse");
                 MapsResponse response = MapsResponse.Parser.ParseFrom((o as Any).Value);
                 // Start new thread to load maps
                 Task.Run(() => LoadMaps(response));
@@ -117,6 +117,7 @@ namespace TileTales.State
         {
             Tile tile = new Tile(tileData.ReplacementColor);
             tile.LegacyColor = tileData.LegacyColor;
+            tile.Tags = tileData.Tags.ToList();
             tile.Image = SKBitmap.Decode(tileData.Image.ToByteArray());
             content.AddTile(tile);
         }

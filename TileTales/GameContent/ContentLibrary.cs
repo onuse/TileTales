@@ -98,14 +98,15 @@ namespace TileTales.GameContent
 
         internal void AddTile(Tile tile)
         {
-            System.Diagnostics.Debug.WriteLine("AddTile tile.LegacyColor: " + tile.LegacyColor + " (#"+ tile.LegacyColor.ToString("X6") + "), image.width: " + tile.Image.Width);
+            //System.Diagnostics.Debug.WriteLine("AddTile tile.LegacyColor: " + tile.LegacyColor + " (#"+ tile.LegacyColor.ToString("X6") + "), image.width: " + tile.Image.Width);
             // ToDo change LegacyColor to ReplacementColor
             SetTile(tile.LegacyColor, tile.Image);
-            if (tile.LegacyColor == 255)
+            /*System.Diagnostics.Debug.WriteLine("tile.Tags " + tile.Tags[0]);
+            if (tile.Tags.Contains("isOcean"))
             {
                 System.Diagnostics.Debug.WriteLine("Adding water");
                 tiles[Water] = tile.Image;
-            }
+            }*/
         }
 
         public void SetTile(byte r, byte g, byte b, SKBitmap texture)

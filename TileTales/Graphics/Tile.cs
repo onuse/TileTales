@@ -12,14 +12,15 @@ namespace TileTales.Graphics
     {
         public Tile(int replacementColor)
         {
+            Tags = new List<string>();
             ReplacementColor = replacementColor;
         }
-        public Tile(int replacementColor, SKBitmap image)
+        public Tile(int replacementColor, SKBitmap image) : this(replacementColor)
         {
-            ReplacementColor = replacementColor;
             Image = image;
         }
         public int ReplacementColor { get; }
+        public List<String> Tags { get; set; }
         public SKBitmap Image { get; set; }
         public int LegacyColor { get; set; }
 
