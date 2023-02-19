@@ -54,5 +54,10 @@ namespace TileTales.GameContent
             location.index.Y += y;
             location.layer += z;
         }
+
+        public override string ToString()
+        {
+            return $"Player: {X}, {Y}, {Z}";
+        }
     }
 }

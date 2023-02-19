@@ -1,14 +1,17 @@
 ﻿using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using Net.Tiletales.Network.Proto.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TileTales.Utils;
+using static Google.Protobuf.Reflection.FieldDescriptorProto.Types;
 
 namespace TileTales.Network
 {
@@ -23,7 +26,7 @@ namespace TileTales.Network
         {
             this._eventBus = EventBus.Instance;
             this._settingsReader = SettingsReader.Instance;
-            _eventBus.Subscribe("connect", (o) => {
+            _eventBus.Subscribe(EventType.Connect, (o) => {
                 thread = new Thread(connectToServer);
                 thread.Start();
             });
@@ -37,11 +40,11 @@ namespace TileTales.Network
             Exception e = _socketClient.Connect(IPAddress.Parse(set.ServerAdress), set.ServerPort);
             if (e != null)
             {
-                _eventBus.Publish("connectfailed", e.Message);
+                _eventBus.Publish(EventType.ConnectFailed, e.Message);
             }
             else
             {
-                _eventBus.Publish("connected", null);
+                _eventBus.Publish(EventType.Connected, null);
                 startReadingStream();
             }
         }
@@ -55,12 +58,22 @@ namespace TileTales.Network
         }
         public void MessageCallback(Any message)
         {
-            String typeUrl = message.TypeUrl;
             System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message RECIEVED: " + message);
-            System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message.TypeUrl: " + typeUrl);
+
+            /*String typeUrl = message.TypeUrl;
             String type = typeUrl.Substring(typeUrl.LastIndexOf(".") + 1);
-            System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message type: " + type);
-            _eventBus.Publish(type, message);
+
+            var typ = Assembly.GetExecutingAssembly().GetTypes().First(t => t.Name == type); //get the type using the string we got, here it is 'Person'
+            var descriptor = (MessageDescriptor)typ.GetProperty("Descriptor", BindingFlags.Public | BindingFlags.Static).GetValue(null, null); // get the static property Descriptor
+
+            var mess = (IMessage)message;
+            System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() descriptor.Name: " + descriptor.Name);
+            //var descriptor = (MessageDescriptor)mess.GetProperty("Descriptor", BindingFlags.Public | BindingFlags.Static).GetValue(null, null); // get the static property Descriptor
+            //String typeUrl = message.TypeUrl;
+            System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message.TypeUrl: " + typeUrl);
+            //String type = typeUrl.Substring(typeUrl.LastIndexOf(".") + 1);
+            System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message type: " + type);*/
+            _eventBus.Publish(message, message);
         }
 
         public void SendMessage(Any message)

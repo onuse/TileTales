@@ -18,7 +18,7 @@ namespace TileTales.Graphics
     {
         public Chunk(Texture2D texture, SKBitmap[] tiles, SKBitmap map, int width, int height, SKColor[] pixelData)
         {
-            Texture = texture;
+            Image = texture;
             Tiles = tiles;
             Map = map;
             Width = width;
@@ -26,7 +26,7 @@ namespace TileTales.Graphics
             PixelData = pixelData;
         }
 
-        public Texture2D Texture { get; }
+        public Texture2D Image { get; }
         public SKBitmap[] Tiles { get; }
         public SKBitmap Map { get; }
         public int Width { get; }

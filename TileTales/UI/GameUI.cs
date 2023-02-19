@@ -11,10 +11,20 @@ namespace TileTales.UI
     {
         private MultipleItemsContainerBase panel;
 
-        internal readonly TextButton paddedCenteredButton;
-        internal readonly TextButton fixedSizeButton;
+        internal TextButton paddedCenteredButton;
+        internal TextButton fixedSizeButton;
 
         public GameUI()
+        {
+
+        }
+
+        public Widget GetWidget()
+        {
+            return panel;
+        }
+
+        internal void Load()
         {
             panel = new Panel();
             var positionedText = new Label();
@@ -42,12 +52,6 @@ namespace TileTales.UI
             fixedSizeButton.Width = 110;
             fixedSizeButton.Height = 80;
             panel.Widgets.Add(fixedSizeButton);
-
-        }
-
-        public Widget GetWidget()
-        {
-            return panel;
         }
     }
 }

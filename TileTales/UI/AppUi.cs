@@ -31,7 +31,7 @@ namespace TileTales.UI
             // Initialize Myra UI
             MyraEnvironment.Game = _game;
         }
-        public void LoadContent()
+        public void LoadMainMenu()
         {
             _game.IsMouseVisible = true;
             _game.Window.AllowUserResizing = true;
@@ -47,18 +47,21 @@ namespace TileTales.UI
             };
 
             _uiContainer = new VerticalStackPanel();
-            StackPanel tabPanel = createTabPanel();
-            _uiContainer.Widgets.Add(tabPanel);
-            
-            _artistUI = new ArtistUI();
-            _gameUI = new GameUI();
+
             _mainMenu = new MainMenu();
             
-            EventBus.Instance.Subscribe("loadgame", (data) =>
+            EventBus.Instance.Subscribe(EventType.LoadGameUI, (data) =>
             {
+                _artistUI = new ArtistUI();
+                _gameUI = new GameUI();
+                StackPanel tabPanel = createTabPanel();
+                _uiContainer.Widgets.Add(tabPanel);
+                _artistUI.Load();
+                _gameUI.Load();
                 _desktop.Root = _uiContainer;
+                EventBus.Instance.Publish(EventType.GameUILoaded, null);
             });
-            EventBus.Instance.Subscribe("connectfailed", (data) =>
+            EventBus.Instance.Subscribe(EventType.ConnectFailed, (data) =>
             {
                 popConnectErrorUI((string)data);
             });

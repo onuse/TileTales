@@ -17,15 +17,12 @@ namespace TileTales.Utils
      * */
     internal class CoordinateTranslator
     {
-        public static void getMapIndexForTileIndex(int x, int y, ContentLibrary contentLibrary, out int mapX, out int mapY)
+        public static void getMapIndexForWorldLocation(float x, float y, ContentLibrary contentLibrary, out int mapX, out int mapY)
         {
-            int mapWidth = contentLibrary.MapWidth;
-            int mapHeight = contentLibrary.MapHeight;
-            int tileWidth = contentLibrary.TileWidth;
-            int tileHeight = contentLibrary.TileHeight;
-
-            mapX = x / (mapWidth * tileWidth);
-            mapY = y / (mapHeight * tileHeight);
+            float chunkWidth = contentLibrary.ChunkWidth;
+            float chunkHeight = contentLibrary.ChunkHeight;
+            mapX = (int)Math.Floor(x / chunkWidth);
+            mapY = (int)Math.Floor(y / chunkHeight);
         }
 
         public static Point getMapIndexForTileIndex(int x, int y, ContentLibrary contentLibrary)
@@ -76,7 +73,7 @@ namespace TileTales.Utils
 
         public static void getMapIndexForTileIndex(Location location, ContentLibrary contentLibrary, out int mapX, out int mapY)
         {
-            getMapIndexForTileIndex(location.X, location.Y, contentLibrary, out mapX, out mapY);
+            getMapIndexForWorldLocation(location.X, location.Y, contentLibrary, out mapX, out mapY);
         }
 
         public static void getTileIndexForMapIndex(Location location, ContentLibrary contentLibrary, out int tileX, out int tileY)

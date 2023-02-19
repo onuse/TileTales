@@ -41,7 +41,7 @@ namespace TileTales.GameContent
             //int chunkWidth = contentLibrary.ChunkWidth;
             //int chunkHeight = contentLibrary.ChunkHeight;
 
-            CoordinateTranslator.getMapIndexForTileIndex(player.X, player.Y, contentLibrary, out int PlayerMapX, out int PlayerMapY);
+            CoordinateTranslator.getMapIndexForWorldLocation(player.X, player.Y, contentLibrary, out int PlayerMapX, out int PlayerMapY);
             Chunk[] chunks = new Chunk[xAmount * yAmount];
             for (int y = 0; y < yAmount; y++)
             {
@@ -61,10 +61,10 @@ namespace TileTales.GameContent
             player.Move(x, y, 0);
         }
 
-        internal Point getChunksIndex(long playerX, long playerY)
+        internal Point getChunksIndex(int locationX, int locationY)
         {
-            CoordinateTranslator.getMapIndexForTileIndex(player.X, player.Y, contentLibrary, out int PlayerMapX, out int PlayerMapY);
-            return new Point(PlayerMapX, PlayerMapY);
+            CoordinateTranslator.getMapIndexForWorldLocation(locationX, locationY, contentLibrary, out int mapIndexX, out int mapIndexY);
+            return new Point(mapIndexX, mapIndexY);
         }
         
         internal static bool isSeen(int drawChunkX, int drawChunkY, int destWidth, int destHeight, int viewPortWidth, int viewPortHeight, int v1, int v2)
@@ -81,6 +81,11 @@ namespace TileTales.GameContent
         internal Player GetPlayer()
         {
             return player;
+        }
+
+        internal Chunk GetChunk(int chunkX, int chunkY)
+        {
+            return contentLibrary.GetChunk(chunkX, chunkY, player.Z);
         }
     }
 }

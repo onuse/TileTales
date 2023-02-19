@@ -27,26 +27,26 @@ namespace Net.Tiletales.Network.Proto.App {
             "Cg9hcHBldmVudHMucHJvdG8SH25ldC50aWxldGFsZXMubmV0d29yay5wcm90",
             "by5hcHAiOQoTQWNjb3VudExvZ2luUmVxdWVzdBIQCgh1c2VybmFtZRgBIAEo",
             "CRIQCghwYXNzd29yZBgCIAEoCSI4ChRBY2NvdW50TG9naW5SZXNwb25zZRIP",
-            "CgdzdWNjZXNzGAEgASgIEg8KB21lc3NhZ2UYAiABKAkiPAoWQWNjb3VudFJl",
-            "Z2lzdGVyUmVxdWVzdBIQCgh1c2VybmFtZRgBIAEoCRIQCghwYXNzd29yZBgC",
-            "IAEoCSI7ChdBY2NvdW50UmVnaXN0ZXJSZXNwb25zZRIPCgdzdWNjZXNzGAEg",
-            "ASgIEg8KB21lc3NhZ2UYAiABKAkiKAoUQWNjb3VudExvZ291dFJlcXVlc3QS",
-            "EAoIdXNlcm5hbWUYASABKAkiOQoVQWNjb3VudExvZ291dFJlc3BvbnNlEg8K",
-            "B3N1Y2Nlc3MYASABKAgSDwoHbWVzc2FnZRgCIAEoCSI6ChRBY2NvdW50RGVs",
-            "ZXRlUmVxdWVzdBIQCgh1c2VybmFtZRgBIAEoCRIQCghwYXNzd29yZBgCIAEo",
-            "CSI5ChVBY2NvdW50RGVsZXRlUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCBIP",
-            "CgdtZXNzYWdlGAIgASgJYgZwcm90bzM="));
+            "CgdzdWNjZXNzGAEgASgIEg8KB21lc3NhZ2UYAiABKAkiEgoQUmVhbG1MaXN0",
+            "UmVxdWVzdCJHCglSZWFsbUxpc3QSOgoGcmVhbG1zGAEgAygLMioubmV0LnRp",
+            "bGV0YWxlcy5uZXR3b3JrLnByb3RvLmFwcC5SZWFsbUluZm8iJAoQUmVhbG1J",
+            "bmZvUmVxdWVzdBIQCghyZWFsbV9pZBgBIAEoCSLXAQoJUmVhbG1JbmZvEgoK",
+            "AmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkS",
+            "DgoGYXV0aG9yGAQgASgJEhUKDW1vcmVfaW5mb191cmwYBSABKAkSEAoIaWNv",
+            "bl91cmwYBiABKAkSFAoMcGxheWVyX2NvdW50GAcgASgFEhMKC21heF9wbGF5",
+            "ZXJzGAggASgFEhIKCndvcmxkX3NpemUYCSABKAUSEQoJdGlsZV9zaXplGAog",
+            "ASgFEhAKCG1hcF9zaXplGAsgASgFIiYKElNlbGVjdFJlYWxtUmVxdWVzdBIQ",
+            "CghyZWFsbV9pZBgBIAEoCWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.AccountLoginRequest), global::Net.Tiletales.Network.Proto.App.AccountLoginRequest.Parser, new[]{ "Username", "Password" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.AccountLoginResponse), global::Net.Tiletales.Network.Proto.App.AccountLoginResponse.Parser, new[]{ "Success", "Message" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.AccountRegisterRequest), global::Net.Tiletales.Network.Proto.App.AccountRegisterRequest.Parser, new[]{ "Username", "Password" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.AccountRegisterResponse), global::Net.Tiletales.Network.Proto.App.AccountRegisterResponse.Parser, new[]{ "Success", "Message" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.AccountLogoutRequest), global::Net.Tiletales.Network.Proto.App.AccountLogoutRequest.Parser, new[]{ "Username" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.AccountLogoutResponse), global::Net.Tiletales.Network.Proto.App.AccountLogoutResponse.Parser, new[]{ "Success", "Message" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.AccountDeleteRequest), global::Net.Tiletales.Network.Proto.App.AccountDeleteRequest.Parser, new[]{ "Username", "Password" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.AccountDeleteResponse), global::Net.Tiletales.Network.Proto.App.AccountDeleteResponse.Parser, new[]{ "Success", "Message" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.RealmListRequest), global::Net.Tiletales.Network.Proto.App.RealmListRequest.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.RealmList), global::Net.Tiletales.Network.Proto.App.RealmList.Parser, new[]{ "Realms" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.RealmInfoRequest), global::Net.Tiletales.Network.Proto.App.RealmInfoRequest.Parser, new[]{ "RealmId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.RealmInfo), global::Net.Tiletales.Network.Proto.App.RealmInfo.Parser, new[]{ "Id", "Name", "Description", "Author", "MoreInfoUrl", "IconUrl", "PlayerCount", "MaxPlayers", "WorldSize", "TileSize", "MapSize" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.App.SelectRealmRequest), global::Net.Tiletales.Network.Proto.App.SelectRealmRequest.Parser, new[]{ "RealmId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -505,16 +505,16 @@ namespace Net.Tiletales.Network.Proto.App {
 
   }
 
-  public sealed partial class AccountRegisterRequest : pb::IMessage<AccountRegisterRequest>
+  public sealed partial class RealmListRequest : pb::IMessage<RealmListRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<AccountRegisterRequest> _parser = new pb::MessageParser<AccountRegisterRequest>(() => new AccountRegisterRequest());
+    private static readonly pb::MessageParser<RealmListRequest> _parser = new pb::MessageParser<RealmListRequest>(() => new RealmListRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<AccountRegisterRequest> Parser { get { return _parser; } }
+    public static pb::MessageParser<RealmListRequest> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -530,7 +530,7 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountRegisterRequest() {
+    public RealmListRequest() {
       OnConstruction();
     }
 
@@ -538,59 +538,31 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountRegisterRequest(AccountRegisterRequest other) : this() {
-      username_ = other.username_;
-      password_ = other.password_;
+    public RealmListRequest(RealmListRequest other) : this() {
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountRegisterRequest Clone() {
-      return new AccountRegisterRequest(this);
-    }
-
-    /// <summary>Field number for the "username" field.</summary>
-    public const int UsernameFieldNumber = 1;
-    private string username_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Username {
-      get { return username_; }
-      set {
-        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "password" field.</summary>
-    public const int PasswordFieldNumber = 2;
-    private string password_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Password {
-      get { return password_; }
-      set {
-        password_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
+    public RealmListRequest Clone() {
+      return new RealmListRequest(this);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as AccountRegisterRequest);
+      return Equals(other as RealmListRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(AccountRegisterRequest other) {
+    public bool Equals(RealmListRequest other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Username != other.Username) return false;
-      if (Password != other.Password) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -598,8 +570,6 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Username.Length != 0) hash ^= Username.GetHashCode();
-      if (Password.Length != 0) hash ^= Password.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -618,14 +588,6 @@ namespace Net.Tiletales.Network.Proto.App {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Username.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Username);
-      }
-      if (Password.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Password);
-      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -636,14 +598,6 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Username.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Username);
-      }
-      if (Password.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Password);
-      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -654,12 +608,6 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Username.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
-      }
-      if (Password.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Password);
-      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -668,15 +616,9 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(AccountRegisterRequest other) {
+    public void MergeFrom(RealmListRequest other) {
       if (other == null) {
         return;
-      }
-      if (other.Username.Length != 0) {
-        Username = other.Username;
-      }
-      if (other.Password.Length != 0) {
-        Password = other.Password;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -693,14 +635,6 @@ namespace Net.Tiletales.Network.Proto.App {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
-            Username = input.ReadString();
-            break;
-          }
-          case 18: {
-            Password = input.ReadString();
-            break;
-          }
         }
       }
     #endif
@@ -716,14 +650,6 @@ namespace Net.Tiletales.Network.Proto.App {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10: {
-            Username = input.ReadString();
-            break;
-          }
-          case 18: {
-            Password = input.ReadString();
-            break;
-          }
         }
       }
     }
@@ -731,16 +657,16 @@ namespace Net.Tiletales.Network.Proto.App {
 
   }
 
-  public sealed partial class AccountRegisterResponse : pb::IMessage<AccountRegisterResponse>
+  public sealed partial class RealmList : pb::IMessage<RealmList>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<AccountRegisterResponse> _parser = new pb::MessageParser<AccountRegisterResponse>(() => new AccountRegisterResponse());
+    private static readonly pb::MessageParser<RealmList> _parser = new pb::MessageParser<RealmList>(() => new RealmList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<AccountRegisterResponse> Parser { get { return _parser; } }
+    public static pb::MessageParser<RealmList> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -756,7 +682,7 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountRegisterResponse() {
+    public RealmList() {
       OnConstruction();
     }
 
@@ -764,59 +690,44 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountRegisterResponse(AccountRegisterResponse other) : this() {
-      success_ = other.success_;
-      message_ = other.message_;
+    public RealmList(RealmList other) : this() {
+      realms_ = other.realms_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountRegisterResponse Clone() {
-      return new AccountRegisterResponse(this);
+    public RealmList Clone() {
+      return new RealmList(this);
     }
 
-    /// <summary>Field number for the "success" field.</summary>
-    public const int SuccessFieldNumber = 1;
-    private bool success_;
+    /// <summary>Field number for the "realms" field.</summary>
+    public const int RealmsFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::Net.Tiletales.Network.Proto.App.RealmInfo> _repeated_realms_codec
+        = pb::FieldCodec.ForMessage(10, global::Net.Tiletales.Network.Proto.App.RealmInfo.Parser);
+    private readonly pbc::RepeatedField<global::Net.Tiletales.Network.Proto.App.RealmInfo> realms_ = new pbc::RepeatedField<global::Net.Tiletales.Network.Proto.App.RealmInfo>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Success {
-      get { return success_; }
-      set {
-        success_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "message" field.</summary>
-    public const int MessageFieldNumber = 2;
-    private string message_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Message {
-      get { return message_; }
-      set {
-        message_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
+    public pbc::RepeatedField<global::Net.Tiletales.Network.Proto.App.RealmInfo> Realms {
+      get { return realms_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as AccountRegisterResponse);
+      return Equals(other as RealmList);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(AccountRegisterResponse other) {
+    public bool Equals(RealmList other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Success != other.Success) return false;
-      if (Message != other.Message) return false;
+      if(!realms_.Equals(other.realms_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -824,8 +735,7 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Success != false) hash ^= Success.GetHashCode();
-      if (Message.Length != 0) hash ^= Message.GetHashCode();
+      hash ^= realms_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -844,14 +754,7 @@ namespace Net.Tiletales.Network.Proto.App {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (Message.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Message);
-      }
+      realms_.WriteTo(output, _repeated_realms_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -862,14 +765,7 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (Message.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Message);
-      }
+      realms_.WriteTo(ref output, _repeated_realms_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -880,12 +776,7 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Success != false) {
-        size += 1 + 1;
-      }
-      if (Message.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Message);
-      }
+      size += realms_.CalculateSize(_repeated_realms_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -894,16 +785,11 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(AccountRegisterResponse other) {
+    public void MergeFrom(RealmList other) {
       if (other == null) {
         return;
       }
-      if (other.Success != false) {
-        Success = other.Success;
-      }
-      if (other.Message.Length != 0) {
-        Message = other.Message;
-      }
+      realms_.Add(other.realms_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -919,12 +805,8 @@ namespace Net.Tiletales.Network.Proto.App {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-          case 18: {
-            Message = input.ReadString();
+          case 10: {
+            realms_.AddEntriesFrom(input, _repeated_realms_codec);
             break;
           }
         }
@@ -942,12 +824,8 @@ namespace Net.Tiletales.Network.Proto.App {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-          case 18: {
-            Message = input.ReadString();
+          case 10: {
+            realms_.AddEntriesFrom(ref input, _repeated_realms_codec);
             break;
           }
         }
@@ -957,16 +835,16 @@ namespace Net.Tiletales.Network.Proto.App {
 
   }
 
-  public sealed partial class AccountLogoutRequest : pb::IMessage<AccountLogoutRequest>
+  public sealed partial class RealmInfoRequest : pb::IMessage<RealmInfoRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<AccountLogoutRequest> _parser = new pb::MessageParser<AccountLogoutRequest>(() => new AccountLogoutRequest());
+    private static readonly pb::MessageParser<RealmInfoRequest> _parser = new pb::MessageParser<RealmInfoRequest>(() => new RealmInfoRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<AccountLogoutRequest> Parser { get { return _parser; } }
+    public static pb::MessageParser<RealmInfoRequest> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -982,7 +860,7 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountLogoutRequest() {
+    public RealmInfoRequest() {
       OnConstruction();
     }
 
@@ -990,45 +868,45 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountLogoutRequest(AccountLogoutRequest other) : this() {
-      username_ = other.username_;
+    public RealmInfoRequest(RealmInfoRequest other) : this() {
+      realmId_ = other.realmId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountLogoutRequest Clone() {
-      return new AccountLogoutRequest(this);
+    public RealmInfoRequest Clone() {
+      return new RealmInfoRequest(this);
     }
 
-    /// <summary>Field number for the "username" field.</summary>
-    public const int UsernameFieldNumber = 1;
-    private string username_ = "";
+    /// <summary>Field number for the "realm_id" field.</summary>
+    public const int RealmIdFieldNumber = 1;
+    private string realmId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Username {
-      get { return username_; }
+    public string RealmId {
+      get { return realmId_; }
       set {
-        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        realmId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as AccountLogoutRequest);
+      return Equals(other as RealmInfoRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(AccountLogoutRequest other) {
+    public bool Equals(RealmInfoRequest other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Username != other.Username) return false;
+      if (RealmId != other.RealmId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1036,7 +914,7 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Username.Length != 0) hash ^= Username.GetHashCode();
+      if (RealmId.Length != 0) hash ^= RealmId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1055,9 +933,9 @@ namespace Net.Tiletales.Network.Proto.App {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Username.Length != 0) {
+      if (RealmId.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(Username);
+        output.WriteString(RealmId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1069,9 +947,9 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Username.Length != 0) {
+      if (RealmId.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(Username);
+        output.WriteString(RealmId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1083,8 +961,8 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Username.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
+      if (RealmId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RealmId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1094,12 +972,12 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(AccountLogoutRequest other) {
+    public void MergeFrom(RealmInfoRequest other) {
       if (other == null) {
         return;
       }
-      if (other.Username.Length != 0) {
-        Username = other.Username;
+      if (other.RealmId.Length != 0) {
+        RealmId = other.RealmId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1117,7 +995,7 @@ namespace Net.Tiletales.Network.Proto.App {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            Username = input.ReadString();
+            RealmId = input.ReadString();
             break;
           }
         }
@@ -1136,7 +1014,7 @@ namespace Net.Tiletales.Network.Proto.App {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            Username = input.ReadString();
+            RealmId = input.ReadString();
             break;
           }
         }
@@ -1146,16 +1024,16 @@ namespace Net.Tiletales.Network.Proto.App {
 
   }
 
-  public sealed partial class AccountLogoutResponse : pb::IMessage<AccountLogoutResponse>
+  public sealed partial class RealmInfo : pb::IMessage<RealmInfo>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<AccountLogoutResponse> _parser = new pb::MessageParser<AccountLogoutResponse>(() => new AccountLogoutResponse());
+    private static readonly pb::MessageParser<RealmInfo> _parser = new pb::MessageParser<RealmInfo>(() => new RealmInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<AccountLogoutResponse> Parser { get { return _parser; } }
+    public static pb::MessageParser<RealmInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1171,7 +1049,7 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountLogoutResponse() {
+    public RealmInfo() {
       OnConstruction();
     }
 
@@ -1179,59 +1057,185 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountLogoutResponse(AccountLogoutResponse other) : this() {
-      success_ = other.success_;
-      message_ = other.message_;
+    public RealmInfo(RealmInfo other) : this() {
+      id_ = other.id_;
+      name_ = other.name_;
+      description_ = other.description_;
+      author_ = other.author_;
+      moreInfoUrl_ = other.moreInfoUrl_;
+      iconUrl_ = other.iconUrl_;
+      playerCount_ = other.playerCount_;
+      maxPlayers_ = other.maxPlayers_;
+      worldSize_ = other.worldSize_;
+      tileSize_ = other.tileSize_;
+      mapSize_ = other.mapSize_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountLogoutResponse Clone() {
-      return new AccountLogoutResponse(this);
+    public RealmInfo Clone() {
+      return new RealmInfo(this);
     }
 
-    /// <summary>Field number for the "success" field.</summary>
-    public const int SuccessFieldNumber = 1;
-    private bool success_;
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private string id_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Success {
-      get { return success_; }
+    public string Id {
+      get { return id_; }
       set {
-        success_ = value;
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "message" field.</summary>
-    public const int MessageFieldNumber = 2;
-    private string message_ = "";
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 2;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Message {
-      get { return message_; }
+    public string Name {
+      get { return name_; }
       set {
-        message_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "description" field.</summary>
+    public const int DescriptionFieldNumber = 3;
+    private string description_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Description {
+      get { return description_; }
+      set {
+        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "author" field.</summary>
+    public const int AuthorFieldNumber = 4;
+    private string author_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Author {
+      get { return author_; }
+      set {
+        author_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "more_info_url" field.</summary>
+    public const int MoreInfoUrlFieldNumber = 5;
+    private string moreInfoUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string MoreInfoUrl {
+      get { return moreInfoUrl_; }
+      set {
+        moreInfoUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "icon_url" field.</summary>
+    public const int IconUrlFieldNumber = 6;
+    private string iconUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string IconUrl {
+      get { return iconUrl_; }
+      set {
+        iconUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "player_count" field.</summary>
+    public const int PlayerCountFieldNumber = 7;
+    private int playerCount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int PlayerCount {
+      get { return playerCount_; }
+      set {
+        playerCount_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_players" field.</summary>
+    public const int MaxPlayersFieldNumber = 8;
+    private int maxPlayers_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int MaxPlayers {
+      get { return maxPlayers_; }
+      set {
+        maxPlayers_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "world_size" field.</summary>
+    public const int WorldSizeFieldNumber = 9;
+    private int worldSize_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int WorldSize {
+      get { return worldSize_; }
+      set {
+        worldSize_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "tile_size" field.</summary>
+    public const int TileSizeFieldNumber = 10;
+    private int tileSize_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int TileSize {
+      get { return tileSize_; }
+      set {
+        tileSize_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "map_size" field.</summary>
+    public const int MapSizeFieldNumber = 11;
+    private int mapSize_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int MapSize {
+      get { return mapSize_; }
+      set {
+        mapSize_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as AccountLogoutResponse);
+      return Equals(other as RealmInfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(AccountLogoutResponse other) {
+    public bool Equals(RealmInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Success != other.Success) return false;
-      if (Message != other.Message) return false;
+      if (Id != other.Id) return false;
+      if (Name != other.Name) return false;
+      if (Description != other.Description) return false;
+      if (Author != other.Author) return false;
+      if (MoreInfoUrl != other.MoreInfoUrl) return false;
+      if (IconUrl != other.IconUrl) return false;
+      if (PlayerCount != other.PlayerCount) return false;
+      if (MaxPlayers != other.MaxPlayers) return false;
+      if (WorldSize != other.WorldSize) return false;
+      if (TileSize != other.TileSize) return false;
+      if (MapSize != other.MapSize) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1239,8 +1243,17 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Success != false) hash ^= Success.GetHashCode();
-      if (Message.Length != 0) hash ^= Message.GetHashCode();
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Description.Length != 0) hash ^= Description.GetHashCode();
+      if (Author.Length != 0) hash ^= Author.GetHashCode();
+      if (MoreInfoUrl.Length != 0) hash ^= MoreInfoUrl.GetHashCode();
+      if (IconUrl.Length != 0) hash ^= IconUrl.GetHashCode();
+      if (PlayerCount != 0) hash ^= PlayerCount.GetHashCode();
+      if (MaxPlayers != 0) hash ^= MaxPlayers.GetHashCode();
+      if (WorldSize != 0) hash ^= WorldSize.GetHashCode();
+      if (TileSize != 0) hash ^= TileSize.GetHashCode();
+      if (MapSize != 0) hash ^= MapSize.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1259,13 +1272,49 @@ namespace Net.Tiletales.Network.Proto.App {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
       }
-      if (Message.Length != 0) {
+      if (Name.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(Message);
+        output.WriteString(Name);
+      }
+      if (Description.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Description);
+      }
+      if (Author.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Author);
+      }
+      if (MoreInfoUrl.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(MoreInfoUrl);
+      }
+      if (IconUrl.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(IconUrl);
+      }
+      if (PlayerCount != 0) {
+        output.WriteRawTag(56);
+        output.WriteInt32(PlayerCount);
+      }
+      if (MaxPlayers != 0) {
+        output.WriteRawTag(64);
+        output.WriteInt32(MaxPlayers);
+      }
+      if (WorldSize != 0) {
+        output.WriteRawTag(72);
+        output.WriteInt32(WorldSize);
+      }
+      if (TileSize != 0) {
+        output.WriteRawTag(80);
+        output.WriteInt32(TileSize);
+      }
+      if (MapSize != 0) {
+        output.WriteRawTag(88);
+        output.WriteInt32(MapSize);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1277,13 +1326,49 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
       }
-      if (Message.Length != 0) {
+      if (Name.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(Message);
+        output.WriteString(Name);
+      }
+      if (Description.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Description);
+      }
+      if (Author.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Author);
+      }
+      if (MoreInfoUrl.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(MoreInfoUrl);
+      }
+      if (IconUrl.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(IconUrl);
+      }
+      if (PlayerCount != 0) {
+        output.WriteRawTag(56);
+        output.WriteInt32(PlayerCount);
+      }
+      if (MaxPlayers != 0) {
+        output.WriteRawTag(64);
+        output.WriteInt32(MaxPlayers);
+      }
+      if (WorldSize != 0) {
+        output.WriteRawTag(72);
+        output.WriteInt32(WorldSize);
+      }
+      if (TileSize != 0) {
+        output.WriteRawTag(80);
+        output.WriteInt32(TileSize);
+      }
+      if (MapSize != 0) {
+        output.WriteRawTag(88);
+        output.WriteInt32(MapSize);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1295,11 +1380,38 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Success != false) {
-        size += 1 + 1;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
       }
-      if (Message.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Message);
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (Description.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+      }
+      if (Author.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Author);
+      }
+      if (MoreInfoUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(MoreInfoUrl);
+      }
+      if (IconUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(IconUrl);
+      }
+      if (PlayerCount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PlayerCount);
+      }
+      if (MaxPlayers != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxPlayers);
+      }
+      if (WorldSize != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(WorldSize);
+      }
+      if (TileSize != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TileSize);
+      }
+      if (MapSize != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MapSize);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1309,15 +1421,42 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(AccountLogoutResponse other) {
+    public void MergeFrom(RealmInfo other) {
       if (other == null) {
         return;
       }
-      if (other.Success != false) {
-        Success = other.Success;
+      if (other.Id.Length != 0) {
+        Id = other.Id;
       }
-      if (other.Message.Length != 0) {
-        Message = other.Message;
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.Description.Length != 0) {
+        Description = other.Description;
+      }
+      if (other.Author.Length != 0) {
+        Author = other.Author;
+      }
+      if (other.MoreInfoUrl.Length != 0) {
+        MoreInfoUrl = other.MoreInfoUrl;
+      }
+      if (other.IconUrl.Length != 0) {
+        IconUrl = other.IconUrl;
+      }
+      if (other.PlayerCount != 0) {
+        PlayerCount = other.PlayerCount;
+      }
+      if (other.MaxPlayers != 0) {
+        MaxPlayers = other.MaxPlayers;
+      }
+      if (other.WorldSize != 0) {
+        WorldSize = other.WorldSize;
+      }
+      if (other.TileSize != 0) {
+        TileSize = other.TileSize;
+      }
+      if (other.MapSize != 0) {
+        MapSize = other.MapSize;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1334,12 +1473,48 @@ namespace Net.Tiletales.Network.Proto.App {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            Success = input.ReadBool();
+          case 10: {
+            Id = input.ReadString();
             break;
           }
           case 18: {
-            Message = input.ReadString();
+            Name = input.ReadString();
+            break;
+          }
+          case 26: {
+            Description = input.ReadString();
+            break;
+          }
+          case 34: {
+            Author = input.ReadString();
+            break;
+          }
+          case 42: {
+            MoreInfoUrl = input.ReadString();
+            break;
+          }
+          case 50: {
+            IconUrl = input.ReadString();
+            break;
+          }
+          case 56: {
+            PlayerCount = input.ReadInt32();
+            break;
+          }
+          case 64: {
+            MaxPlayers = input.ReadInt32();
+            break;
+          }
+          case 72: {
+            WorldSize = input.ReadInt32();
+            break;
+          }
+          case 80: {
+            TileSize = input.ReadInt32();
+            break;
+          }
+          case 88: {
+            MapSize = input.ReadInt32();
             break;
           }
         }
@@ -1357,12 +1532,48 @@ namespace Net.Tiletales.Network.Proto.App {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 8: {
-            Success = input.ReadBool();
+          case 10: {
+            Id = input.ReadString();
             break;
           }
           case 18: {
-            Message = input.ReadString();
+            Name = input.ReadString();
+            break;
+          }
+          case 26: {
+            Description = input.ReadString();
+            break;
+          }
+          case 34: {
+            Author = input.ReadString();
+            break;
+          }
+          case 42: {
+            MoreInfoUrl = input.ReadString();
+            break;
+          }
+          case 50: {
+            IconUrl = input.ReadString();
+            break;
+          }
+          case 56: {
+            PlayerCount = input.ReadInt32();
+            break;
+          }
+          case 64: {
+            MaxPlayers = input.ReadInt32();
+            break;
+          }
+          case 72: {
+            WorldSize = input.ReadInt32();
+            break;
+          }
+          case 80: {
+            TileSize = input.ReadInt32();
+            break;
+          }
+          case 88: {
+            MapSize = input.ReadInt32();
             break;
           }
         }
@@ -1372,16 +1583,16 @@ namespace Net.Tiletales.Network.Proto.App {
 
   }
 
-  public sealed partial class AccountDeleteRequest : pb::IMessage<AccountDeleteRequest>
+  public sealed partial class SelectRealmRequest : pb::IMessage<SelectRealmRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<AccountDeleteRequest> _parser = new pb::MessageParser<AccountDeleteRequest>(() => new AccountDeleteRequest());
+    private static readonly pb::MessageParser<SelectRealmRequest> _parser = new pb::MessageParser<SelectRealmRequest>(() => new SelectRealmRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<AccountDeleteRequest> Parser { get { return _parser; } }
+    public static pb::MessageParser<SelectRealmRequest> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1397,7 +1608,7 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountDeleteRequest() {
+    public SelectRealmRequest() {
       OnConstruction();
     }
 
@@ -1405,59 +1616,45 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountDeleteRequest(AccountDeleteRequest other) : this() {
-      username_ = other.username_;
-      password_ = other.password_;
+    public SelectRealmRequest(SelectRealmRequest other) : this() {
+      realmId_ = other.realmId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountDeleteRequest Clone() {
-      return new AccountDeleteRequest(this);
+    public SelectRealmRequest Clone() {
+      return new SelectRealmRequest(this);
     }
 
-    /// <summary>Field number for the "username" field.</summary>
-    public const int UsernameFieldNumber = 1;
-    private string username_ = "";
+    /// <summary>Field number for the "realm_id" field.</summary>
+    public const int RealmIdFieldNumber = 1;
+    private string realmId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Username {
-      get { return username_; }
+    public string RealmId {
+      get { return realmId_; }
       set {
-        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "password" field.</summary>
-    public const int PasswordFieldNumber = 2;
-    private string password_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Password {
-      get { return password_; }
-      set {
-        password_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        realmId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as AccountDeleteRequest);
+      return Equals(other as SelectRealmRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(AccountDeleteRequest other) {
+    public bool Equals(SelectRealmRequest other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Username != other.Username) return false;
-      if (Password != other.Password) return false;
+      if (RealmId != other.RealmId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1465,8 +1662,7 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Username.Length != 0) hash ^= Username.GetHashCode();
-      if (Password.Length != 0) hash ^= Password.GetHashCode();
+      if (RealmId.Length != 0) hash ^= RealmId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1485,13 +1681,9 @@ namespace Net.Tiletales.Network.Proto.App {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Username.Length != 0) {
+      if (RealmId.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(Username);
-      }
-      if (Password.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Password);
+        output.WriteString(RealmId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1503,13 +1695,9 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Username.Length != 0) {
+      if (RealmId.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(Username);
-      }
-      if (Password.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Password);
+        output.WriteString(RealmId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1521,11 +1709,8 @@ namespace Net.Tiletales.Network.Proto.App {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Username.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
-      }
-      if (Password.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Password);
+      if (RealmId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RealmId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1535,15 +1720,12 @@ namespace Net.Tiletales.Network.Proto.App {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(AccountDeleteRequest other) {
+    public void MergeFrom(SelectRealmRequest other) {
       if (other == null) {
         return;
       }
-      if (other.Username.Length != 0) {
-        Username = other.Username;
-      }
-      if (other.Password.Length != 0) {
-        Password = other.Password;
+      if (other.RealmId.Length != 0) {
+        RealmId = other.RealmId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1561,11 +1743,7 @@ namespace Net.Tiletales.Network.Proto.App {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            Username = input.ReadString();
-            break;
-          }
-          case 18: {
-            Password = input.ReadString();
+            RealmId = input.ReadString();
             break;
           }
         }
@@ -1584,237 +1762,7 @@ namespace Net.Tiletales.Network.Proto.App {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            Username = input.ReadString();
-            break;
-          }
-          case 18: {
-            Password = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class AccountDeleteResponse : pb::IMessage<AccountDeleteResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<AccountDeleteResponse> _parser = new pb::MessageParser<AccountDeleteResponse>(() => new AccountDeleteResponse());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<AccountDeleteResponse> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Net.Tiletales.Network.Proto.App.AppeventsReflection.Descriptor.MessageTypes[7]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountDeleteResponse() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountDeleteResponse(AccountDeleteResponse other) : this() {
-      success_ = other.success_;
-      message_ = other.message_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public AccountDeleteResponse Clone() {
-      return new AccountDeleteResponse(this);
-    }
-
-    /// <summary>Field number for the "success" field.</summary>
-    public const int SuccessFieldNumber = 1;
-    private bool success_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Success {
-      get { return success_; }
-      set {
-        success_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "message" field.</summary>
-    public const int MessageFieldNumber = 2;
-    private string message_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Message {
-      get { return message_; }
-      set {
-        message_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as AccountDeleteResponse);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(AccountDeleteResponse other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (Success != other.Success) return false;
-      if (Message != other.Message) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (Success != false) hash ^= Success.GetHashCode();
-      if (Message.Length != 0) hash ^= Message.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (Message.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Message);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Success != false) {
-        output.WriteRawTag(8);
-        output.WriteBool(Success);
-      }
-      if (Message.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Message);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (Success != false) {
-        size += 1 + 1;
-      }
-      if (Message.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Message);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(AccountDeleteResponse other) {
-      if (other == null) {
-        return;
-      }
-      if (other.Success != false) {
-        Success = other.Success;
-      }
-      if (other.Message.Length != 0) {
-        Message = other.Message;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-          case 18: {
-            Message = input.ReadString();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            Success = input.ReadBool();
-            break;
-          }
-          case 18: {
-            Message = input.ReadString();
+            RealmId = input.ReadString();
             break;
           }
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TileTales.Network;
+using TileTales.Utils;
 
 namespace TileTales.State
 {
@@ -26,14 +27,14 @@ namespace TileTales.State
 
             menu.menuStartNewGame.Selected += (s, a) =>
             {
-                eventBus.Publish("loadgame", null);
-                stateManager.ChangeState(new GameState(game));
+                eventBus.Publish(EventType.LoadGameUI, null);
+                stateManager.ChangeState(new ConnectState(game));
             };
 
 
             menu.menuQuit.Selected += (s, a) =>
             {
-                eventBus.Publish("quit", null);
+                eventBus.Publish(EventType.Quit, null);
             };
         }
     }

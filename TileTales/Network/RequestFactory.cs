@@ -16,15 +16,15 @@ namespace TileTales.Network
 
         }
 
-        public MapsRequest CreateZoneMapsRequest(int x, int y, int z, int zoomLevel)
+        public CenterMapsRequest CreateZoneMapsRequest(int x, int y, int z, int zoomLevel)
         {
-            MapsRequest zoneMapsRequest = new MapsRequest
+            CenterMapsRequest zoneMapsRequest = new CenterMapsRequest
             {
                 CenterX = x,
                 CenterY = y,
                 Z = z,
-                Width = 3,
-                Height = 3,
+                Width = 32,
+                Height = 32,
                 ZoomLevel = zoomLevel
             };
             return zoneMapsRequest;

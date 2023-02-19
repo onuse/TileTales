@@ -13,6 +13,7 @@ using TileTales.GameContent;
 using Google.Protobuf.Collections;
 using Myra.Graphics2D.UI;
 using TileTales.Graphics;
+using Net.Tiletales.Network.Proto.App;
 
 namespace TileTales
 {
@@ -25,7 +26,7 @@ namespace TileTales
         public readonly ServerConnector ServerConnector;
         public readonly StateManager StateManager;
         public readonly GameWorld GameWorld;
-        public readonly GameSettings GameSettings;
+        public Settings GameSettings;
         public readonly GraphicsDeviceManager GraphicsManager;
 
         private readonly SettingsReader _settingsReader;
@@ -39,7 +40,6 @@ namespace TileTales
             Content.RootDirectory = "Content";
             StateManager = StateManager.Instance;
             EventBus = EventBus.Instance;
-            GameSettings = new GameSettings(int.MaxValue, int.MaxValue, 16, 16);
 
             GraphicsManager = new GraphicsDeviceManager(this);
             GraphicsManager.PreferredBackBufferWidth = _settingsReader.GetSettings().WindowWidth;
@@ -55,7 +55,7 @@ namespace TileTales
 
             Window.ClientSizeChanged += OnClientSizeChanged;
             Exiting += Shutdown;
-            EventBus.Subscribe("quit", (data) => Exit());
+            EventBus.Subscribe(EventType.Quit, (data) => Exit());
         }
 
         protected override void LoadContent()
@@ -64,7 +64,7 @@ namespace TileTales
             xnbContentManager = new ContentManager(Services, "Content");
             ContentLibrary.LoadPrepackagedContent();
             renderer.LoadContent();
-            AppUI.LoadContent();
+            AppUI.LoadMainMenu();
         }
 
         protected override void Initialize()
@@ -108,6 +108,11 @@ namespace TileTales
             GraphicsManager.PreferredBackBufferHeight = userSettings.WindowHeight;
             GraphicsManager.ApplyChanges();
             _settingsReader.SaveSettings();
+            if (GameSettings != null)
+            {
+                GameSettings.WindowWidth = userSettings.WindowWidth;
+                GameSettings.WindowHeight = userSettings.WindowHeight;
+            }
         }
         public void Shutdown(object sender, EventArgs e)
         {
@@ -115,5 +120,15 @@ namespace TileTales
             //Checking if Shutdown works, and it does.
             Console.WriteLine("Exiting Game");
 }
+
+        internal void InitGameSettings(RealmInfo data)
+        {
+            System.Diagnostics.Debug.WriteLine("InitGameSettings");
+            GameSettings = new Settings(data.MapSize, data.MapSize, data.TileSize, data.TileSize);
+            UserSettings userSettings = _settingsReader.GetSettings();
+            GameSettings.WindowWidth = userSettings.WindowWidth;
+            GameSettings.WindowHeight = userSettings.WindowHeight;
+            ContentLibrary.SetGameSettings(GameSettings);
+        }
     }
 }

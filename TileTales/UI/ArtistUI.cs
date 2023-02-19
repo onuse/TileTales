@@ -16,6 +16,10 @@ namespace TileTales.UI
 
         public ArtistUI()
         {
+        }
+
+        public void Load()
+        {
             _paintToolsPanel = new Grid
             {
                 ShowGridLines = true,

@@ -15,7 +15,7 @@ namespace TileTales.Network
 {
     public class SocketClient
     {
-        private static int BUFFER_SIZE = 1024 * 64 * 16; // 1MB read buffer
+        private static int BUFFER_SIZE = 1024 * 1024; // 1MB read buffer
         private TcpClient client;
         private NetworkStream stream;
         private Boolean keepReading = true;
@@ -40,13 +40,14 @@ namespace TileTales.Network
             }
         }
 
-        private void Send(byte[] messageBytes) {
+        private void Send(byte[] messageBytes)
+        {
+            System.Diagnostics.Debug.WriteLine("SocketClient SENDING: SendMessageBytes: " + messageBytes);
             stream.Write(messageBytes, 0, messageBytes.Length);
-            System.Diagnostics.Debug.WriteLine("SENT: SendMessageBytes: " + messageBytes);
-            System.Diagnostics.Debug.WriteLine("SENT2: SendMessageBytes.Length: " + messageBytes.Length);
+            System.Diagnostics.Debug.WriteLine("SocketClient SENT_A: SendMessageBytes.Length: " + messageBytes.Length);
             // Create String from byte[]
             string strMessage = Encoding.UTF8.GetString(messageBytes);
-            System.Diagnostics.Debug.WriteLine("SENT3: SendMessageBytes as string: " + strMessage);
+            System.Diagnostics.Debug.WriteLine("SocketClient SENT_B: SendMessageBytes as string: " + strMessage);
         }
 
         public void SendMessageBytes(byte[] messageBytes)
@@ -92,9 +93,27 @@ namespace TileTales.Network
                 }
 
                 System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream bytesRead: " + bytesRead);
-                byte[] readBytes = new byte[bytesRead];
-                Array.Copy(buffer, 0, readBytes, 0, bytesRead);
-                messageCallback(Any.Parser.ParseFrom(readBytes));
+                int usedBytes = 0;
+                /**
+                 * Heres the deal; protobuf messages might come several at once
+                 * And they are packed together in the buffer.
+                 * Parsing such a messages will result in that the last message in the buffer is "found"
+                 * But that is the only way we can figure out how much data that each message used up.
+                 * So we read all messages in reverse order and put them in a list, and then just reverse the list,
+                 * to make the client read order match the server send order.
+                 */
+                List<Any> messages = new List<Any>();
+                while (usedBytes < bytesRead)
+                {
+                    byte[] readBytes = new byte[bytesRead - usedBytes];
+                    Array.Copy(buffer, 0, readBytes, 0, bytesRead - usedBytes);
+                    Any messagePart = Any.Parser.ParseFrom(readBytes);
+                    int messageLength = messagePart.CalculateSize();
+                    usedBytes += messageLength;
+                    messages.Add(messagePart);
+                }
+                messages.Reverse();
+                messages.ForEach(message => messageCallback(message));
             }
         }
 

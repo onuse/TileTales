@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Google.Protobuf;
+using Google.Protobuf.Reflection;
+using Google.Protobuf.WellKnownTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,8 +13,10 @@ namespace TileTales.Utils
     internal class EventBus
     {
         private static EventBus _instance;
-        private readonly Dictionary<string, List<Action<object>>> _eventListeners = new Dictionary<string, List<Action<object>>>();
+        private readonly Dictionary<EventType, List<Action<object>>> _eventListeners = new Dictionary<EventType, List<Action<object>>>();
+        private readonly Dictionary<MessageDescriptor, List<Action<object>>> _protoBufeventListeners = new Dictionary<MessageDescriptor, List<Action<object>>>();
         private readonly Stack<Event> queue= new Stack<Event>();
+        private readonly Stack<ProtoEvent> protoQueue = new Stack<ProtoEvent>();
 
         public static EventBus Instance
         {
@@ -27,56 +33,99 @@ namespace TileTales.Utils
         private EventBus() {
         }
 
-        public void Subscribe(string eventName, Action<object> callback)
+        public void Subscribe(EventType eventType, Action<object> callback)
         {
-            if (!_eventListeners.ContainsKey(eventName))
+            if (!_eventListeners.ContainsKey(eventType))
             {
-                _eventListeners.Add(eventName, new List<Action<object>>());
+                _eventListeners.Add(eventType, new List<Action<object>>());
             }
-            _eventListeners[eventName].Add(callback);
+            _eventListeners[eventType].Add(callback);
         }
 
-        public void Unsubscribe(string eventName, Action<object> callback)
+        public void Subscribe(MessageDescriptor eventType, Action<object> callback)
         {
-            if (!_eventListeners.ContainsKey(eventName))
+            if (!_protoBufeventListeners.ContainsKey(eventType))
             {
-                return;
+                _protoBufeventListeners.Add(eventType, new List<Action<object>>());
             }
-            _eventListeners[eventName].Remove(callback);
+            _protoBufeventListeners[eventType].Add(callback);
         }
 
-        /*public void Publish(string eventName, object data)
+        public void Subscribe(IMessage iMessage, Action<object> callback)
         {
-            if (!_eventListeners.ContainsKey(eventName))
+            Subscribe(iMessage.Descriptor, callback);
+        }
+
+        public void Unsubscribe(EventType eventType, Action<object> callback)
+        {
+            if (!_eventListeners.ContainsKey(eventType))
             {
                 return;
             }
-            foreach (var callback in _eventListeners[eventName])
-            {
-                callback(data);
-            }
-        }*/
-        public void Publish(string eventName, object data)
+            _eventListeners[eventType].Remove(callback);
+        }
+
+        public void Unsubscribe(MessageDescriptor eventType, Action<object> callback)
         {
-            if (!_eventListeners.ContainsKey(eventName))
+            if (!_protoBufeventListeners.ContainsKey(eventType))
             {
                 return;
             }
-            queue.Push(new Event(eventName, data));
+            _protoBufeventListeners[eventType].Remove(callback);
+        }
+        
+        public void Publish(EventType eventType, object data)
+        {
+            if (!_eventListeners.ContainsKey(eventType))
+            {
+                return;
+            }
+            queue.Push(new Event(eventType, data));
+        }
+
+        public void Publish(MessageDescriptor descriptor, object data)
+        {
+            if (!_protoBufeventListeners.ContainsKey(descriptor))
+            {
+                return;
+            }
+            protoQueue.Push(new ProtoEvent(descriptor, data));
+        }
+
+        public void Publish(Any message, object data)
+        {
+            String typeUrl = message.TypeUrl;
+            String typeStr = typeUrl.Substring(typeUrl.LastIndexOf(".") + 1);
+            var type = Assembly.GetExecutingAssembly().GetTypes().First(t => t.Name == typeStr);
+            MessageDescriptor descriptor = (MessageDescriptor)type.GetProperty("Descriptor", BindingFlags.Public | BindingFlags.Static).GetValue(null, null);
+            //System.Diagnostics.Debug.WriteLine("EventBus.Publish() Any message descriptor.Name: " + descriptor.Name);
+            Publish(descriptor, data);
         }
 
         public void Update()
         {
-            while (queue.Count > 0)
+            while (protoQueue.Count > 0 || queue.Count > 0)
             {
-                Event e = queue.Pop();
-                if (e == null)
-                {
-                    continue;
+                if (protoQueue.Count > 0) {
+                    ProtoEvent pe = protoQueue.Pop();
+                    if (pe != null)
+                    {
+                        foreach (var callback in _protoBufeventListeners[pe.eventMessage])
+                        {
+                            callback(pe.data);
+                        }
+                    }
                 }
-                foreach (var callback in _eventListeners[e.eventName])
+                if (queue.Count > 0)
                 {
-                    callback(e.data);
+                    Event e = queue.Pop();
+                    if (e != null)
+                    {
+                        foreach (var callback in _eventListeners[e.eventType])
+                        {
+                            callback(e.data);
+                        }
+                    }
                 }
             }
         }
