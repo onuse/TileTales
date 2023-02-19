@@ -16,6 +16,7 @@ namespace TileTales.GameContent
         private static readonly String FOLDER_SPRITES = "Content/assets/gfx/sprites";
         private static readonly String FOLDER_TILES = "Content/assets/gfx/tiles";
         private static readonly String FOLDER_MAPS = "Content/assets/gfx/maps";
+        private static readonly String WORLD_MAP = "Content/assets/gfx/worldmap.png";
         private static String NoTile = "000000";
         private static String Water = "0000FF";
         //private readonly Dictionary<int, Dictionary<Point, WeakReference<Chunk>>> _chunkLayers = new Dictionary<int, Dictionary<Point, WeakReference<Chunk>>>();
@@ -33,6 +34,8 @@ namespace TileTales.GameContent
         private SKColor water;
         private Chunk waterChunk;
 
+        private Texture2D worldMap;
+
         public int MapWidth { get { return _gameSettings.MAP_SIZE; } }
         public int MapHeight { get { return _gameSettings.MAP_SIZE; } }
         public int TileWidth { get { return _gameSettings.TILE_SIZE; } }
@@ -47,6 +50,7 @@ namespace TileTales.GameContent
         }
         public void LoadPrepackagedContent()
         {
+            worldMap = Utils.ContentReader.readTexture(_graphicsDevice, "Content/assets/gfx/worldmap.png");
             sprites = Utils.ContentReader.readTexturesInDirectory(_graphicsDevice, FOLDER_SPRITES);
             //tiles = Utils.ContentReader.readTilesInDirectory(_graphicsDevice, FOLDER_TILES);
             //maps = Utils.ContentReader.readTexturesInDirectory(_graphicsDevice, FOLDER_MAPS);
@@ -193,7 +197,7 @@ namespace TileTales.GameContent
             {
                 return _chunks[key];
             }
-            return waterChunk;
+            return null;
         }
 
         public void SetChunk(int x, int y, int z, Chunk chunk)
@@ -210,6 +214,11 @@ namespace TileTales.GameContent
         internal void SetGameSettings(Settings gameSettings)
         {
             _gameSettings = gameSettings;
+        }
+
+        internal Texture2D GetWorldMap()
+        {
+            return worldMap;
         }
     }
 }

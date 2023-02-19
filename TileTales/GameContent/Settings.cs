@@ -37,7 +37,29 @@ namespace TileTales.GameContent
             1f / 256,
             1f / 512,
             1f / 1024,
-            1f / 2048
+            1f / 2048,
+            1f / 4096,
+            1f / 8192
+        }.ToList();
+
+        public static List<float> WORLDMAP_SCALE_VALUES = new float[] {
+            16384,
+            8192,
+            4096,
+            2048,
+            1024,
+            512,
+            256,
+            128,
+            64,
+            32,
+            16,
+            8,
+            4,
+            2,
+            1,
+            1f / 2f,
+            1f / 4f
         }.ToList();
 
         public Settings(int worldSize, int tileSize, int mapSize, int tileHeight)

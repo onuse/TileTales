@@ -23,8 +23,8 @@ namespace TileTales.Network
                 CenterX = x,
                 CenterY = y,
                 Z = z,
-                Width = 32,
-                Height = 32,
+                Width = 8,
+                Height = 8,
                 ZoomLevel = zoomLevel
             };
             return zoneMapsRequest;

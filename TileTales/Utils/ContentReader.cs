@@ -63,5 +63,11 @@ namespace TileTales.Utils
             //return Texture2D.FromStream(graphicsDecvice, stream);
             return SKBitmap.Decode(stream);
         }
+
+        internal static Texture2D readTexture(GraphicsDevice graphicsDevice, string textureFilePath)
+        {
+            FileStream fileStream = new FileStream(textureFilePath, FileMode.Open);
+            return Texture2D.FromStream(graphicsDevice, fileStream);
+        }
     }
 }
