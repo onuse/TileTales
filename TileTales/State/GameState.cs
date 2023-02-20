@@ -23,6 +23,8 @@ namespace TileTales.State
     internal class GameState : BaseState
     {
         private object moveRequestThrottle;
+        int teleportX = 0;
+        int teleportY = 0;
 
         public GameState(TileTalesGame game) : base(game)
         {
@@ -66,10 +68,7 @@ namespace TileTales.State
 
         internal override void OnClientSizeChanged(int newWindowWidth, int newWindowHeight)
         {
-            Settings settings = game.GameSettings;
-            if (settings == null) return;
-            settings.WindowWidth = newWindowWidth;
-            settings.WindowHeight = newWindowHeight;
+            
         }
         
         public override void Update(GameTime gameTime, KeyboardState ks, MouseState ms)
@@ -91,6 +90,23 @@ namespace TileTales.State
             if (deltaX != 0 || deltaY != 0 || deltaZ != 0)
             {
                 sendMoveRequestThrottled(deltaX, deltaY, deltaZ);
+            }
+
+            if (ms.RightButton == ButtonState.Pressed)
+            {
+                
+                game.GameWorld.ScreenToWorldX(ms.X, ms.Y, out int worldX, out int worldY);
+                teleportX = worldX;
+                teleportY = worldY;
+            }
+            else if (ms.RightButton == ButtonState.Released)
+            {
+                if (teleportX != 0 || teleportY != 0)
+                {
+                    game.GameWorld.TeleportPlayer(teleportX, teleportY);
+                    teleportX = 0;
+                    teleportY = 0;
+                }
             }
 
             int dir = ms.ScrollWheelValue - settings.LastScrollWheelValue;

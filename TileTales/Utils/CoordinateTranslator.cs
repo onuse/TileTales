@@ -80,5 +80,40 @@ namespace TileTales.Utils
         {
             getTileIndexForMapIndex(location.X, location.Y, contentLibrary, out tileX, out tileY);
         }
+
+        internal static void ScreenToWorldX(int screenX, int screenY, ContentLibrary contentLibrary, Player player, out int worldX, out int worldY)
+        {
+            Settings gameSettings = contentLibrary.GameSettings;
+            int pxPerTile = gameSettings.TileSize;
+            int pxPerChunk = gameSettings.MapSize * pxPerTile;
+            int pxInWorld = pxPerChunk * gameSettings.WorldSize;
+            float scale = gameSettings.Scale;
+
+            float realScale =  1 / scale;
+
+            int screenCenterPointX = gameSettings.WindowWidth / 2;
+            int screenCenterPointY = gameSettings.WindowHeight / 2;
+            int screenCenterWorldX = player.X;
+            int screenCenterWorldY = player.Y;
+
+            int screenXOffset = screenX - screenCenterPointX;
+            int screenYOffset = screenY - screenCenterPointY;
+
+            int worldXOffset = (int)(screenXOffset * realScale);
+            int worldYOffset = (int)(screenYOffset * realScale);
+
+            // Snap to tile
+            worldXOffset = (int)(Math.Round(worldXOffset / (float)pxPerTile) * pxPerTile);
+            worldYOffset = (int)(Math.Round(worldYOffset / (float)pxPerTile) * pxPerTile);
+
+            worldX = screenCenterWorldX + worldXOffset;
+            worldY = screenCenterWorldY + worldYOffset;
+
+
+
+            //Todo: implement
+            //worldX = 0;
+            //worldY = 0;
+        }
     }
 }

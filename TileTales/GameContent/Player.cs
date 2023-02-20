@@ -59,5 +59,12 @@ namespace TileTales.GameContent
         {
             return $"Player: {X}, {Y}, {Z}";
         }
+
+        internal void Teleport(int x, int y, int z)
+        {
+            location.index.X = x;
+            location.index.Y = y;
+            location.layer = z;
+        }
     }
 }

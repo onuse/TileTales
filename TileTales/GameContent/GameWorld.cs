@@ -61,6 +61,11 @@ namespace TileTales.GameContent
             player.Move(x, y, 0);
         }
 
+        internal void TeleportPlayer(int x, int y)
+        {
+            player.Teleport(x, y, 0);
+        }
+
         internal Point getChunksIndex(int locationX, int locationY)
         {
             CoordinateTranslator.getMapIndexForWorldLocation(locationX, locationY, contentLibrary, out int mapIndexX, out int mapIndexY);
@@ -86,6 +91,12 @@ namespace TileTales.GameContent
         internal Chunk GetChunk(int chunkX, int chunkY)
         {
             return contentLibrary.GetChunk(chunkX, chunkY, player.Z);
+        }
+
+        internal void ScreenToWorldX(int screenX, int screenY, out int worldX, out int worldY)
+        {
+            System.Diagnostics.Debug.WriteLine("GameWorld screenX: " + screenX + " screenY: " + screenY);
+            CoordinateTranslator.ScreenToWorldX(screenX, screenY, contentLibrary, player, out worldX, out worldY);
         }
     }
 }

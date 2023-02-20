@@ -27,8 +27,6 @@ namespace TileTales.GameContent
         private Dictionary<string, SKBitmap> sprites = new Dictionary<string, SKBitmap>();
         private Dictionary<string, SKBitmap> maps = new Dictionary<string, SKBitmap>();
 
-        private Settings _gameSettings;
-
         private GraphicsDevice _graphicsDevice;
         private SKBitmap waterMap;
         private SKColor water;
@@ -36,12 +34,16 @@ namespace TileTales.GameContent
 
         private Texture2D worldMap;
 
-        public int MapWidth { get { return _gameSettings.MAP_SIZE; } }
-        public int MapHeight { get { return _gameSettings.MAP_SIZE; } }
-        public int TileWidth { get { return _gameSettings.TILE_SIZE; } }
-        public int TileHeight { get { return _gameSettings.TILE_SIZE; } }
-        public int ChunkWidth { get { return _gameSettings.CHUNK_SIZE; } }
-        public int ChunkHeight { get { return _gameSettings.CHUNK_SIZE; } }
+        public int MapWidth { get { return GameSettings.MapSize; } }
+        public int MapHeight { get { return GameSettings.MapSize; } }
+        public int TileWidth { get { return GameSettings.TileSize; } }
+        public int TileHeight { get { return GameSettings.TileSize; } }
+        public int ChunkWidth { get { return GameSettings.ChunkSize; } }
+        public int ChunkHeight { get { return GameSettings.ChunkSize; } }
+        public int WorldWidth { get { return GameSettings.WorldSize; } }
+        public int WorldHeight { get { return GameSettings.WorldSize; } }
+
+        public Settings GameSettings { get; set; }
 
         public ContentLibrary(GraphicsDevice graphicsDevice)
         {
@@ -197,6 +199,7 @@ namespace TileTales.GameContent
             {
                 return _chunks[key];
             }
+            //return waterChunk;
             return null;
         }
 
@@ -209,11 +212,6 @@ namespace TileTales.GameContent
         private void SetChunk(Location key, Chunk chunk)
         {
             _chunks.Add(key, chunk);
-        }
-
-        internal void SetGameSettings(Settings gameSettings)
-        {
-            _gameSettings = gameSettings;
         }
 
         internal Texture2D GetWorldMap()

@@ -3,26 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TileTales.Utils;
 
 namespace TileTales.GameContent
 {
     internal class Settings
     {
 
-        public int WORLD_SIZE { get; }
-        public int MAP_SIZE { get; }
-        public int TILE_SIZE { get; }
-        public int CHUNK_SIZE { get; }
+        public int WorldSize { get; }
+        public int MapSize { get; }
+        public int TileSize { get; }
+        public int ChunkSize { get; }
 
         public bool HasLoadedWorld { get; set; }
 
-        public int WindowWidth { get; set; }
-        public int WindowHeight { get; set;  }
+        public int WindowWidth => UserSettings.WindowWidth;
+        public int WindowHeight => UserSettings.WindowHeight;
 
         public int LastScrollWheelValue { get; set; }
         public int ZoomLevel { get; set; }
+        public float Scale => SCALE_VALUES[ZoomLevel];
+        public float WorldScale => WORLDMAP_SCALE_VALUES[ZoomLevel];
 
-        public static List<float> SCALE_VALUES = new float[] {
+        public UserSettings UserSettings { get; }
+
+    public static List<float> SCALE_VALUES = new float[] {
             8,
             4,
             2,
@@ -62,14 +67,15 @@ namespace TileTales.GameContent
             1f / 4f
         }.ToList();
 
-        public Settings(int worldSize, int tileSize, int mapSize, int tileHeight)
+        public Settings(int worldSize, int tileSize, int mapSize, UserSettings userSettings)
         {
             // TODO Get this from Server
-            WORLD_SIZE = worldSize;
-            MAP_SIZE = tileSize;
-            TILE_SIZE = mapSize;
+            WorldSize = worldSize;
+            MapSize = mapSize;
+            TileSize = tileSize;
+            UserSettings = userSettings;
 
-            CHUNK_SIZE = MAP_SIZE * TILE_SIZE;
+            ChunkSize = MapSize * TileSize;
 
             ZoomLevel = 1;
         }

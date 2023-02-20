@@ -108,11 +108,6 @@ namespace TileTales
             GraphicsManager.PreferredBackBufferHeight = userSettings.WindowHeight;
             GraphicsManager.ApplyChanges();
             _settingsReader.SaveSettings();
-            if (GameSettings != null)
-            {
-                GameSettings.WindowWidth = userSettings.WindowWidth;
-                GameSettings.WindowHeight = userSettings.WindowHeight;
-            }
         }
         public void Shutdown(object sender, EventArgs e)
         {
@@ -121,14 +116,11 @@ namespace TileTales
             Console.WriteLine("Exiting Game");
 }
 
-        internal void InitGameSettings(RealmInfo data)
+        internal void InitGameSettings(RealmInfo realmData)
         {
             System.Diagnostics.Debug.WriteLine("InitGameSettings");
-            GameSettings = new Settings(data.MapSize, data.MapSize, data.TileSize, data.TileSize);
-            UserSettings userSettings = _settingsReader.GetSettings();
-            GameSettings.WindowWidth = userSettings.WindowWidth;
-            GameSettings.WindowHeight = userSettings.WindowHeight;
-            ContentLibrary.SetGameSettings(GameSettings);
+            GameSettings = new Settings(realmData.WorldSize, realmData.TileSize, realmData.MapSize, _settingsReader.GetSettings());
+            ContentLibrary.GameSettings = GameSettings;
         }
     }
 }
