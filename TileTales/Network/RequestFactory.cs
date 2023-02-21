@@ -16,15 +16,15 @@ namespace TileTales.Network
 
         }
 
-        public CenterMapsRequest CreateZoneMapsRequest(int x, int y, int z, int zoomLevel)
+        public CenterMapsRequest CreateZoneMapsRequest(int x, int y, int z, int zoomLevel, int size)
         {
             CenterMapsRequest zoneMapsRequest = new CenterMapsRequest
             {
                 CenterX = x,
                 CenterY = y,
                 Z = z,
-                Width = 8,
-                Height = 8,
+                Width = size,
+                Height = size,
                 ZoomLevel = zoomLevel
             };
             return zoneMapsRequest;
@@ -61,6 +61,17 @@ namespace TileTales.Network
                 MyVersion = 0
             };
             return request;
+        }
+
+        internal TeleportRequest createTeleportRequest(int teleportX, int teleportY, int z)
+        {
+            TeleportRequest teleportRequest = new TeleportRequest
+            {
+                X = teleportX,
+                Y = teleportY,
+                Z = z
+            };
+            return teleportRequest;
         }
     }
  }

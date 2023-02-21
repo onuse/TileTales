@@ -175,9 +175,9 @@ namespace TileTales.Graphics
             // How many chunks are shown on screen?
             float pxSeenX = viewWidth / scale;
             float pxSeenY = viewHeight / scale;
-            // How many chunks needed? Rounded to nearest larger even number
-            double chunkAmountX = Math.Min(Math.Round(Math.Ceiling(pxSeenX / pxPerChunk) / 2, MidpointRounding.AwayFromZero) * 2, 32);
-            double chunkAmountY = Math.Min(Math.Round(Math.Ceiling(pxSeenY / pxPerChunk) / 2, MidpointRounding.AwayFromZero) * 2, 32);
+            // How many chunks needed? Rounded to nearest larger even number, At max 32 per direction
+            double chunkAmountX = Math.Min(32, Math.Round(Math.Ceiling(pxSeenX / pxPerChunk) / 2, MidpointRounding.AwayFromZero) * 2);
+            double chunkAmountY = Math.Min(32, Math.Round(Math.Ceiling(pxSeenY / pxPerChunk) / 2, MidpointRounding.AwayFromZero) * 2);
 
             SamplerState samplerState = (scale >= 1) ? SamplerState.PointClamp : SamplerState.AnisotropicClamp;
             tileBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, samplerState, DepthStencilState.Default, null, null, null);

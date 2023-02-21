@@ -63,6 +63,11 @@ namespace TileTales.State
         {
             ByteString mapBytes = response.Map;
             String mapName = ContentLibrary.CreateMapName(response.X, response.Y, response.Z, response.ZoomLevel);
+            if (game.ContentLibrary.HasMap(mapName))
+            {
+                System.Diagnostics.Debug.WriteLine("GameState(MultiMapInfo) - Map already loaded: " + mapName);
+                return;
+            }
             game.ContentLibrary.AddMap(mapName, mapBytes, false, true);
         }
 
@@ -103,7 +108,8 @@ namespace TileTales.State
             {
                 if (teleportX != 0 || teleportY != 0)
                 {
-                    game.GameWorld.TeleportPlayer(teleportX, teleportY);
+                    sendTeleportRequest(teleportX, teleportY, 0);
+                    //game.GameWorld.TeleportPlayer(teleportX, teleportY);
                     teleportX = 0;
                     teleportY = 0;
                 }
@@ -122,6 +128,13 @@ namespace TileTales.State
                 }
             }
             settings.LastScrollWheelValue = ms.ScrollWheelValue;
+        }
+
+        private void sendTeleportRequest(int teleportX, int teleportY, int z)
+        {
+            TeleportRequest teleportRequest = rf.createTeleportRequest(teleportX, teleportY, z);
+            serverConnector.SendMessage(teleportRequest);
+            moveRequestThrottle = null;
         }
 
         private void sendMoveRequestThrottled(int deltaX, int deltaY, int deltaZ)

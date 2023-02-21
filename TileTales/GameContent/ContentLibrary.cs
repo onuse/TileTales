@@ -211,12 +211,24 @@ namespace TileTales.GameContent
 
         private void SetChunk(Location key, Chunk chunk)
         {
-            _chunks.Add(key, chunk);
+            if (_chunks.ContainsKey(key))
+            {
+                _chunks[key] = chunk;
+            }
+            else
+            {
+                _chunks.Add(key, chunk);
+            }
         }
 
         internal Texture2D GetWorldMap()
         {
             return worldMap;
+        }
+
+        internal bool HasMap(string mapName)
+        {
+            return maps.ContainsKey(mapName);
         }
     }
 }
