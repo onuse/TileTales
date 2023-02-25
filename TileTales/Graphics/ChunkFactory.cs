@@ -32,7 +32,7 @@ namespace TileTales.Graphics
                     int index = x + y * width;
                     SKColor pixel = map.GetPixel(x, y);
                     pixelData[index] = pixel;
-                    SKBitmap tile = clib.GetTile(pixel.Red, pixel.Green, pixel.Blue);
+                    SKBitmap tile = clib.GetTile(pixel.Red, pixel.Green, pixel.Blue).BackingImage;
                     tiles[index] = tile;
                 }
             }

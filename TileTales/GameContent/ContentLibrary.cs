@@ -5,7 +5,9 @@ using Myra.Graphics2D.UI;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using TileTales.Graphics;
 
 namespace TileTales.GameContent
@@ -23,7 +25,8 @@ namespace TileTales.GameContent
         private readonly Dictionary<Location, Chunk> _chunks = new Dictionary<Location, Chunk> ();
         private readonly ChunkFactory _chunkFactory;
         //private readonly Dictionary<Point, WeakReference<Chunk>> _chunks = new Dictionary<Point, WeakReference<Chunk>>();
-        private Dictionary<string, SKBitmap> tiles = new Dictionary<string, SKBitmap>();
+        //private Dictionary<string, SKBitmap> tiles = new Dictionary<string, SKBitmap>();
+        private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
         private Dictionary<string, SKBitmap> sprites = new Dictionary<string, SKBitmap>();
         private Dictionary<string, SKBitmap> maps = new Dictionary<string, SKBitmap>();
 
@@ -87,7 +90,7 @@ namespace TileTales.GameContent
             return finalTexture;
         }
 
-        public SKBitmap GetTile(string colorRGB)
+        public Tile GetTile(string colorRGB)
         {
             if (colorRGB == NoTile)
             {
@@ -99,17 +102,36 @@ namespace TileTales.GameContent
             }
             return tiles[colorRGB];
         }
-        
-        public SKBitmap GetTile(byte r, byte g, byte b)
+
+        public Tile GetTile(byte r, byte g, byte b)
         {
             return GetTile(string.Format("{0:X2}{1:X2}{2:X2}", r, g, b));
         }
+
+        /*public SKBitmap GetTile(string colorRGB)
+        {
+            if (colorRGB == NoTile)
+            {
+                return tiles[Water];
+            }
+            if (!tiles.ContainsKey(colorRGB))
+            {
+                return tiles[Water];
+            }
+            return tiles[colorRGB];
+        }*/
+
+        /*public SKBitmap GetTile(byte r, byte g, byte b)
+        {
+            return GetTile(string.Format("{0:X2}{1:X2}{2:X2}", r, g, b));
+        }*/
 
         internal void AddTile(Tile tile)
         {
             //System.Diagnostics.Debug.WriteLine("AddTile tile.LegacyColor: " + tile.LegacyColor + " (#"+ tile.LegacyColor.ToString("X6") + "), image.width: " + tile.Image.Width);
             // ToDo change LegacyColor to ReplacementColor
-            SetTile(tile.LegacyColor, tile.Image);
+            //SetTile(tile.LegacyColor, tile.Image);
+            tiles[tile.LegacyColorAsString] = tile;
             /*System.Diagnostics.Debug.WriteLine("tile.Tags " + tile.Tags[0]);
             if (tile.Tags.Contains("isOcean"))
             {
@@ -118,7 +140,7 @@ namespace TileTales.GameContent
             }*/
         }
 
-        public void SetTile(byte r, byte g, byte b, SKBitmap texture)
+        /*public void SetTile(byte r, byte g, byte b, SKBitmap texture)
         {
             SetTile(string.Format("{0:X2}{1:X2}{2:X2}"), texture);
         }
@@ -131,7 +153,7 @@ namespace TileTales.GameContent
         public void SetTile(string colorRGB, SKBitmap texture)
         {
             tiles[colorRGB] = texture;
-        }
+        }*/
 
         public SKBitmap GetMap(string name)
         {
@@ -155,9 +177,13 @@ namespace TileTales.GameContent
             }
             AddMap(name, Utils.ContentReader.textureFromByteString(data, _graphicsDevice), saveToDisc, createChunk);
         }
-
+        
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddMap(string name, SKBitmap texture, Boolean saveToDisc, bool createChunk)
         {
+            {
+                maps[name] = texture;
+            }
             maps[name] = texture;
             if (saveToDisc)
             {
@@ -229,6 +255,16 @@ namespace TileTales.GameContent
         internal bool HasMap(string mapName)
         {
             return maps.ContainsKey(mapName);
+        }
+
+        internal List<Tile> GetAllTiles()
+        {
+            return tiles.Values.ToList();
+        }
+
+        internal float GetScale()
+        {
+            return GameSettings.Scale;
         }
     }
 }

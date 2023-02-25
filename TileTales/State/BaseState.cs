@@ -25,9 +25,9 @@ namespace TileTales.State
         protected Player Player;
         protected ContentLibrary content;
 
-        public BaseState(TileTalesGame game)
+        public BaseState()
         {
-            this.game = game;
+            this.game = TileTalesGame.Instance;
             this.stateManager = game.StateManager;
             this.serverConnector = game.ServerConnector;
             this.ui = game.AppUI;

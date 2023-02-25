@@ -14,6 +14,7 @@ using Google.Protobuf.Collections;
 using Myra.Graphics2D.UI;
 using TileTales.Graphics;
 using Net.Tiletales.Network.Proto.App;
+using TileTales.UI;
 
 namespace TileTales
 {
@@ -32,8 +33,11 @@ namespace TileTales
         private readonly SettingsReader _settingsReader;
         private ContentManager xnbContentManager;
 
+        public static TileTalesGame Instance { get; private set; }
+
         public TileTalesGame()
         {
+            Instance = this;
             System.Diagnostics.Debug.WriteLine("TileTalesGame");
             System.Console.WriteLine("Hello TileTalesGame World!");
             _settingsReader = SettingsReader.Instance;
@@ -52,6 +56,8 @@ namespace TileTales
             GameWorld = new GameWorld(this);
             renderer = new GameRenderer(this, GraphicsManager);
             AppUI = new UI.AppUI(this, GraphicsManager);
+            AppUI.Width = _settingsReader.GetSettings().WindowWidth;
+            AppUI.Height = _settingsReader.GetSettings().WindowHeight;
 
             Window.ClientSizeChanged += OnClientSizeChanged;
             Exiting += Shutdown;
@@ -70,7 +76,7 @@ namespace TileTales
         protected override void Initialize()
         {
             base.Initialize();
-            StateManager.PushState(new StartupState(this));
+            StateManager.PushState(new StartupState());
         }
 
         protected override void Update(GameTime gameTime)
@@ -107,6 +113,8 @@ namespace TileTales
             GraphicsManager.PreferredBackBufferWidth = userSettings.WindowWidth;
             GraphicsManager.PreferredBackBufferHeight = userSettings.WindowHeight;
             GraphicsManager.ApplyChanges();
+            AppUI.Width = userSettings.WindowWidth;
+            AppUI.Height = userSettings.WindowHeight;
             _settingsReader.SaveSettings();
         }
         public void Shutdown(object sender, EventArgs e)
@@ -121,6 +129,16 @@ namespace TileTales
             System.Diagnostics.Debug.WriteLine("InitGameSettings");
             GameSettings = new Settings(realmData.WorldSize, realmData.TileSize, realmData.MapSize, _settingsReader.GetSettings());
             ContentLibrary.GameSettings = GameSettings;
+        }
+
+        internal void ActivateArtistState()
+        {
+            StateManager.ChangeState(ArtistState.Instance);
+        }
+
+        internal void ActivateGameState()
+        {
+            StateManager.ChangeState(GameState.Instance);
         }
     }
 }

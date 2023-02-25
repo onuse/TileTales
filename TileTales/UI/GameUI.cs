@@ -53,5 +53,15 @@ namespace TileTales.UI
             fixedSizeButton.Height = 80;
             panel.Widgets.Add(fixedSizeButton);
         }
+
+        internal void SetWidth(int value)
+        {
+            panel.Width = value;
+        }
+
+        internal void SetHeight(int value)
+        {
+            panel.Height = value;
+        }
     }
 }

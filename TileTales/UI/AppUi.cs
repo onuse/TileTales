@@ -1,13 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
+using MonoGame.Extended.Timers;
 using Myra;
 using Myra.Graphics2D.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TileTales.Graphics;
 using TileTales.Utils;
 
 namespace TileTales.UI
@@ -24,6 +27,7 @@ namespace TileTales.UI
         // Tab contents
         internal ArtistUI _artistUI;
         internal GameUI _gameUI;
+
         public AppUI(TileTalesGame game, GraphicsDeviceManager graphics)
         {
             _graphics = graphics;
@@ -52,12 +56,16 @@ namespace TileTales.UI
             
             EventBus.Instance.Subscribe(EventType.LoadGameUI, (data) =>
             {
-                _artistUI = new ArtistUI();
+                _artistUI = new ArtistUI(_game.ContentLibrary);
                 _gameUI = new GameUI();
                 StackPanel tabPanel = createTabPanel();
                 _uiContainer.Widgets.Add(tabPanel);
                 _artistUI.Load();
+                _artistUI.SetWidth(_graphics.PreferredBackBufferWidth);
+                _artistUI.SetHeight(_graphics.PreferredBackBufferHeight);
                 _gameUI.Load();
+                _gameUI.SetWidth(_graphics.PreferredBackBufferWidth);
+                _gameUI.SetHeight(_graphics.PreferredBackBufferHeight);
                 _desktop.Root = _uiContainer;
                 EventBus.Instance.Publish(EventType.GameUILoaded, null);
             });
@@ -97,6 +105,7 @@ namespace TileTales.UI
             btnArtist.Click += (s, a) =>
             {
                 setTab(_artistUI.GetWidget());
+                _game.ActivateArtistState();
             };
             tabPanel.Widgets.Add(btnArtist);
 
@@ -106,6 +115,7 @@ namespace TileTales.UI
             btnGame.Click += (s, a) =>
             {
                 setTab(_gameUI.GetWidget());
+                _game.ActivateGameState();
             };
             tabPanel.Widgets.Add(btnGame);
 
@@ -194,6 +204,33 @@ namespace TileTales.UI
             };
 
             window.ShowModal(_desktop);
+        }
+
+        public Tile getSelectedTile()
+        {
+            return _artistUI.ActiveTile;
+        }
+
+        public int Width
+        {
+            get { return _graphics.PreferredBackBufferWidth; }
+            set
+            {
+                //_mainMenu.SetWidth(value);
+                if (_artistUI != null) _artistUI.SetWidth(value);
+                if (_gameUI != null) _gameUI.SetWidth(value);
+            }
+        }
+
+        public int Height
+        {
+            get { return _graphics.PreferredBackBufferHeight; }
+            set
+            {
+                //_mainMenu.SetHeight(value);
+                if (_artistUI != null) _artistUI.SetHeight(value);
+                if (_gameUI != null) _gameUI.SetHeight(value);
+            }
         }
     }
 }

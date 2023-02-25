@@ -57,5 +57,14 @@ namespace TileTales.UI
             return panel;
         }
 
+        internal void SetWidth(int value)
+        {
+            panel.Width = value;
+        }
+
+        internal void SetHeight(int value)
+        {
+            panel.Height = value;
+        }
     }
 }

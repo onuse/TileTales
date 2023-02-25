@@ -44,8 +44,8 @@ namespace TileTales.Network
             }
             else
             {
-                _eventBus.Publish(EventType.Connected, null);
                 startReadingStream();
+                _eventBus.Publish(EventType.Connected, null);
             }
         }
 

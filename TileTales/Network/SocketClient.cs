@@ -87,22 +87,19 @@ namespace TileTales.Network
                     shutdown();
                     break;
                 }
-                else
-                {
-                    totalBytesRead += bytesRead;
-                }
+                totalBytesRead += bytesRead;
 
                 System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream bytesRead: " + bytesRead);
-                int usedBytes = 0;
-                /**
+                /*
                  * Heres the deal; protobuf messages might come several at once
-                 * And they are packed together in the buffer.
-                 * Parsing such a messages will result in that the last message in the buffer is "found"
+                 * They are packed with the most recent one first, and the oldest one last
+                 * Parsing the entire lump of bytes will result in that only the last message in the buffer is "found"
                  * But that is the only way we can figure out how much data that each message used up.
                  * So we read all messages in reverse order and put them in a list, and then just reverse the list,
                  * to make the client read order match the server send order.
                  */
                 List<Any> messages = new List<Any>();
+                int usedBytes = 0;
                 while (usedBytes < bytesRead)
                 {
                     byte[] readBytes = new byte[bytesRead - usedBytes];
