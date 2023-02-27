@@ -30,7 +30,7 @@ namespace TileTales.State
             });
 
             eventBus.Subscribe(MapInfo.Descriptor, (o) => {
-                System.Diagnostics.Debug.WriteLine("RunningState(MultiMapInfo)");
+                System.Diagnostics.Debug.WriteLine("RunningState(MapInfo)");
                 MapInfo response = MapInfo.Parser.ParseFrom((o as Any).Value);
                 Task.Run(() => LoadMap(response));
             });
@@ -52,11 +52,12 @@ namespace TileTales.State
         {
             ByteString mapBytes = response.Map;
             String mapName = ContentLibrary.CreateMapName(response.X, response.Y, response.Z, response.ZoomLevel);
-            if (game.ContentLibrary.HasMap(mapName))
+            System.Diagnostics.Debug.WriteLine("RunningState.LoadMap mapName: " + mapName);
+            /*if (game.ContentLibrary.HasMap(mapName))
             {
                 System.Diagnostics.Debug.WriteLine("RunningState(MultiMapInfo) - Map already loaded: " + mapName);
                 return;
-            }
+            }*/
             game.ContentLibrary.AddMap(mapName, mapBytes, false, true);
         }
 

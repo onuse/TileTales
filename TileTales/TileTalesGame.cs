@@ -81,6 +81,7 @@ namespace TileTales
 
         protected override void Update(GameTime gameTime)
         {
+            if (!this.IsActive) return;
             StateManager.Update(gameTime, Keyboard.GetState(), Mouse.GetState());
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();

@@ -1,4 +1,5 @@
 ﻿using Net.Tiletales.Network.Proto.Game;
+using Net.Tiletales.Network.Proto.Paint;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +73,19 @@ namespace TileTales.Network
                 Z = z
             };
             return teleportRequest;
+        }
+
+        internal DrawLineRequest createDrawLineRequest(int paintStartX, int paintStartY, int paintEndX, int paintEndY, int z)
+        {
+            DrawLineRequest drawLineRequest = new DrawLineRequest
+            {
+                StartX = paintStartX,
+                StartY = paintStartY,
+                EndX = paintEndX,
+                EndY = paintEndY,
+                Z = z
+            };
+            return drawLineRequest;
         }
     }
  }

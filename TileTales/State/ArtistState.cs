@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Net.Tiletales.Network.Proto.App;
 using Net.Tiletales.Network.Proto.Game;
+using Net.Tiletales.Network.Proto.Paint;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,9 @@ namespace TileTales.State
         int teleportX = 0;
         int teleportY = 0;
 
+        int paintStartX = 0;
+        int paintStartY = 0;
+
         public ArtistState() : base()
         {
         }
@@ -46,6 +50,29 @@ namespace TileTales.State
         public override void Update(GameTime gameTime, KeyboardState ks, MouseState ms)
         {
             base.Update(gameTime, ks, ms);
+
+            // TODO: Check if mouse is over application and not over UI
+
+            if (ms.LeftButton == ButtonState.Pressed)
+            {
+                if (paintStartX == 0 || paintStartY == 0) { 
+                    game.GameWorld.ScreenToWorldX(ms.X, ms.Y, out int worldX, out int worldY);
+                    paintStartX = worldX;
+                    paintStartY = worldY;
+                }
+            }
+            else if (ms.LeftButton == ButtonState.Released)
+            {
+                if (paintStartX != 0 || paintStartY != 0)
+                {
+                    game.GameWorld.ScreenToWorldX(ms.X, ms.Y, out int worldX, out int worldY);
+                    sendDrawLineRequest(paintStartX, paintStartY, worldX, worldY, 0);
+                    paintStartX = 0;
+                    paintStartY = 0;
+                }
+            }
+
+
             if (ms.RightButton == ButtonState.Pressed)
             {
                 game.GameWorld.ScreenToWorldX(ms.X, ms.Y, out int worldX, out int worldY);
@@ -61,6 +88,18 @@ namespace TileTales.State
                     teleportY = 0;
                 }
             }
+        }
+
+        private void sendDrawLineRequest(int paintStartX, int paintStartY, int paintEndX, int paintEndY, int z)
+        {
+            Tile selectedTile = ui.getSelectedTile();
+            if (selectedTile == null)
+            {
+                return;
+            }
+            DrawLineRequest drawLineRequest = rf.createDrawLineRequest(paintStartX, paintStartY, paintEndX, paintEndY, z);
+            drawLineRequest.TileId = (uint)selectedTile.LegacyColor;
+            serverConnector.SendMessage(drawLineRequest);
         }
 
         private void sendTeleportRequest(int teleportX, int teleportY, int z)

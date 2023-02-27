@@ -95,7 +95,7 @@ namespace TileTales.GameContent
 
         internal void ScreenToWorldX(int screenX, int screenY, out int worldX, out int worldY)
         {
-            System.Diagnostics.Debug.WriteLine("GameWorld screenX: " + screenX + " screenY: " + screenY);
+            //System.Diagnostics.Debug.WriteLine("GameWorld screenX: " + screenX + " screenY: " + screenY);
             CoordinateTranslator.ScreenToWorldCoords(screenX, screenY, contentLibrary, player, out worldX, out worldY);
         }
     }

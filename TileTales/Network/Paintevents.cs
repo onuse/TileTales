@@ -30,18 +30,18 @@ namespace Net.Tiletales.Network.Proto.Paint {
             "VGlsZVJlcXVlc3QSQQoFdGlsZXMYASADKAsyMi5uZXQudGlsZXRhbGVzLm5l",
             "dHdvcmsucHJvdG8ucGFpbnQuRHJhd1RpbGVSZXF1ZXN0IkQKEUJ1Y2tldEZp",
             "bGxSZXF1ZXN0EgkKAXgYASABKAUSCQoBeRgCIAEoBRIJCgF6GAMgASgFEg4K",
-            "BnRpbGVJZBgEIAEoDSJpCg9EcmF3TGluZVJlcXVlc3QSCgoCeDEYASABKAUS",
-            "CgoCeTEYAiABKAUSCgoCejEYAyABKAUSCgoCeDIYBCABKAUSCgoCeTIYBSAB",
-            "KAUSCgoCejIYBiABKAUSDgoGdGlsZUlkGAcgASgNIlkKFERyYXdNdWx0aUxp",
-            "bmVSZXF1ZXN0EkEKBWxpbmVzGAEgAygLMjIubmV0LnRpbGV0YWxlcy5uZXR3",
-            "b3JrLnByb3RvLnBhaW50LkRyYXdMaW5lUmVxdWVzdGIGcHJvdG8z"));
+            "BnRpbGVJZBgEIAEoDSJoCg9EcmF3TGluZVJlcXVlc3QSDgoGc3RhcnRYGAEg",
+            "ASgFEg4KBnN0YXJ0WRgCIAEoBRIMCgRlbmRYGAMgASgFEgwKBGVuZFkYBCAB",
+            "KAUSCQoBehgFIAEoBRIOCgZ0aWxlSWQYByABKA0iWQoURHJhd011bHRpTGlu",
+            "ZVJlcXVlc3QSQQoFbGluZXMYASADKAsyMi5uZXQudGlsZXRhbGVzLm5ldHdv",
+            "cmsucHJvdG8ucGFpbnQuRHJhd0xpbmVSZXF1ZXN0YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Paint.DrawTileRequest), global::Net.Tiletales.Network.Proto.Paint.DrawTileRequest.Parser, new[]{ "X", "Y", "Z", "TileId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Paint.DrawMultiTileRequest), global::Net.Tiletales.Network.Proto.Paint.DrawMultiTileRequest.Parser, new[]{ "Tiles" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Paint.BucketFillRequest), global::Net.Tiletales.Network.Proto.Paint.BucketFillRequest.Parser, new[]{ "X", "Y", "Z", "TileId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Paint.DrawLineRequest), global::Net.Tiletales.Network.Proto.Paint.DrawLineRequest.Parser, new[]{ "X1", "Y1", "Z1", "X2", "Y2", "Z2", "TileId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Paint.DrawLineRequest), global::Net.Tiletales.Network.Proto.Paint.DrawLineRequest.Parser, new[]{ "StartX", "StartY", "EndX", "EndY", "Z", "TileId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Net.Tiletales.Network.Proto.Paint.DrawMultiLineRequest), global::Net.Tiletales.Network.Proto.Paint.DrawMultiLineRequest.Parser, new[]{ "Lines" }, null, null, null, null)
           }));
     }
@@ -864,12 +864,11 @@ namespace Net.Tiletales.Network.Proto.Paint {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public DrawLineRequest(DrawLineRequest other) : this() {
-      x1_ = other.x1_;
-      y1_ = other.y1_;
-      z1_ = other.z1_;
-      x2_ = other.x2_;
-      y2_ = other.y2_;
-      z2_ = other.z2_;
+      startX_ = other.startX_;
+      startY_ = other.startY_;
+      endX_ = other.endX_;
+      endY_ = other.endY_;
+      z_ = other.z_;
       tileId_ = other.tileId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -880,75 +879,63 @@ namespace Net.Tiletales.Network.Proto.Paint {
       return new DrawLineRequest(this);
     }
 
-    /// <summary>Field number for the "x1" field.</summary>
-    public const int X1FieldNumber = 1;
-    private int x1_;
+    /// <summary>Field number for the "startX" field.</summary>
+    public const int StartXFieldNumber = 1;
+    private int startX_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int X1 {
-      get { return x1_; }
+    public int StartX {
+      get { return startX_; }
       set {
-        x1_ = value;
+        startX_ = value;
       }
     }
 
-    /// <summary>Field number for the "y1" field.</summary>
-    public const int Y1FieldNumber = 2;
-    private int y1_;
+    /// <summary>Field number for the "startY" field.</summary>
+    public const int StartYFieldNumber = 2;
+    private int startY_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Y1 {
-      get { return y1_; }
+    public int StartY {
+      get { return startY_; }
       set {
-        y1_ = value;
+        startY_ = value;
       }
     }
 
-    /// <summary>Field number for the "z1" field.</summary>
-    public const int Z1FieldNumber = 3;
-    private int z1_;
+    /// <summary>Field number for the "endX" field.</summary>
+    public const int EndXFieldNumber = 3;
+    private int endX_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Z1 {
-      get { return z1_; }
+    public int EndX {
+      get { return endX_; }
       set {
-        z1_ = value;
+        endX_ = value;
       }
     }
 
-    /// <summary>Field number for the "x2" field.</summary>
-    public const int X2FieldNumber = 4;
-    private int x2_;
+    /// <summary>Field number for the "endY" field.</summary>
+    public const int EndYFieldNumber = 4;
+    private int endY_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int X2 {
-      get { return x2_; }
+    public int EndY {
+      get { return endY_; }
       set {
-        x2_ = value;
+        endY_ = value;
       }
     }
 
-    /// <summary>Field number for the "y2" field.</summary>
-    public const int Y2FieldNumber = 5;
-    private int y2_;
+    /// <summary>Field number for the "z" field.</summary>
+    public const int ZFieldNumber = 5;
+    private int z_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Y2 {
-      get { return y2_; }
+    public int Z {
+      get { return z_; }
       set {
-        y2_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "z2" field.</summary>
-    public const int Z2FieldNumber = 6;
-    private int z2_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Z2 {
-      get { return z2_; }
-      set {
-        z2_ = value;
+        z_ = value;
       }
     }
 
@@ -979,12 +966,11 @@ namespace Net.Tiletales.Network.Proto.Paint {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (X1 != other.X1) return false;
-      if (Y1 != other.Y1) return false;
-      if (Z1 != other.Z1) return false;
-      if (X2 != other.X2) return false;
-      if (Y2 != other.Y2) return false;
-      if (Z2 != other.Z2) return false;
+      if (StartX != other.StartX) return false;
+      if (StartY != other.StartY) return false;
+      if (EndX != other.EndX) return false;
+      if (EndY != other.EndY) return false;
+      if (Z != other.Z) return false;
       if (TileId != other.TileId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -993,12 +979,11 @@ namespace Net.Tiletales.Network.Proto.Paint {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (X1 != 0) hash ^= X1.GetHashCode();
-      if (Y1 != 0) hash ^= Y1.GetHashCode();
-      if (Z1 != 0) hash ^= Z1.GetHashCode();
-      if (X2 != 0) hash ^= X2.GetHashCode();
-      if (Y2 != 0) hash ^= Y2.GetHashCode();
-      if (Z2 != 0) hash ^= Z2.GetHashCode();
+      if (StartX != 0) hash ^= StartX.GetHashCode();
+      if (StartY != 0) hash ^= StartY.GetHashCode();
+      if (EndX != 0) hash ^= EndX.GetHashCode();
+      if (EndY != 0) hash ^= EndY.GetHashCode();
+      if (Z != 0) hash ^= Z.GetHashCode();
       if (TileId != 0) hash ^= TileId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -1018,29 +1003,25 @@ namespace Net.Tiletales.Network.Proto.Paint {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (X1 != 0) {
+      if (StartX != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(X1);
+        output.WriteInt32(StartX);
       }
-      if (Y1 != 0) {
+      if (StartY != 0) {
         output.WriteRawTag(16);
-        output.WriteInt32(Y1);
+        output.WriteInt32(StartY);
       }
-      if (Z1 != 0) {
+      if (EndX != 0) {
         output.WriteRawTag(24);
-        output.WriteInt32(Z1);
+        output.WriteInt32(EndX);
       }
-      if (X2 != 0) {
+      if (EndY != 0) {
         output.WriteRawTag(32);
-        output.WriteInt32(X2);
+        output.WriteInt32(EndY);
       }
-      if (Y2 != 0) {
+      if (Z != 0) {
         output.WriteRawTag(40);
-        output.WriteInt32(Y2);
-      }
-      if (Z2 != 0) {
-        output.WriteRawTag(48);
-        output.WriteInt32(Z2);
+        output.WriteInt32(Z);
       }
       if (TileId != 0) {
         output.WriteRawTag(56);
@@ -1056,29 +1037,25 @@ namespace Net.Tiletales.Network.Proto.Paint {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (X1 != 0) {
+      if (StartX != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(X1);
+        output.WriteInt32(StartX);
       }
-      if (Y1 != 0) {
+      if (StartY != 0) {
         output.WriteRawTag(16);
-        output.WriteInt32(Y1);
+        output.WriteInt32(StartY);
       }
-      if (Z1 != 0) {
+      if (EndX != 0) {
         output.WriteRawTag(24);
-        output.WriteInt32(Z1);
+        output.WriteInt32(EndX);
       }
-      if (X2 != 0) {
+      if (EndY != 0) {
         output.WriteRawTag(32);
-        output.WriteInt32(X2);
+        output.WriteInt32(EndY);
       }
-      if (Y2 != 0) {
+      if (Z != 0) {
         output.WriteRawTag(40);
-        output.WriteInt32(Y2);
-      }
-      if (Z2 != 0) {
-        output.WriteRawTag(48);
-        output.WriteInt32(Z2);
+        output.WriteInt32(Z);
       }
       if (TileId != 0) {
         output.WriteRawTag(56);
@@ -1094,23 +1071,20 @@ namespace Net.Tiletales.Network.Proto.Paint {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (X1 != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(X1);
+      if (StartX != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(StartX);
       }
-      if (Y1 != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Y1);
+      if (StartY != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(StartY);
       }
-      if (Z1 != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Z1);
+      if (EndX != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(EndX);
       }
-      if (X2 != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(X2);
+      if (EndY != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(EndY);
       }
-      if (Y2 != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Y2);
-      }
-      if (Z2 != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Z2);
+      if (Z != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Z);
       }
       if (TileId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(TileId);
@@ -1127,23 +1101,20 @@ namespace Net.Tiletales.Network.Proto.Paint {
       if (other == null) {
         return;
       }
-      if (other.X1 != 0) {
-        X1 = other.X1;
+      if (other.StartX != 0) {
+        StartX = other.StartX;
       }
-      if (other.Y1 != 0) {
-        Y1 = other.Y1;
+      if (other.StartY != 0) {
+        StartY = other.StartY;
       }
-      if (other.Z1 != 0) {
-        Z1 = other.Z1;
+      if (other.EndX != 0) {
+        EndX = other.EndX;
       }
-      if (other.X2 != 0) {
-        X2 = other.X2;
+      if (other.EndY != 0) {
+        EndY = other.EndY;
       }
-      if (other.Y2 != 0) {
-        Y2 = other.Y2;
-      }
-      if (other.Z2 != 0) {
-        Z2 = other.Z2;
+      if (other.Z != 0) {
+        Z = other.Z;
       }
       if (other.TileId != 0) {
         TileId = other.TileId;
@@ -1164,27 +1135,23 @@ namespace Net.Tiletales.Network.Proto.Paint {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            X1 = input.ReadInt32();
+            StartX = input.ReadInt32();
             break;
           }
           case 16: {
-            Y1 = input.ReadInt32();
+            StartY = input.ReadInt32();
             break;
           }
           case 24: {
-            Z1 = input.ReadInt32();
+            EndX = input.ReadInt32();
             break;
           }
           case 32: {
-            X2 = input.ReadInt32();
+            EndY = input.ReadInt32();
             break;
           }
           case 40: {
-            Y2 = input.ReadInt32();
-            break;
-          }
-          case 48: {
-            Z2 = input.ReadInt32();
+            Z = input.ReadInt32();
             break;
           }
           case 56: {
@@ -1207,27 +1174,23 @@ namespace Net.Tiletales.Network.Proto.Paint {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            X1 = input.ReadInt32();
+            StartX = input.ReadInt32();
             break;
           }
           case 16: {
-            Y1 = input.ReadInt32();
+            StartY = input.ReadInt32();
             break;
           }
           case 24: {
-            Z1 = input.ReadInt32();
+            EndX = input.ReadInt32();
             break;
           }
           case 32: {
-            X2 = input.ReadInt32();
+            EndY = input.ReadInt32();
             break;
           }
           case 40: {
-            Y2 = input.ReadInt32();
-            break;
-          }
-          case 48: {
-            Z2 = input.ReadInt32();
+            Z = input.ReadInt32();
             break;
           }
           case 56: {
