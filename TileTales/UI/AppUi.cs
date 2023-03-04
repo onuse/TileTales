@@ -87,6 +87,16 @@ namespace TileTales.UI
             //Console.WriteLine((_desktop.Widgets.ToList().Find((Widget w) => { return w.Id == "Expression"; }) as TextBox)?.Text);
         }
 
+        public ArtistUI GetArtistUI()
+        {
+            return _artistUI;
+        }
+
+        public GameUI GetGameUI()
+        {
+            return _gameUI;
+        }
+
         private StackPanel createTabPanel()
         {
             var tabPanel = new HorizontalStackPanel()
@@ -209,6 +219,11 @@ namespace TileTales.UI
         public Tile getSelectedTile()
         {
             return _artistUI.ActiveTile;
+        }
+
+        internal bool IsMouseOverGUI()
+        {
+            return _desktop.IsMouseOverGUI;
         }
 
         public int Width

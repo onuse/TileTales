@@ -57,16 +57,26 @@ namespace TileTales.State
         private String paintIndicator = null;
         private HashSet<Point> paintPoints = null;
 
+        private readonly ArtistUI artistUI;
+
         public ArtistState() : base()
         {
-            ActiveBrushType = BrushType.TileLine;
+            ActiveBrushType = BrushType.TilePen;
+            artistUI = game.AppUI.GetArtistUI();
+            artistUI.btnLineTool.Click += (s, a) => { ActiveBrushType = BrushType.TileLine; };
+            artistUI.btnPenTool.Click += (s, a) => { ActiveBrushType = BrushType.TilePen; };
+            //artistUI.btnBrushTool.Click += (s, a) => { ActiveBrushType = BrushType.TileBrush; };
+            artistUI.btnFillTool.Click += (s, a) => { ActiveBrushType = BrushType.TileFill; };
         }
         
         public override void Update(GameTime gameTime, KeyboardState ks, MouseState ms)
         {
             base.Update(gameTime, ks, ms);
 
-            // TODO: Check if mouse is over application and not over UI
+            if (!IsMouseInsideWindow() || IsMouseOverUI())
+            {
+                return;
+            }
 
             if (ms.LeftButton == ButtonState.Pressed)
             {

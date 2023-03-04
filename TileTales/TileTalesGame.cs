@@ -83,8 +83,6 @@ namespace TileTales
         {
             if (!this.IsActive) return;
             StateManager.Update(gameTime, Keyboard.GetState(), Mouse.GetState());
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
 
             /*if (Keyboard.GetState().IsKeyDown(Keys.F11))
                 GraphicsDevice.PresentationParameters.

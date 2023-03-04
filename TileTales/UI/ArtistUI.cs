@@ -23,6 +23,10 @@ namespace TileTales.UI
         private Grid _tileSelectionPanel;
         private ContentLibrary _contentLibrary;
 
+        public TextButton btnPenTool;
+        public TextButton btnLineTool;
+        public TextButton btnFillTool;
+
         public ArtistUI(ContentLibrary contentLibrary)
         {
             _contentLibrary = contentLibrary;
@@ -62,19 +66,19 @@ namespace TileTales.UI
             _paintToolsPanel.RowsProportions.Add(new Proportion());
 
             // Add widgets
-            var btnPenTool = new TextButton();
+            btnPenTool = new TextButton();
             btnPenTool.Text = "Pen";
             btnPenTool.GridColumn = 1;
             btnPenTool.GridRow = 1;
             _paintToolsPanel.Widgets.Add(btnPenTool);
 
-            var btnLineTool = new TextButton();
+            btnLineTool = new TextButton();
             btnLineTool.Text = "Line";
             btnLineTool.GridColumn = 2;
             btnLineTool.GridRow = 1;
             _paintToolsPanel.Widgets.Add(btnLineTool);
 
-            var btnFillTool = new TextButton();
+            btnFillTool = new TextButton();
             btnFillTool.Text = "Fill";
             btnFillTool.GridColumn = 1;
             btnFillTool.GridRow = 2;

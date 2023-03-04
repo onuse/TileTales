@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Myra.Graphics2D.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,17 @@ namespace TileTales.State
             this.eventBus = EventBus.Instance;
             this.rf = RequestFactory.Instance;
             this.content = game.ContentLibrary;
+        }
+
+        protected bool IsMouseInsideWindow()
+        {
+            MouseState ms = Mouse.GetState();
+            return game.GraphicsDevice.Viewport.Bounds.Contains(new Point(ms.X, ms.Y));
+        }
+
+        protected bool IsMouseOverUI()
+        {
+            return ui.IsMouseOverGUI();
         }
 
         // Called when this state becomes the current state
