@@ -20,7 +20,7 @@ using TileTales.Utils;
 
 namespace TileTales.State
 {
-    internal class GameState : RunningState
+    internal class GameState : BaseState
     {
         private static GameState _instance;
 

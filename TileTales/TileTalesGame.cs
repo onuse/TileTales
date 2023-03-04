@@ -134,12 +134,16 @@ namespace TileTales
 
         internal void ActivateArtistState()
         {
-            StateManager.ChangeState(ArtistState.Instance);
+            StateManager.ClearStates();
+            StateManager.PushState(RunningState.Instance);
+            StateManager.PushState(ArtistState.Instance);
         }
 
         internal void ActivateGameState()
         {
-            StateManager.ChangeState(GameState.Instance);
+            StateManager.ClearStates();
+            StateManager.PushState(RunningState.Instance);
+            StateManager.PushState(GameState.Instance);
         }
     }
 }

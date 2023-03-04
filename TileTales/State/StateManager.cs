@@ -54,18 +54,35 @@ namespace TileTales.State
             PopState();
             PushState(state);
         }
+
+        public void ClearStates()
+        {
+            _states.Clear();
+        }
         public void Update(GameTime gameTime, KeyboardState keyboardState, MouseState mouseState)
         {
+            //_states.Peek().Update(gameTime, keyboardState, mouseState);
             if (_states.Count == 0)
             {
                 return;
             }
-            _states.Peek().Update(gameTime, keyboardState, mouseState);
+            foreach (BaseState s in _states)
+            {
+                s.Update(gameTime, keyboardState, mouseState);
+            }
         }
-
+        
         public void Draw(GameTime gameTime)
         {
-            _states.Peek().Draw(gameTime);
+            //_states.Peek().Draw(gameTime);
+            if (_states.Count == 0)
+            {
+                return;
+            }
+            foreach (BaseState s in _states)
+            {
+                s.Draw(gameTime);
+            }
         }
 
         internal void OnClientSizeChanged(int newWindowWidth, int newWindowHeight)

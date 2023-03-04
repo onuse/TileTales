@@ -86,7 +86,7 @@ namespace TileTales.Utils
             Settings gameSettings = contentLibrary.GameSettings;
             int pxPerTile = gameSettings.TileSize;
             float scale = gameSettings.Scale;
-            float realScale =  1 / scale;
+            float realScale = 1 / scale;
 
             int screenCenterPointX = gameSettings.WindowWidth / 2;
             int screenCenterPointY = gameSettings.WindowHeight / 2;

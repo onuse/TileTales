@@ -98,7 +98,6 @@ namespace TileTales.Utils
             String typeStr = typeUrl.Substring(typeUrl.LastIndexOf(".") + 1);
             var type = Assembly.GetExecutingAssembly().GetTypes().First(t => t.Name == typeStr);
             MessageDescriptor descriptor = (MessageDescriptor)type.GetProperty("Descriptor", BindingFlags.Public | BindingFlags.Static).GetValue(null, null);
-            //System.Diagnostics.Debug.WriteLine("EventBus.Publish() Any message descriptor.Name: " + descriptor.Name);
             Publish(descriptor, data);
         }
 

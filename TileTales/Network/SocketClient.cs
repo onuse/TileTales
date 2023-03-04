@@ -15,7 +15,7 @@ namespace TileTales.Network
 {
     public class SocketClient
     {
-        private static int BUFFER_SIZE = 1024 * 1024; // 1MB read buffer
+        private static int BUFFER_SIZE = 1024 * 64; // 64 kb read buffer
         private TcpClient client;
         private NetworkStream stream;
         private Boolean keepReading = true;
@@ -109,7 +109,7 @@ namespace TileTales.Network
                     usedBytes += messageLength;
                     messages.Add(messagePart);
                 }
-                messages.Reverse();
+                //messages.Reverse();
                 messages.ForEach(message => messageCallback(message));
             }
         }

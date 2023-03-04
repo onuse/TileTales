@@ -67,7 +67,7 @@ namespace TileTales.State
                 eventBus.Publish(EventType.AllTilesSaved, null);
                 Player p = game.GameWorld.GetPlayer();
                 System.Diagnostics.Debug.WriteLine("ConnectState(AllTilesData) player: " + p);
-                stateManager.ChangeState(GameState.Instance);
+                stateManager.ChangeState(RunningState.Instance);
                 CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 4);
                 serverConnector.SendMessage(zoneMapsRequest);
                 zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 32);

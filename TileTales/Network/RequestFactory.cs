@@ -2,6 +2,7 @@
 using Net.Tiletales.Network.Proto.Paint;
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -86,6 +87,24 @@ namespace TileTales.Network
                 Z = z
             };
             return drawLineRequest;
+        }
+
+        internal DrawMultiTileRequest createDrawMultiTileRequest(HashSet<Point> paintPoints, int z, uint color)
+        {
+            DrawMultiTileRequest drawMultiTileRequest = new DrawMultiTileRequest
+            {
+            };
+            foreach (Point point in paintPoints)
+            {
+                drawMultiTileRequest.Tiles.Add(new DrawTileRequest
+                {
+                    X = point.X,
+                    Y = point.Y,
+                    Z = z,
+                    TileId = color
+                });
+            }
+            return drawMultiTileRequest;
         }
     }
  }

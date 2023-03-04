@@ -15,6 +15,19 @@ namespace TileTales.State
 {
     internal class RunningState : BaseState
     {
+        private static RunningState _instance;
+        public static RunningState Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new RunningState();
+                }
+                return _instance;
+            }
+        }
+
         public RunningState() : base()
         {
             Settings settings = game.GameSettings;
