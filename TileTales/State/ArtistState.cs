@@ -65,7 +65,7 @@ namespace TileTales.State
             artistUI = game.AppUI.GetArtistUI();
             artistUI.btnLineTool.Click += (s, a) => { ActiveBrushType = BrushType.TileLine; };
             artistUI.btnPenTool.Click += (s, a) => { ActiveBrushType = BrushType.TilePen; };
-            //artistUI.btnBrushTool.Click += (s, a) => { ActiveBrushType = BrushType.TileBrush; };
+            artistUI.btnBrushTool.Click += (s, a) => { ActiveBrushType = BrushType.TileBrush; };
             artistUI.btnFillTool.Click += (s, a) => { ActiveBrushType = BrushType.TileFill; };
         }
         
@@ -88,7 +88,7 @@ namespace TileTales.State
                     paintStartY = worldY;
                     paintLastX = worldX;
                     paintLastY = worldY;
-                    if (ActiveBrushType == BrushType.TilePen)
+                    if (ActiveBrushType == BrushType.TilePen || ActiveBrushType == BrushType.TileBrush)
                     {
                         paintPoints = new HashSet<Point>
                         {
@@ -101,8 +101,17 @@ namespace TileTales.State
                 {
                     game.GameWorld.ScreenToWorldX(ms.X, ms.Y, out int worldX, out int worldY);
                     if (worldX != paintLastX || worldY != paintLastY) {
-                        if (ActiveBrushType == BrushType.TilePen)
+                        if (ActiveBrushType == BrushType.TilePen || ActiveBrushType == BrushType.TileBrush)
                         {
+                            if (ActiveBrushType == BrushType.TilePen)
+                            {
+                                Point latestPoint = paintPoints.Last();
+                                List<Point> points = PointUtils.GetPointsBetween(latestPoint.X, latestPoint.Y, worldX, worldY);
+                                foreach (Point point in points)
+                                {
+                                    paintPoints.Add(point);
+                                }
+                            }
                             paintPoints.Add(new Point(worldX, worldY));
                         }
                         //sendDrawLineRequest(paintLastX, paintLastY, worldX, worldY, 0);
@@ -117,7 +126,7 @@ namespace TileTales.State
                 {
                     paintIndicator = null;
                     game.GameWorld.ScreenToWorldX(ms.X, ms.Y, out int worldX, out int worldY);
-                    if (ActiveBrushType == BrushType.TilePen)
+                    if (ActiveBrushType == BrushType.TilePen || ActiveBrushType == BrushType.TileBrush)
                     {
                         sendDrawLineRequest(paintPoints, 0);
                     }

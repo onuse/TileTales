@@ -26,6 +26,7 @@ namespace TileTales.UI
         public TextButton btnPenTool;
         public TextButton btnLineTool;
         public TextButton btnFillTool;
+        public TextButton btnBrushTool;
 
         public ArtistUI(ContentLibrary contentLibrary)
         {
@@ -83,6 +84,12 @@ namespace TileTales.UI
             btnFillTool.GridColumn = 1;
             btnFillTool.GridRow = 2;
             _paintToolsPanel.Widgets.Add(btnFillTool);
+
+            btnBrushTool = new TextButton();
+            btnBrushTool.Text = "Brush";
+            btnBrushTool.GridColumn = 2;
+            btnBrushTool.GridRow = 2;
+            _paintToolsPanel.Widgets.Add(btnBrushTool);
 
             return _paintToolsPanel;
         }

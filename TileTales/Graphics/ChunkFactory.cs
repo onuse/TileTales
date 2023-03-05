@@ -55,7 +55,7 @@ namespace TileTales.Graphics
                     for (int x = 0; x < width; x++)
                     {
                         SKBitmap tile = tiles[y * width + x];
-                        canvas.DrawBitmap(tile, x * 16, y * 16);
+                        canvas.DrawBitmap(tile, x * tileWidth, y * tileHeight);
                     }
                 }
             }
