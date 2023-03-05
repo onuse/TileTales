@@ -32,7 +32,7 @@ namespace TileTales.State
         }
         private static ArtistState _instance;
 
-        public static ArtistState Instance
+        public static ArtistState Singleton
         {
             get
             {
@@ -59,7 +59,7 @@ namespace TileTales.State
 
         private readonly ArtistUI artistUI;
 
-        public ArtistState() : base()
+        private ArtistState() : base()
         {
             ActiveBrushType = BrushType.TilePen;
             artistUI = game.AppUI.GetArtistUI();
@@ -128,11 +128,11 @@ namespace TileTales.State
                     game.GameWorld.ScreenToWorldX(ms.X, ms.Y, out int worldX, out int worldY);
                     if (ActiveBrushType == BrushType.TilePen || ActiveBrushType == BrushType.TileBrush)
                     {
-                        sendDrawLineRequest(paintPoints, 0);
+                        SendDrawMultiTileRequest(paintPoints, 0);
                     }
                     else if (ActiveBrushType == BrushType.TileLine)
                     {
-                        sendDrawLineRequest(paintStartX, paintStartY, worldX, worldY, 0);
+                        SendDrawLineRequest(paintStartX, paintStartY, worldX, worldY, 0);
                     }
                     paintStartX = 0;
                     paintStartY = 0;
@@ -153,14 +153,14 @@ namespace TileTales.State
             {
                 if (teleportX != 0 || teleportY != 0)
                 {
-                    sendTeleportRequest(teleportX, teleportY, 0);
+                    SendTeleportRequest(teleportX, teleportY, 0);
                     teleportX = 0;
                     teleportY = 0;
                 }
             }
         }
 
-        private void sendDrawLineRequest(HashSet<Point> paintPoints, int z)
+        private void SendDrawMultiTileRequest(HashSet<Point> paintPoints, int z)
         {
             Tile selectedTile = ui.getSelectedTile();
             if (selectedTile == null)
@@ -171,7 +171,7 @@ namespace TileTales.State
             serverConnector.SendMessage(drawMultiTileRequest);
         }
 
-        private void sendDrawLineRequest(int paintStartX, int paintStartY, int paintEndX, int paintEndY, int z)
+        private void SendDrawLineRequest(int paintStartX, int paintStartY, int paintEndX, int paintEndY, int z)
         {
             System.Diagnostics.Debug.WriteLine("ArtistState.sendDrawLineRequest(paintStartX: " + paintStartX + ", paintStartY: " + paintStartY + ", paintEndX: " + paintEndX + ", paintEndY: " + paintEndY + ", z: " + z);
             Tile selectedTile = ui.getSelectedTile();
@@ -184,7 +184,7 @@ namespace TileTales.State
             serverConnector.SendMessage(drawLineRequest);
         }
 
-        private void sendTeleportRequest(int teleportX, int teleportY, int z)
+        private void SendTeleportRequest(int teleportX, int teleportY, int z)
         {
             TeleportRequest teleportRequest = rf.createTeleportRequest(teleportX, teleportY, z);
             serverConnector.SendMessage(teleportRequest);

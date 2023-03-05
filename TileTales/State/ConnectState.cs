@@ -28,8 +28,8 @@ namespace TileTales.State
                 /*_gameUI = ui._gameUI;
                 _gameUI.paddedCenteredButton.Click += (s, a) =>
                 {*/
-                    windowWidth = SettingsReader.Instance.GetSettings().WindowWidth;
-                    windowHeight = SettingsReader.Instance.GetSettings().WindowHeight;
+                    windowWidth = SettingsReader.Singleton.GetSettings().WindowWidth;
+                    windowHeight = SettingsReader.Singleton.GetSettings().WindowHeight;
                     Login();
                 //};
             });
@@ -67,7 +67,7 @@ namespace TileTales.State
                 eventBus.Publish(EventType.AllTilesSaved, null);
                 Player p = game.GameWorld.GetPlayer();
                 System.Diagnostics.Debug.WriteLine("ConnectState(AllTilesData) player: " + p);
-                stateManager.ChangeState(RunningState.Instance);
+                stateManager.ChangeState(RunningState.Singleton);
                 CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 4);
                 serverConnector.SendMessage(zoneMapsRequest);
                 zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 32);
@@ -93,7 +93,7 @@ namespace TileTales.State
         {
             if (serverConnector.isConnected())
             {
-                UserSettings settings = SettingsReader.Instance.GetSettings();
+                UserSettings settings = SettingsReader.Singleton.GetSettings();
                 AccountLoginRequest loginRequest = new AccountLoginRequest
                 {
                     Username = settings.AccountUsername,

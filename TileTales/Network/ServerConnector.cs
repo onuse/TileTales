@@ -24,8 +24,8 @@ namespace TileTales.Network
 
         public ServerConnector()
         {
-            this._eventBus = EventBus.Instance;
-            this._settingsReader = SettingsReader.Instance;
+            this._eventBus = EventBus.Singleton;
+            this._settingsReader = SettingsReader.Singleton;
             _eventBus.Subscribe(EventType.Connect, (o) => {
                 thread = new Thread(connectToServer);
                 thread.Start();

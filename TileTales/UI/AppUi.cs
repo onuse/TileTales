@@ -54,7 +54,7 @@ namespace TileTales.UI
 
             _mainMenu = new MainMenu();
             
-            EventBus.Instance.Subscribe(EventType.LoadGameUI, (data) =>
+            EventBus.Singleton.Subscribe(EventType.LoadGameUI, (data) =>
             {
                 _artistUI = new ArtistUI(_game.ContentLibrary);
                 _gameUI = new GameUI();
@@ -67,9 +67,9 @@ namespace TileTales.UI
                 _gameUI.SetWidth(_graphics.PreferredBackBufferWidth);
                 _gameUI.SetHeight(_graphics.PreferredBackBufferHeight);
                 _desktop.Root = _uiContainer;
-                EventBus.Instance.Publish(EventType.GameUILoaded, null);
+                EventBus.Singleton.Publish(EventType.GameUILoaded, null);
             });
-            EventBus.Instance.Subscribe(EventType.ConnectFailed, (data) =>
+            EventBus.Singleton.Subscribe(EventType.ConnectFailed, (data) =>
             {
                 popConnectErrorUI((string)data);
             });

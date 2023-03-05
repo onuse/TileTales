@@ -15,7 +15,7 @@ namespace TileTales.State
     internal class StateManager : ITTDrawble
     {
         private static StateManager _instance;
-        public static StateManager Instance
+        public static StateManager Singleton
         {
             get
             {

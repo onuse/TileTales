@@ -20,7 +20,7 @@ namespace TileTales.Utils
             _pathToSettingsFile = pathToSettingsFile;
         }
 
-        public static SettingsReader Instance
+        public static SettingsReader Singleton
         {
             get
             {

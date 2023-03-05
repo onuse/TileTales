@@ -16,7 +16,7 @@ namespace TileTales.State
     internal class RunningState : BaseState
     {
         private static RunningState _instance;
-        public static RunningState Instance
+        public static RunningState Singleton
         {
             get
             {
@@ -28,7 +28,7 @@ namespace TileTales.State
             }
         }
 
-        public RunningState() : base()
+        private RunningState() : base()
         {
             Settings settings = game.GameSettings;
             eventBus.Subscribe(ObjectLocationUpdate.Descriptor, (o) => {

@@ -40,7 +40,7 @@ namespace TileTales.UI
             _panel = new Panel();
 
             _panel.AddChild(CreateToolPanel());
-            EventBus.Instance.Subscribe(EventType.AllTilesSaved, (data) =>
+            EventBus.Singleton.Subscribe(EventType.AllTilesSaved, (data) =>
             {
                 Widget tilePanel = CreateTilePanel();
                 _panel.AddChild(tilePanel);

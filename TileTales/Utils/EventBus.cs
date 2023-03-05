@@ -18,7 +18,7 @@ namespace TileTales.Utils
         private readonly Stack<Event> queue= new Stack<Event>();
         private readonly Stack<ProtoEvent> protoQueue = new Stack<ProtoEvent>();
 
-        public static EventBus Instance
+        public static EventBus Singleton
         {
             get
             {

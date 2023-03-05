@@ -28,12 +28,12 @@ namespace TileTales.State
 
         public BaseState()
         {
-            this.game = TileTalesGame.Instance;
+            this.game = TileTalesGame.Singleton;
             this.stateManager = game.StateManager;
             this.serverConnector = game.ServerConnector;
             this.ui = game.AppUI;
             this.Player = game.GameWorld.player;
-            this.eventBus = EventBus.Instance;
+            this.eventBus = EventBus.Singleton;
             this.rf = RequestFactory.Instance;
             this.content = game.ContentLibrary;
         }

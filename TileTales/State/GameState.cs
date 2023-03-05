@@ -24,7 +24,7 @@ namespace TileTales.State
     {
         private static GameState _instance;
 
-        public static GameState Instance
+        public static GameState Singleton
         {
             get
             {
@@ -38,7 +38,7 @@ namespace TileTales.State
 
         private object moveRequestThrottle;
 
-        public GameState() : base()
+        private GameState() : base()
         {
         }
         

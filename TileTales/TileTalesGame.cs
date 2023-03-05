@@ -33,17 +33,17 @@ namespace TileTales
         private readonly SettingsReader _settingsReader;
         private ContentManager xnbContentManager;
 
-        public static TileTalesGame Instance { get; private set; }
+        public static TileTalesGame Singleton { get; private set; }
 
         public TileTalesGame()
         {
-            Instance = this;
+            Singleton = this;
             System.Diagnostics.Debug.WriteLine("TileTalesGame");
             System.Console.WriteLine("Hello TileTalesGame World!");
-            _settingsReader = SettingsReader.Instance;
+            _settingsReader = SettingsReader.Singleton;
             Content.RootDirectory = "Content";
-            StateManager = StateManager.Instance;
-            EventBus = EventBus.Instance;
+            StateManager = StateManager.Singleton;
+            EventBus = EventBus.Singleton;
 
             GraphicsManager = new GraphicsDeviceManager(this);
             GraphicsManager.PreferredBackBufferWidth = _settingsReader.GetSettings().WindowWidth;
@@ -133,15 +133,15 @@ namespace TileTales
         internal void ActivateArtistState()
         {
             StateManager.ClearStates();
-            StateManager.PushState(RunningState.Instance);
-            StateManager.PushState(ArtistState.Instance);
+            StateManager.PushState(RunningState.Singleton);
+            StateManager.PushState(ArtistState.Singleton);
         }
 
         internal void ActivateGameState()
         {
             StateManager.ClearStates();
-            StateManager.PushState(RunningState.Instance);
-            StateManager.PushState(GameState.Instance);
+            StateManager.PushState(RunningState.Singleton);
+            StateManager.PushState(GameState.Singleton);
         }
     }
 }

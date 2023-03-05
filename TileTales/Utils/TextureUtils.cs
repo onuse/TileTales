@@ -12,7 +12,7 @@ namespace TileTales.Utils
     {
         private static TextureUtils _instance;
 
-        public static TextureUtils Instance
+        public static TextureUtils Singleton
         {
             get
             {
