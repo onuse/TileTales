@@ -46,6 +46,13 @@ namespace TileTales.State
                 System.Diagnostics.Debug.WriteLine("RunningState(MapInfo)");
                 MapInfo response = MapInfo.Parser.ParseFrom((o as Any).Value);
                 Task.Run(() => LoadMap(response));
+                //Parallel.Invoke(() => LoadMap(response));
+                //LoadMap(response);
+                //new Thread(sendDelayedMapsRequest).Start();
+                /*Task.Run(() =>
+                {
+                    LoadMap(response);
+                });*/
             });
 
             eventBus.Subscribe(MultiMapInfo.Descriptor, (o) => {
@@ -56,7 +63,7 @@ namespace TileTales.State
             });
         }
 
-        private void LoadMaps(MultiMapInfo response)
+        private void  LoadMaps(MultiMapInfo response)
         {
             response.Maps.ToList().ForEach(response => LoadMap(response));
         }
@@ -65,12 +72,15 @@ namespace TileTales.State
         {
             ByteString mapBytes = response.Map;
             String mapName = ContentLibrary.CreateMapName(response.X, response.Y, response.Z, response.ZoomLevel);
-            System.Diagnostics.Debug.WriteLine("RunningState.LoadMap mapName: " + mapName);
+            System.Diagnostics.Debug.WriteLine("RunningState.LoadMap mapName: " + mapName + ", Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
             /*if (game.ContentLibrary.HasMap(mapName))
             {
                 System.Diagnostics.Debug.WriteLine("RunningState(MultiMapInfo) - Map already loaded: " + mapName);
                 return;
             }*/
+            //System.Diagnostics.Debug.WriteLine("RunningState.LoadMap ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
+            //System.Diagnostics.Debug.WriteLine("RunningState.LoadMap calling Thread.sleep() 60 seconds: ");
+            //await Task.Run(() => Thread.Sleep(60000));
             game.ContentLibrary.AddMap(mapName, mapBytes, false, true);
         }
 
@@ -81,6 +91,7 @@ namespace TileTales.State
 
         public override void Update(GameTime gameTime, KeyboardState ks, MouseState ms)
         {
+            ///System.Diagnostics.Debug.WriteLine("RunningState.LoadMap Update");
             Settings settings = game.GameSettings;
             if (settings == null) return;
             int dir = ms.ScrollWheelValue - settings.LastScrollWheelValue;

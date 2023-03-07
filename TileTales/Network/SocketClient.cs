@@ -15,7 +15,7 @@ namespace TileTales.Network
 {
     public class SocketClient
     {
-        private static int BUFFER_SIZE = 1024 * 64; // 64 kb read buffer
+        private static int BUFFER_SIZE = 1024 * 1024; // 1 MB read buffer
         private TcpClient client;
         private NetworkStream stream;
         private Boolean keepReading = true;
@@ -42,18 +42,21 @@ namespace TileTales.Network
 
         private void Send(byte[] messageBytes)
         {
-            System.Diagnostics.Debug.WriteLine("SocketClient SENDING: SendMessageBytes: " + messageBytes);
+            System.Diagnostics.Debug.WriteLine("SocketClient.Send() SENDING: messageBytes: " + messageBytes);
             stream.Write(messageBytes, 0, messageBytes.Length);
-            System.Diagnostics.Debug.WriteLine("SocketClient SENT_A: SendMessageBytes.Length: " + messageBytes.Length);
+            System.Diagnostics.Debug.WriteLine("SocketClient.Send() SENT_A: messageBytes.Length: " + messageBytes.Length);
             // Create String from byte[]
             string strMessage = Encoding.UTF8.GetString(messageBytes);
-            System.Diagnostics.Debug.WriteLine("SocketClient SENT_B: SendMessageBytes as string: " + strMessage);
+            System.Diagnostics.Debug.WriteLine("SocketClient.Send() SENT_B: messageBytes as string: " + strMessage);
         }
 
         public void SendMessageBytes(byte[] messageBytes)
         {
+            System.Diagnostics.Debug.WriteLine("SocketClient.SendMessageBytes() SENDING: messageBytes: " + messageBytes);
             // Send a message to the server in its own thread
-            Task.Run(() => Send(messageBytes));
+            //Task.Run(() => Send(messageBytes));
+
+            Parallel.Invoke(() => Send(messageBytes));
 
             //Send(messageBytes);
         }
@@ -66,7 +69,7 @@ namespace TileTales.Network
 
         public void ReadFromStream(MessageCallback messageCallback)
         {
-            System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream START");
+            System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream START Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
             byte[] buffer = new byte[BUFFER_SIZE];
             while (keepReading)
             {
@@ -110,7 +113,7 @@ namespace TileTales.Network
                     messages.Add(messagePart);
                 }
                 //messages.Reverse();
-                messages.ForEach(message => messageCallback(message));
+                 messages.ForEach(message => messageCallback(message));
             }
         }
 

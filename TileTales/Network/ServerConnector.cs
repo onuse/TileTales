@@ -52,7 +52,7 @@ namespace TileTales.Network
 
         public void startReadingStream()
         {
-            System.Diagnostics.Debug.WriteLine("ServerConnector.startReadingStream()");
+            System.Diagnostics.Debug.WriteLine("ServerConnector.startReadingStream() Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
             thread = new Thread(() => _socketClient.ReadFromStream(MessageCallback));
             thread.Start();
         }

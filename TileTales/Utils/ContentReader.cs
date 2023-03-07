@@ -5,8 +5,10 @@ using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -57,11 +59,23 @@ namespace TileTales.Utils
             return result;
         }
 
-        public static SKBitmap textureFromByteString(ByteString byteString, GraphicsDevice graphicsDecvice)
+        public static SKBitmap bitmapFromByteString(ByteString byteString)
         {
-            MemoryStream stream = new MemoryStream(byteString.ToByteArray());
-            //return Texture2D.FromStream(graphicsDecvice, stream);
-            return SKBitmap.Decode(stream);
+            byte[] bytes = byteString.ToByteArray();
+            //MemoryStream stream = new MemoryStream(bytes);
+            //return SKBitmap.Decode(stream);
+            return DecodeBitmap(bytes);
+        }
+
+        private unsafe static SKBitmap DecodeBitmap(byte[] bytes)
+        {
+            fixed (byte* ptr = bytes)
+            {
+                using (var stream = new UnmanagedMemoryStream(ptr, bytes.Length))
+                {
+                    return SKBitmap.Decode(stream);
+                }
+            }
         }
 
         internal static Texture2D readTexture(GraphicsDevice graphicsDevice, string textureFilePath)

@@ -34,6 +34,11 @@ namespace TileTales.GameContent
             set { layer = value; }
         }
 
+        public override string ToString()
+        {
+            return X + "_" + Y + "_" + Z;
+        }
+
         public override bool Equals(object obj)
         {
             return Equals(obj as Location);

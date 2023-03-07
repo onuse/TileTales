@@ -84,6 +84,12 @@ namespace TileTales.Utils
         internal static void ScreenToWorldCoords(int screenX, int screenY, ContentLibrary contentLibrary, Player player, out int worldX, out int worldY)
         {
             Settings gameSettings = contentLibrary.GameSettings;
+            if (gameSettings == null)
+            {
+                worldX = 0;
+                worldY = 0;
+                return;
+            }
             int pxPerTile = gameSettings.TileSize;
             float scale = gameSettings.Scale;
             float realScale = 1 / scale;

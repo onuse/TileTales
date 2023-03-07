@@ -134,6 +134,10 @@ namespace TileTales.State
                     {
                         SendDrawLineRequest(paintStartX, paintStartY, worldX, worldY, 0);
                     }
+                    else if (ActiveBrushType == BrushType.TileFill)
+                    {
+                        SendBucketFillRequest(worldX, worldY, 0);
+                    }
                     paintStartX = 0;
                     paintStartY = 0;
                     paintLastX = 0;
@@ -158,6 +162,12 @@ namespace TileTales.State
                     teleportY = 0;
                 }
             }
+        }
+
+        private void SendBucketFillRequest(int worldX, int worldY, int v)
+        {
+            BucketFillRequest bucketFillRequest = rf.createBucketFillRequest(worldX, worldY, v, (uint)ui.getSelectedTile().LegacyColor);
+            serverConnector.SendMessage(bucketFillRequest);
         }
 
         private void SendDrawMultiTileRequest(HashSet<Point> paintPoints, int z)
@@ -186,6 +196,8 @@ namespace TileTales.State
 
         private void SendTeleportRequest(int teleportX, int teleportY, int z)
         {
+            System.Diagnostics.Debug.WriteLine("ArtistState.SendTeleportRequest(teleportX: " + teleportX + ", teleportY: " + teleportY + ", z: " + z);
+
             TeleportRequest teleportRequest = rf.createTeleportRequest(teleportX, teleportY, z);
             serverConnector.SendMessage(teleportRequest);
         }

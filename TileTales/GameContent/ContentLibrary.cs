@@ -22,13 +22,13 @@ namespace TileTales.GameContent
         private static String NoTile = "000000";
         private static String Water = "0000FF";
         //private readonly Dictionary<int, Dictionary<Point, WeakReference<Chunk>>> _chunkLayers = new Dictionary<int, Dictionary<Point, WeakReference<Chunk>>>();
-        private readonly Dictionary<Location, Chunk> _chunks = new Dictionary<Location, Chunk> ();
-        private readonly ChunkFactory _chunkFactory;
         //private readonly Dictionary<Point, WeakReference<Chunk>> _chunks = new Dictionary<Point, WeakReference<Chunk>>();
         //private Dictionary<string, SKBitmap> tiles = new Dictionary<string, SKBitmap>();
         private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
         private Dictionary<string, SKBitmap> sprites = new Dictionary<string, SKBitmap>();
         private Dictionary<string, SKBitmap> maps = new Dictionary<string, SKBitmap>();
+        private readonly Dictionary<Location, Chunk> _chunks = new Dictionary<Location, Chunk>();
+        private readonly ChunkFactory _chunkFactory;
 
         private GraphicsDevice _graphicsDevice;
         private SKBitmap waterMap;
@@ -157,6 +157,10 @@ namespace TileTales.GameContent
 
         public SKBitmap GetMap(string name)
         {
+            if (!maps.ContainsKey(name))
+            {
+                return null;
+            }
             return maps[name];
         }
 
@@ -175,25 +179,28 @@ namespace TileTales.GameContent
             {
                 return;
             }
-            AddMap(name, Utils.ContentReader.textureFromByteString(data, _graphicsDevice), saveToDisc, createChunk);
+            AddMap(name, Utils.ContentReader.bitmapFromByteString(data), saveToDisc, createChunk);
         }
         
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void AddMap(string name, SKBitmap texture, Boolean saveToDisc, bool createChunk)
+        public void AddMap(string name, SKBitmap bitmap, Boolean saveToDisc, bool createChunk)
         {
             {
-                maps[name] = texture;
+                maps[name] = bitmap;
             }
-            maps[name] = texture;
+            maps[name] = bitmap;
             if (saveToDisc)
             {
-                Utils.ContentWriter.WriteFile(FOLDER_MAPS + "/" + name, texture);
+                Utils.ContentWriter.WriteFile(FOLDER_MAPS + "/" + name, bitmap);
             }
             if (createChunk)
             {
-                Chunk chunk = _chunkFactory.CreateChunkFromMap(texture);
-                Location location = createLocationFromMapName(name);
-                SetChunk(location, chunk);
+                Chunk chunk = _chunkFactory.CreateChunkFromMap(bitmap);
+                if (chunk != null)
+                {
+                    Location location = createLocationFromMapName(name);
+                    SetChunk(location, chunk);
+                }
             }
         }
 
@@ -223,20 +230,53 @@ namespace TileTales.GameContent
         {
             if (_chunks.ContainsKey(key))
             {
+                /*Chunk chunk = _chunks[key];
+                if (chunk.Image == null)
+                {
+                    _chunkFactory.CreateTextureForChunk(chunk);
+                }*/
                 return _chunks[key];
             }
+            /*if (hasMap(key))
+            {
+                SKBitmap map = GetMap(CreateMapName(key.X, key.Y, key.Z, 0));
+                if (map == null)
+                {
+                    return null;
+                }
+                Chunk chunk = _chunkFactory.CreateChunkFromMap(map);
+                if (chunk == null)
+                {
+                    return null;
+                }
+                SetChunk(key, chunk);
+                return chunk;
+            }*/
             //return waterChunk;
             return null;
         }
 
+        private bool hasMap(Location key)
+        {
+            return HasMap(CreateMapName(key.X, key.Y, key.Z, 0));
+        }
+
         public void SetChunk(int x, int y, int z, Chunk chunk)
         {
+            if (chunk == null)
+            {
+                return;
+            }
             Location key = new Location(x, y, z);
             SetChunk(key, chunk);
         }
 
         private void SetChunk(Location key, Chunk chunk)
         {
+            if (chunk == null)
+            {
+                return;
+            }
             if (_chunks.ContainsKey(key))
             {
                 _chunks[key] = chunk;

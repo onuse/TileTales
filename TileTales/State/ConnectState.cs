@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TileTales.GameContent;
 using TileTales.Graphics;
@@ -68,11 +69,18 @@ namespace TileTales.State
                 Player p = game.GameWorld.GetPlayer();
                 System.Diagnostics.Debug.WriteLine("ConnectState(AllTilesData) player: " + p);
                 stateManager.ChangeState(RunningState.Singleton);
-                CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 4);
+                CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 2);
                 serverConnector.SendMessage(zoneMapsRequest);
-                zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 32);
-                serverConnector.SendMessage(zoneMapsRequest);
+                new Thread(sendDelayedMapsRequest).Start();
             });
+        }
+
+        private void sendDelayedMapsRequest()
+        {
+            Thread.Sleep(2000);
+            Player p = game.GameWorld.GetPlayer();
+            CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 32);
+            //serverConnector.SendMessage(zoneMapsRequest);
         }
 
         private void AddTile(TileData tileData)

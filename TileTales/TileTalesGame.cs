@@ -15,6 +15,7 @@ using Myra.Graphics2D.UI;
 using TileTales.Graphics;
 using Net.Tiletales.Network.Proto.App;
 using TileTales.UI;
+using System.Diagnostics;
 
 namespace TileTales
 {
@@ -81,7 +82,13 @@ namespace TileTales
 
         protected override void Update(GameTime gameTime)
         {
-            if (!this.IsActive) return;
+
+            Stopwatch stopwatch1 = new Stopwatch();
+            stopwatch1.Start();
+            EventBus.Update();
+            stopwatch1.Stop();
+            if (stopwatch1.ElapsedMilliseconds > 100)
+                System.Diagnostics.Debug.WriteLine("EventBus.Update() took " + stopwatch1.ElapsedMilliseconds + "ms");
             StateManager.Update(gameTime, Keyboard.GetState(), Mouse.GetState());
 
             /*if (Keyboard.GetState().IsKeyDown(Keys.F11))
@@ -89,13 +96,12 @@ namespace TileTales
             else
                 GraphicsDevice.PresentationParameters.FullScreenRefreshRateInHz = 0;*/
 
-            EventBus.Update();
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            if (!this.IsActive) return;
             GraphicsDevice.Clear(Color.CornflowerBlue);
             StateManager.Draw(gameTime);
             AppUI.Draw();

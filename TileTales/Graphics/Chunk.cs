@@ -16,7 +16,7 @@ namespace TileTales.Graphics
      * */
     internal class Chunk
     {
-        public Chunk(Texture2D texture, SKBitmap[] tiles, SKBitmap map, int width, int height, SKColor[] pixelData)
+        public Chunk(Texture2D texture, SKBitmap[] tiles, SKBitmap map, int width, int height, SKColor[] pixelData, SKData skData)
         {
             Image = texture;
             Tiles = tiles;
@@ -24,13 +24,15 @@ namespace TileTales.Graphics
             Width = width;
             Height = height;
             PixelData = pixelData;
+            Data = skData;
         }
 
-        public Texture2D Image { get; }
+        public Texture2D Image { get; set;  }
         public SKBitmap[] Tiles { get; }
         public SKBitmap Map { get; }
         public int Width { get; }
         public int Height { get; }
         public SKColor[] PixelData { get; }
+        public SKData Data { get; }
     }
 }

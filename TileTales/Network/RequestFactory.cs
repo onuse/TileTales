@@ -20,7 +20,7 @@ namespace TileTales.Network
 
         public CenterMapsRequest CreateZoneMapsRequest(int x, int y, int z, int zoomLevel, int size)
         {
-            CenterMapsRequest zoneMapsRequest = new CenterMapsRequest
+            CenterMapsRequest zoneMapsRequest = new()
             {
                 CenterX = x,
                 CenterY = y,
@@ -34,7 +34,7 @@ namespace TileTales.Network
 
         public MapRequest createZoneMapRequest(int x, int y, int z, int zoomLevel)
         {
-            MapRequest zoneMapRequest = new MapRequest
+            MapRequest zoneMapRequest = new()
             {
                 X = x,
                 Y = y,
@@ -47,7 +47,7 @@ namespace TileTales.Network
 
         public MoveRequest createMoveRequest(int deltaX, int deltaY, int deltaZ)
         {
-            MoveRequest moveRequest = new MoveRequest
+            MoveRequest moveRequest = new()
             {
                 DeltaX = deltaX,
                 DeltaY = deltaY,
@@ -58,7 +58,7 @@ namespace TileTales.Network
 
         internal AllTilesRequest CreateAllTilesRequest()
         {
-            AllTilesRequest request = new AllTilesRequest
+            AllTilesRequest request = new()
             {
                 MyVersion = 0
             };
@@ -67,7 +67,7 @@ namespace TileTales.Network
 
         internal TeleportRequest createTeleportRequest(int teleportX, int teleportY, int z)
         {
-            TeleportRequest teleportRequest = new TeleportRequest
+            TeleportRequest teleportRequest = new()
             {
                 X = teleportX,
                 Y = teleportY,
@@ -78,7 +78,7 @@ namespace TileTales.Network
 
         internal DrawLineRequest createDrawLineRequest(int paintStartX, int paintStartY, int paintEndX, int paintEndY, int z)
         {
-            DrawLineRequest drawLineRequest = new DrawLineRequest
+            DrawLineRequest drawLineRequest = new()
             {
                 StartX = paintStartX,
                 StartY = paintStartY,
@@ -91,7 +91,7 @@ namespace TileTales.Network
 
         internal DrawMultiTileRequest createDrawMultiTileRequest(HashSet<Point> paintPoints, int z, uint color)
         {
-            DrawMultiTileRequest drawMultiTileRequest = new DrawMultiTileRequest
+            DrawMultiTileRequest drawMultiTileRequest = new()
             {
             };
             foreach (Point point in paintPoints)
@@ -105,6 +105,18 @@ namespace TileTales.Network
                 });
             }
             return drawMultiTileRequest;
+        }
+
+        internal BucketFillRequest createBucketFillRequest(int worldX, int worldY, int v, uint legacyColor)
+        {
+            BucketFillRequest bucketFillRequest = new()
+            {
+                X = worldX,
+                Y = worldY,
+                Z = v,
+                TileId = legacyColor
+            };
+            return bucketFillRequest;
         }
     }
  }
