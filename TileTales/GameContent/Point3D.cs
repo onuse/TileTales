@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace TileTales.GameContent
 {
-    internal struct Point3D : IEquatable<Point3D>, IComparable<Point3D>
+    internal readonly struct Point3D : IEquatable<Point3D>, IComparable<Point3D>
     {
+        private static readonly Point3D zeroPoint;
+
+        public static Point3D Zero => zeroPoint;
+
         public readonly Point Index;
         public readonly int Layer;
 
@@ -50,14 +54,10 @@ namespace TileTales.GameContent
 
         public override int GetHashCode()
         {
-            int hashCode = 1861411795;
-            hashCode = hashCode * -1521134295 + X.GetHashCode();
-            hashCode = hashCode * -1521134295 + Y.GetHashCode();
-            hashCode = hashCode * -1521134295 + Z.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(X, Y, Z);
         }
 
-        internal Point3D translate(int x, int y, int z)
+        internal Point3D Translate(int x, int y, int z)
         {
             return new Point3D(X + x, Y + y, Z + z);
         }

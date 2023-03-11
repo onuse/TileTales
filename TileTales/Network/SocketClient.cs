@@ -120,6 +120,7 @@ namespace TileTales.Network
 
         private void handleReadException(Exception e)
         {
+            Log.Fatal("ReadFromStream failed: " + e);
             shutdown();
         }
 
@@ -142,7 +143,7 @@ namespace TileTales.Network
                 {
                     stream.DisposeAsync();
                     stream.Socket.Shutdown(SocketShutdown.Both);
-                } catch (Exception e) { }
+                } catch (Exception) { }
             }
             if (client != null)
             {
@@ -151,7 +152,7 @@ namespace TileTales.Network
                     client.Close();
                     client.Dispose();
                 }
-                catch (Exception e) { }
+                catch (Exception) { }
             }
         }
     }

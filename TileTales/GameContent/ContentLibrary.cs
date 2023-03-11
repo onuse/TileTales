@@ -283,7 +283,13 @@ namespace TileTales.GameContent
             }
             else
             {
-                _chunks.Add(key, chunk);
+                try
+                {
+                    _chunks.Add(key, chunk);
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 

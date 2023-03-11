@@ -16,6 +16,7 @@ using TileTales.Graphics;
 using Net.Tiletales.Network.Proto.App;
 using TileTales.UI;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace TileTales
 {
@@ -39,6 +40,7 @@ namespace TileTales
         public float FPS {
             get => renderer.FPS;
         }
+        public bool IsGameMode => StateManager.HasState(GameState.Singleton);
 
         public TileTalesGame()
         {
@@ -104,7 +106,7 @@ namespace TileTales
         protected override void Draw(GameTime gameTime)
         {
             if (!this.IsActive) return;
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             StateManager.Draw(gameTime);
             AppUI.Draw();
             base.Draw(gameTime);

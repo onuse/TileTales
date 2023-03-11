@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using Net.Tiletales.Network.Proto.Game;
 using System;
@@ -12,27 +13,26 @@ namespace TileTales.GameContent
 {
     internal class Player
     {
-        private Point3D location = new Point3D(0, 0, 0);
         private int _objectId;
 
         public Player()
         {
-            
+            Location = Point3D.Zero;
         }
         public int X
         {
-            get { return location.X; }
-            set { location = new Point3D(value, Y, Z); }
+            get { return Location.X; }
+            set { Location = new Point3D(value, Y, Z); }
         }
         public int Y
         {
-            get { return location.Y; }
-            set { location = new Point3D(X, value, Z); }
+            get { return Location.Y; }
+            set { Location = new Point3D(X, value, Z); }
         }
         public int Z
         {
-            get { return location.Z; }
-            set { location = new Point3D(X, Y, value); }
+            get { return Location.Z; }
+            set { Location = new Point3D(X, Y, value); }
         }
 
         public int ObjectId
@@ -40,28 +40,35 @@ namespace TileTales.GameContent
             get { return _objectId; }
         }
 
-        internal void init(PlayerObjectInfo playerObjectInfo)
+        public Texture2D Avatar { get; internal set; }
+        public Point3D Location { get; internal set; }
+
+        internal void Init(PlayerObjectInfo playerObjectInfo, ContentLibrary contentLib)
         {
-            X = playerObjectInfo.X;
-            Y = playerObjectInfo.Y;
-            Z = playerObjectInfo.Z;
+            Avatar = contentLib.GetSprite("gobbe.png");
+            Location = new Point3D(playerObjectInfo.X, playerObjectInfo.Y, playerObjectInfo.Z);
             _objectId = playerObjectInfo.ObjectId;
 
         }
 
         internal void Move(int x, int y, int z)
         {
-            location = location.translate(x, y, z);
+            Location = Location.Translate(x, y, z);
+        }
+
+        internal void Teleport(int x, int y, int z)
+        {
+            Location = new Point3D(x, y, z);
+        }
+
+        internal void Teleport(Point3D newLoc)
+        {
+            Location = newLoc;
         }
 
         public override string ToString()
         {
             return $"Player: {X}, {Y}, {Z}";
-        }
-
-        internal void Teleport(int x, int y, int z)
-        {
-            location = new Point3D(x, y, z);
         }
     }
 }

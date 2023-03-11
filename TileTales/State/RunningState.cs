@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TileTales.GameContent;
 using TileTales.Graphics;
-using Serilog;
+using TileTales.Utils;
 
 namespace TileTales.State
 {
@@ -38,9 +38,14 @@ namespace TileTales.State
                 ObjectLocationUpdate response = ObjectLocationUpdate.Parser.ParseFrom((o as Any).Value);
                 if (response.ObjectId == Player.ObjectId)
                 {
-                    Player.X = response.X;
-                    Player.Y = response.Y;
-                    Player.Z = response.Z;
+                    Point3D newLocation = new Point3D(response.X, response.Y, response.Z);
+                    Player.Teleport(newLocation);
+                    GameWorld world = game.GameWorld;
+                    float mapDistances = CoordinateHelper.GetDistanceInMapsForWorldCoords(world.LastMapFetchLocation, newLocation, content);
+                    if (mapDistances > 1)
+                    {
+                        SendMapsRequest();
+                    }
                 }
             });
 
@@ -99,8 +104,11 @@ namespace TileTales.State
         private void SendMapsRequest()
         {
             Player p = game.GameWorld.GetPlayer();
-            CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 4);
+            Point3D mapIndex = CoordinateHelper.WorldCoordsToMapIndex(p.Location, content);
+            CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(mapIndex, 0, 6);
             serverConnector.SendMessage(zoneMapsRequest);
+            GameWorld world = game.GameWorld;
+            world.LastMapFetchLocation = p.Location;
         }
 
         internal override void OnClientSizeChanged(int newWindowWidth, int newWindowHeight)

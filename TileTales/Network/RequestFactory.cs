@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TileTales.GameContent;
 
 namespace TileTales.Network
 {
@@ -30,6 +31,11 @@ namespace TileTales.Network
                 ZoomLevel = zoomLevel
             };
             return zoneMapsRequest;
+        }
+
+        internal CenterMapsRequest CreateZoneMapsRequest(Point3D mapIndex, int zoomLevel, int size)
+        {
+            return CreateZoneMapsRequest(mapIndex.X, mapIndex.Y, mapIndex.Z, zoomLevel, size);
         }
 
         public MapRequest createZoneMapRequest(int x, int y, int z, int zoomLevel)

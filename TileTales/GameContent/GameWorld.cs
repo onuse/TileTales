@@ -43,7 +43,7 @@ namespace TileTales.GameContent
             //int chunkWidth = contentLibrary.ChunkWidth;
             //int chunkHeight = contentLibrary.ChunkHeight;
 
-            CoordinateTranslator.getMapIndexForWorldLocation(player.X, player.Y, contentLibrary, out int PlayerMapX, out int PlayerMapY);
+            CoordinateHelper.GetMapIndexForWorldLocation(player.X, player.Y, contentLibrary, out int PlayerMapX, out int PlayerMapY);
             Chunk[] chunks = new Chunk[xAmount * yAmount];
             for (int y = 0; y < yAmount; y++)
             {
@@ -70,7 +70,7 @@ namespace TileTales.GameContent
 
         internal Point getMapIndex(int locationX, int locationY)
         {
-            CoordinateTranslator.getMapIndexForWorldLocation(locationX, locationY, contentLibrary, out int mapIndexX, out int mapIndexY);
+            CoordinateHelper.GetMapIndexForWorldLocation(locationX, locationY, contentLibrary, out int mapIndexX, out int mapIndexY);
             return new Point(mapIndexX, mapIndexY);
         }
         
@@ -81,7 +81,7 @@ namespace TileTales.GameContent
 
         internal Player createPlayerObject(PlayerObjectInfo playerObjectInfo)
         {
-            player.init(playerObjectInfo);
+            player.Init(playerObjectInfo, contentLibrary);
             return player;
         }
 
@@ -98,7 +98,7 @@ namespace TileTales.GameContent
         internal void ScreenToWorldX(int screenX, int screenY, out int worldX, out int worldY)
         {
             //System.Diagnostics.Debug.WriteLine("GameWorld screenX: " + screenX + " screenY: " + screenY);
-            CoordinateTranslator.ScreenToWorldCoords(screenX, screenY, contentLibrary, player, out worldX, out worldY);
+            CoordinateHelper.ScreenToWorldCoords(screenX, screenY, contentLibrary, player, out worldX, out worldY);
         }
     }
 }

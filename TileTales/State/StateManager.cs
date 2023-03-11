@@ -38,6 +38,11 @@ namespace TileTales.State
             return _states.Peek();
         }
 
+        public bool HasState(BaseState baseState)
+        {
+            return _states.Contains(baseState);
+        }
+
         public void PushState(BaseState state)
         {
             _states.Enqueue(state);
