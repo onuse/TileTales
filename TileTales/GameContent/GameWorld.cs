@@ -22,7 +22,7 @@ namespace TileTales.GameContent
             this.contentLibrary = game.ContentLibrary;
         }
 
-        public Location LastMapFetchLocation { get; set; }
+        public Point3D LastMapFetchLocation { get; set; }
 
         public void LoadContent()
         {

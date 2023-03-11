@@ -74,12 +74,12 @@ namespace TileTales.Utils
             mapY = y / (mapHeight * tileHeight);
         }
 
-        public static void getMapIndexForTileIndex(Location location, ContentLibrary contentLibrary, out int mapX, out int mapY)
+        public static void getMapIndexForTileIndex(Point3D location, ContentLibrary contentLibrary, out int mapX, out int mapY)
         {
             getMapIndexForWorldLocation(location.X, location.Y, contentLibrary, out mapX, out mapY);
         }
 
-        public static void getTileIndexForMapIndex(Location location, ContentLibrary contentLibrary, out int tileX, out int tileY)
+        public static void getTileIndexForMapIndex(Point3D location, ContentLibrary contentLibrary, out int tileX, out int tileY)
         {
             getTileIndexForMapIndex(location.X, location.Y, contentLibrary, out tileX, out tileY);
         }

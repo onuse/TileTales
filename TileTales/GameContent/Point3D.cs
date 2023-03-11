@@ -7,32 +7,20 @@ using System.Threading.Tasks;
 
 namespace TileTales.GameContent
 {
-    internal class Location : IEquatable<Location>, IComparable<Location>
+    internal struct Point3D : IEquatable<Point3D>, IComparable<Point3D>
     {
-        public Point index;
-        public int layer;
+        public readonly Point Index;
+        public readonly int Layer;
 
-        public Location(int posX, int posY, int posZ)
+        public Point3D(int posX, int posY, int posZ)
         {
-            index.X = posX;
-            index.Y = posY;
-            layer = posZ;
+            Index = new Point(posX, posY);
+            Layer = posZ;
         }
-        public int X
-        {
-            get { return index.X; }
-            set { index.X = value; }
-        }
-        public int Y
-        {
-            get { return index.Y; }
-            set { index.Y = value; }
-        }
-        public int Z
-        {
-            get { return layer; }
-            set { layer = value; }
-        }
+
+        public int X => Index.X;
+        public int Y => Index.Y;
+        public int Z => Layer;
 
         public override string ToString()
         {
@@ -41,21 +29,16 @@ namespace TileTales.GameContent
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as Location);
+            return obj is Point3D location && Equals(location);
         }
 
-        public bool Equals(Location other)
+        public bool Equals(Point3D other)
         {
-            return other != null &&
-                   X == other.X &&
-                   Y == other.Y &&
-                   Z == other.Z;
+            return X == other.X && Y == other.Y && Z == other.Z;
         }
 
-        public int CompareTo(Location other)
+        public int CompareTo(Point3D other)
         {
-            if (other == null) return 1;
-
             int result = X.CompareTo(other.X);
             if (result != 0) return result;
 
@@ -73,5 +56,11 @@ namespace TileTales.GameContent
             hashCode = hashCode * -1521134295 + Z.GetHashCode();
             return hashCode;
         }
+
+        internal Point3D translate(int x, int y, int z)
+        {
+            return new Point3D(X + x, Y + y, Z + z);
+        }
     }
+
 }

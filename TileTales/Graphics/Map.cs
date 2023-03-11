@@ -21,7 +21,7 @@ namespace TileTales.Graphics
             Name = ContentLibrary.CreateMapName(x, y, z, 0);
         }
 
-        public Map(Location location) : this(location.X, location.Y, location.Z, 0)
+        public Map(Point3D location) : this(location.X, location.Y, location.Z, 0)
         {
         }
 

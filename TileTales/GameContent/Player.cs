@@ -6,32 +6,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 namespace TileTales.GameContent
 {
     internal class Player
     {
-        private Location location = new Location(0, 0, 0);
+        private Point3D location = new Point3D(0, 0, 0);
         private int _objectId;
 
         public Player()
         {
-
+            
         }
         public int X
         {
             get { return location.X; }
-            set { location.X = value; }
+            set { location = new Point3D(value, Y, Z); }
         }
         public int Y
         {
             get { return location.Y; }
-            set { location.Y = value; }
+            set { location = new Point3D(X, value, Z); }
         }
         public int Z
         {
             get { return location.Z; }
-            set { location.Z = value; }
+            set { location = new Point3D(X, Y, value); }
         }
 
         public int ObjectId
@@ -50,9 +51,7 @@ namespace TileTales.GameContent
 
         internal void Move(int x, int y, int z)
         {
-            location.index.X += x;
-            location.index.Y += y;
-            location.layer += z;
+            location = location.translate(x, y, z);
         }
 
         public override string ToString()
@@ -62,9 +61,7 @@ namespace TileTales.GameContent
 
         internal void Teleport(int x, int y, int z)
         {
-            location.index.X = x;
-            location.index.Y = y;
-            location.layer = z;
+            location = new Point3D(x, y, z);
         }
     }
 }

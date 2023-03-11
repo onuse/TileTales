@@ -28,7 +28,7 @@ namespace TileTales.GameContent
         private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
         private Dictionary<string, SKBitmap> sprites = new Dictionary<string, SKBitmap>();
         private Dictionary<string, Map> maps = new Dictionary<string, Map>();
-        private readonly Dictionary<Location, Chunk> _chunks = new Dictionary<Location, Chunk>();
+        private readonly Dictionary<Point3D, Chunk> _chunks = new Dictionary<Point3D, Chunk>();
         private readonly ChunkFactory _chunkFactory;
 
         private GraphicsDevice _graphicsDevice;
@@ -193,13 +193,13 @@ namespace TileTales.GameContent
                 Chunk chunk = _chunkFactory.CreateChunkFromMap(map, scaleFactor);
                 if (chunk != null)
                 {
-                    Location location = createLocationFromMapName(map.Name);
+                    Point3D location = createLocationFromMapName(map.Name);
                     SetChunk(location, chunk);
                 }
             }
         }
 
-        private Location createLocationFromMapName(string name)
+        private Point3D createLocationFromMapName(string name)
         {
             // Texture name is in format: x_y_z.png
             int _idx = name.IndexOf("_");
@@ -207,7 +207,7 @@ namespace TileTales.GameContent
             int x = int.Parse(name.Substring(0, _idx));
             int y = int.Parse(name.Substring(_idx + 1, _lidx - _idx - 1));
             int z = int.Parse(name.Substring(_lidx + 1, name.LastIndexOf(".") - _lidx - 1));
-            return new Location(x, y, z);
+            return new Point3D(x, y, z);
         }
 
         public static String CreateMapName(int x, int y, int z, int zoomLevel)
@@ -216,17 +216,17 @@ namespace TileTales.GameContent
             //return x + "_" + y + "_" + z + ".png";
         }
         
-        public static String CreateMapName(Location loc, int zoomLevel)
+        public static String CreateMapName(Point3D loc, int zoomLevel)
         {
             return CreateMapName(loc.X, loc.Y, loc.Z, zoomLevel);
         }
 
         public Chunk GetChunk(int x, int y, int z)
         {
-            return GetChunk(new Location(x, y, z));
+            return GetChunk(new Point3D(x, y, z));
         }
 
-        public Chunk GetChunk(Location key)
+        public Chunk GetChunk(Point3D key)
         {
             if (_chunks.ContainsKey(key))
             {
@@ -256,7 +256,7 @@ namespace TileTales.GameContent
             return null;
         }
 
-        private bool hasMap(Location key)
+        private bool hasMap(Point3D key)
         {
             return HasMap(CreateMapName(key.X, key.Y, key.Z, 0));
         }
@@ -267,11 +267,11 @@ namespace TileTales.GameContent
             {
                 return;
             }
-            Location key = new Location(x, y, z);
+            Point3D key = new Point3D(x, y, z);
             SetChunk(key, chunk);
         }
 
-        private void SetChunk(Location key, Chunk chunk)
+        private void SetChunk(Point3D key, Chunk chunk)
         {
             if (chunk == null)
             {
