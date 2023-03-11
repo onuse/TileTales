@@ -52,13 +52,13 @@ namespace TileTales.Network
 
         public void startReadingStream()
         {
-            System.Diagnostics.Debug.WriteLine("ServerConnector.startReadingStream() Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
+            Log.Info("Starting reading stream on thread: " + Thread.CurrentThread.ManagedThreadId);
             thread = new Thread(() => _socketClient.ReadFromStream(MessageCallback));
             thread.Start();
         }
         public void MessageCallback(Any message)
         {
-            System.Diagnostics.Debug.WriteLine("ServerConnector.MessageCallback() message RECIEVED: " + message);
+            Log.Verbose("message RECIEVED: " + message);
 
             /*String typeUrl = message.TypeUrl;
             String type = typeUrl.Substring(typeUrl.LastIndexOf(".") + 1);

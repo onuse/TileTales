@@ -9,6 +9,9 @@ using TileTales.GameContent;
 namespace TileTales.Utils
 {
     /**
+     * WorldLocation/WorldCoords = if the world is seen as a grid of pixels, this is the index of a pixel in that grid
+     * Most stuff actually has a worldlocation, even though every change is done with +/- 16 pixels (tilesize)
+     * 
      * TileIndex = if the world is seen as a grid of tiles, this is the index of a tile in that grid
      * Every item and player has a TileIndex and moves between tiles
      * 
@@ -19,7 +22,7 @@ namespace TileTales.Utils
     {
         public static void getMapIndexForWorldLocation(float x, float y, ContentLibrary contentLibrary, out int mapX, out int mapY)
         {
-            float chunkWidth = contentLibrary.ChunkWidth;
+            float chunkWidth = contentLibrary.ChunkWidth; // (mapWidth * tileWidth) = chunkWidth
             float chunkHeight = contentLibrary.ChunkHeight;
             mapX = (int)Math.Floor(x / chunkWidth);
             mapY = (int)Math.Floor(y / chunkHeight);

@@ -26,6 +26,9 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
     <PackageReference Include="Myra" Version="1.4.5" />
     <PackageReference Include="Myra.Extended" Version="1.1.1" />
+    <PackageReference Include="Serilog" Version="2.12.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageReference Include="SkiaSharp" Version="2.88.3" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">

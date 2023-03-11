@@ -22,6 +22,8 @@ namespace TileTales.GameContent
             this.contentLibrary = game.ContentLibrary;
         }
 
+        public Location LastMapFetchLocation { get; set; }
+
         public void LoadContent()
         {
             // Load all the chunks around the player
@@ -66,7 +68,7 @@ namespace TileTales.GameContent
             player.Teleport(x, y, 0);
         }
 
-        internal Point getChunksIndex(int locationX, int locationY)
+        internal Point getMapIndex(int locationX, int locationY)
         {
             CoordinateTranslator.getMapIndexForWorldLocation(locationX, locationY, contentLibrary, out int mapIndexX, out int mapIndexY);
             return new Point(mapIndexX, mapIndexY);

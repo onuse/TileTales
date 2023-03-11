@@ -36,11 +36,14 @@ namespace TileTales
 
         public static TileTalesGame Singleton { get; private set; }
 
+        public float FPS {
+            get => renderer.FPS;
+        }
+
         public TileTalesGame()
         {
             Singleton = this;
-            System.Diagnostics.Debug.WriteLine("TileTalesGame");
-            System.Console.WriteLine("Hello TileTalesGame World!");
+            Log.Info("TileTalesGame");
             _settingsReader = SettingsReader.Singleton;
             Content.RootDirectory = "Content";
             StateManager = StateManager.Singleton;
@@ -82,13 +85,12 @@ namespace TileTales
 
         protected override void Update(GameTime gameTime)
         {
-
             Stopwatch stopwatch1 = new Stopwatch();
             stopwatch1.Start();
             EventBus.Update();
             stopwatch1.Stop();
             if (stopwatch1.ElapsedMilliseconds > 100)
-                System.Diagnostics.Debug.WriteLine("EventBus.Update() took " + stopwatch1.ElapsedMilliseconds + "ms");
+                Log.Debug("EventBus.Update() took " + stopwatch1.ElapsedMilliseconds + "ms");
             StateManager.Update(gameTime, Keyboard.GetState(), Mouse.GetState());
 
             /*if (Keyboard.GetState().IsKeyDown(Keys.F11))
@@ -110,7 +112,7 @@ namespace TileTales
 
         private void OnClientSizeChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("OnClientSizeChanged w: " + Window.ClientBounds.Width + " h: " + Window.ClientBounds.Height);
+            Log.Verbose("OnClientSizeChanged w: " + Window.ClientBounds.Width + " h: " + Window.ClientBounds.Height);
             StateManager.OnClientSizeChanged(Window.ClientBounds.Width, Window.ClientBounds.Height);
             UserSettings userSettings = _settingsReader.GetSettings();
             userSettings.WindowWidth = Window.ClientBounds.Width;
@@ -126,12 +128,12 @@ namespace TileTales
         {
             ServerConnector.Shutdown();
             //Checking if Shutdown works, and it does.
-            Console.WriteLine("Exiting Game");
+            Log.Info("Exiting Game");
 }
 
         internal void InitGameSettings(RealmInfo realmData)
         {
-            System.Diagnostics.Debug.WriteLine("InitGameSettings");
+            Log.Debug("InitGameSettings");
             GameSettings = new Settings(realmData.WorldSize, realmData.TileSize, realmData.MapSize, _settingsReader.GetSettings());
             ContentLibrary.GameSettings = GameSettings;
         }

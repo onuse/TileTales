@@ -9,7 +9,6 @@ namespace TileTales.GameContent
 {
     internal class Settings
     {
-
         public int WorldSize { get; }
         public int MapSize { get; }
         public int TileSize { get; }
@@ -26,8 +25,9 @@ namespace TileTales.GameContent
         public float WorldScale => WORLDMAP_SCALE_VALUES[ZoomLevel];
 
         public UserSettings UserSettings { get; }
+        public float Fps { get; internal set; }
 
-    public static List<float> SCALE_VALUES = new float[] {
+        public static List<float> SCALE_VALUES = new float[] {
             8,
             4,
             2,

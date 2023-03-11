@@ -13,12 +13,13 @@ namespace TileTales.UI
 
         internal TextButton paddedCenteredButton;
         internal TextButton fixedSizeButton;
+        internal Label positionedText;
 
         public GameUI()
         {
 
         }
-
+        
         public Widget GetWidget()
         {
             return panel;
@@ -27,7 +28,8 @@ namespace TileTales.UI
         internal void Load()
         {
             panel = new Panel();
-            var positionedText = new Label();
+            
+            positionedText = new Label();
             positionedText.Text = "Positioned Text";
             positionedText.Left = 50;
             positionedText.Top = 100;

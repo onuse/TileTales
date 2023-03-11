@@ -19,7 +19,7 @@ namespace TileTales.Utils
         public static Dictionary<string, SKBitmap> readTexturesInDirectory(GraphicsDevice graphicsDecvice, string relativeDirectory)
         {
             DirectoryInfo dir = new DirectoryInfo(relativeDirectory);
-            System.Diagnostics.Debug.WriteLine("dir: " + dir);
+            Log.Debug("dir: " + dir);
             if (!dir.Exists)
                 throw new DirectoryNotFoundException();
             Dictionary<String, SKBitmap> result = new Dictionary<String, SKBitmap>();
@@ -27,7 +27,7 @@ namespace TileTales.Utils
             FileInfo[] files = dir.GetFiles("*.png");
             foreach (FileInfo file in files)
             {
-                System.Diagnostics.Debug.WriteLine("file.FullName: " + file.FullName);
+                Log.Debug("file.FullName: " + file.FullName);
                 FileStream fileStream = new FileStream(file.FullName, FileMode.Open);
 
                 //result[file.Name] = Texture2D.FromStream(graphicsDecvice, fileStream);
@@ -41,7 +41,7 @@ namespace TileTales.Utils
         public static Dictionary<string, SKBitmap> readTilesInDirectory(GraphicsDevice graphicsDecvice, string relativeDirectory)
         {
             DirectoryInfo dir = new DirectoryInfo(relativeDirectory);
-            System.Diagnostics.Debug.WriteLine("Tiles dir: " + dir);
+            Log.Debug("Tiles dir: " + dir);
             if (!dir.Exists)
                 throw new DirectoryNotFoundException();
             Dictionary<String, SKBitmap> result = new Dictionary<String, SKBitmap>();
@@ -51,7 +51,7 @@ namespace TileTales.Utils
             {
                 FileStream fileStream = new FileStream(file.FullName, FileMode.Open);
                 String tileName = file.Name.Substring(2, file.Name.Length - 6);
-                System.Diagnostics.Debug.WriteLine("Add Tile: " + tileName);
+                Log.Debug("Add Tile: " + tileName);
                 //result[tileName] = Texture2D.FromStream(graphicsDecvice, fileStream);
                 result[tileName] = SKBitmap.Decode(fileStream);
                 fileStream.Dispose();
@@ -65,6 +65,13 @@ namespace TileTales.Utils
             //MemoryStream stream = new MemoryStream(bytes);
             //return SKBitmap.Decode(stream);
             return DecodeBitmap(bytes);
+        }
+
+        public static Texture2D textureFromByteString(GraphicsDevice graphicsDevice, ByteString byteString)
+        {
+            byte[] bytes = byteString.ToByteArray();
+            MemoryStream stream = new MemoryStream(bytes);
+            return Texture2D.FromStream(graphicsDevice, stream);
         }
 
         private unsafe static SKBitmap DecodeBitmap(byte[] bytes)

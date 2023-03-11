@@ -183,7 +183,7 @@ namespace TileTales.State
 
         private void SendDrawLineRequest(int paintStartX, int paintStartY, int paintEndX, int paintEndY, int z)
         {
-            System.Diagnostics.Debug.WriteLine("ArtistState.sendDrawLineRequest(paintStartX: " + paintStartX + ", paintStartY: " + paintStartY + ", paintEndX: " + paintEndX + ", paintEndY: " + paintEndY + ", z: " + z);
+            Log.Debug("ArtistState.sendDrawLineRequest(paintStartX: " + paintStartX + ", paintStartY: " + paintStartY + ", paintEndX: " + paintEndX + ", paintEndY: " + paintEndY + ", z: " + z);
             Tile selectedTile = ui.getSelectedTile();
             if (selectedTile == null)
             {
@@ -196,8 +196,7 @@ namespace TileTales.State
 
         private void SendTeleportRequest(int teleportX, int teleportY, int z)
         {
-            System.Diagnostics.Debug.WriteLine("ArtistState.SendTeleportRequest(teleportX: " + teleportX + ", teleportY: " + teleportY + ", z: " + z);
-
+            Log.Debug("ArtistState.SendTeleportRequest(teleportX: " + teleportX + ", teleportY: " + teleportY + ", z: " + z);
             TeleportRequest teleportRequest = rf.createTeleportRequest(teleportX, teleportY, z);
             serverConnector.SendMessage(teleportRequest);
         }

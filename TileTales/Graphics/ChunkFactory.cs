@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using TileTales.GameContent;
+using TileTales.Utils;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace TileTales.Graphics
@@ -23,7 +24,7 @@ namespace TileTales.Graphics
             this.contentLibrary = contentLibrary;
         }
 
-        public Chunk CreateChunkFromMap(SKBitmap map)
+        public Chunk CreateChunkFromMap(Map map, float scaleFactor)
         {
             Stopwatch stopwatch1 = new Stopwatch();
             stopwatch1.Start();
@@ -31,30 +32,37 @@ namespace TileTales.Graphics
             {
                 return null;
             }
-            int width = map.Width;
-            int height = map.Height;
+            int width = map.Image.Width;
+            int height = map.Image.Height;
             ContentLibrary clib = contentLibrary;
-            SKBitmap[] tiles = new SKBitmap[width * height];
+            Tile[] tiles = new Tile[width * height];
             SKColor[] pixelData = new SKColor[width * height];
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
                     int index = x + y * width;
-                    SKColor pixel = map.GetPixel(x, y);
+                    SKColor pixel = map.Image.GetPixel(x, y);
                     pixelData[index] = pixel;
-                    SKBitmap tile = clib.GetTile(pixel.Red, pixel.Green, pixel.Blue).BackingImage;
+                    Tile tile = clib.GetTile(pixel.Red, pixel.Green, pixel.Blue);
                     tiles[index] = tile;
                 }
             }
-            int tileWidth = tiles[0].Width;
-            int tileHeight = tiles[0].Height;
+            int tileWidth = tiles[0].BackingImage.Width;
+            int tileHeight = tiles[0].BackingImage.Height;
             stopwatch1.Stop();
-            System.Diagnostics.Debug.WriteLine($"CreateChunkFromMap Elapsed time: {stopwatch1.ElapsedMilliseconds} ms");
-            return CreateChunk(tiles, map, width, height, tileWidth, tileHeight, pixelData);
+            Log.Verbose($"Elapsed time: {stopwatch1.ElapsedMilliseconds} ms");
+            if (scaleFactor != 0f)
+            {
+                return CreateBackingTexture(tiles, map, width, height, tileWidth, tileHeight, pixelData, scaleFactor);
+            }
+            else
+            {
+                return new Chunk(null, tiles, null, map, width, height, pixelData, null);
+            }
         }
 
-        private Chunk CreateChunk2(SKBitmap[] tiles, SKBitmap map, int width, int height, int tileWidth, int tileHeight, SKColor[] pixelData, bool createTexture)
+        /*private Chunk CreateChunk2(SKBitmap[] tiles, SKBitmap map, int width, int height, int tileWidth, int tileHeight, SKColor[] pixelData, bool createTexture)
         {
             Stopwatch stopwatch1 = new Stopwatch();
             //Stopwatch stopwatch1 = new Stopwatch();
@@ -95,7 +103,7 @@ namespace TileTales.Graphics
                 finalTexture = new Texture2D(graphicsDevice, totalWidth, totalHeight, false, SurfaceFormat.Color);
                 finalTexture.SetData<byte>(pixmap.GetPixelSpan().ToArray());*/
 
-                finalTexture = CreateTexture(canvasImage, graphicsDevice);
+                /*finalTexture = CreateTexture(canvasImage, graphicsDevice);
 
                 //Stream stream = new MemoryStream(map.Bytes);
                 //finalTexture = Texture2D.FromStream(graphicsDevice, stream);
@@ -105,18 +113,18 @@ namespace TileTales.Graphics
             System.Diagnostics.Debug.WriteLine($"CreateChunk Elapsed time: {stopwatch1.ElapsedMilliseconds} ms");
 
             return new Chunk(finalTexture, tiles, map, totalWidth, totalHeight, pixelData, null);
-        }
+        }*/
 
-        private Chunk CreateChunk(SKBitmap[] tiles, SKBitmap map, int width, int height, int tileWidth, int tileHeight, SKColor[] pixelData)
+        private Chunk CreateBackingTexture(Tile[] tiles, Map map, int width, int height, int tileWidth, int tileHeight, SKColor[] pixelData, float scaleFactor)
         {
             Stopwatch stopwatch1 = new Stopwatch();
             stopwatch1.Start();
             int totalWidth = width * tileWidth;
             int totalHeight = height * tileHeight;
-            Texture2D finalTexture = CreateTextureFast(tiles, width, height, tileWidth, tileHeight, pixelData, graphicsDevice);
+            Texture2D finalTexture = CreateTextureFast(tiles, width, height, tileWidth, tileHeight, pixelData, graphicsDevice, scaleFactor);
             stopwatch1.Stop();
-            System.Diagnostics.Debug.WriteLine($"CreateChunk Elapsed time: {stopwatch1.ElapsedMilliseconds} ms");
-            return new Chunk(finalTexture, tiles, map, totalWidth, totalHeight, pixelData, null);
+            Log.Verbose($"Elapsed time: {stopwatch1.ElapsedMilliseconds} ms");
+            return new Chunk(finalTexture, tiles, null, map, totalWidth, totalHeight, pixelData, null);
         }
 
             private Texture2D CreateTexture(SKBitmap bitmap, GraphicsDevice graphicsDevice)
@@ -138,10 +146,10 @@ namespace TileTales.Graphics
             return texture;
         }
 
-        private unsafe Texture2D CreateTextureFast(SKBitmap[] tiles, int width, int height, int tileWidth, int tileHeight, SKColor[] pixelData, GraphicsDevice graphicsDevice)
+        private unsafe Texture2D CreateTextureFast(Tile[] tiles, int width, int height, int tileWidth, int tileHeight, SKColor[] pixelData, GraphicsDevice graphicsDevice, float scaleFactor)
         {
-            int totalWidth = width * tileWidth;
-            int totalHeight = height * tileHeight;
+            int totalWidth = (int)(width * tileWidth * scaleFactor); // Apply the scale factor to the width
+            int totalHeight = (int)(height * tileHeight * scaleFactor); // Apply the scale factor to the height
 
             // Allocate memory for the texture data
             byte[] textureData = new byte[totalWidth * totalHeight * 4];
@@ -155,7 +163,7 @@ namespace TileTales.Graphics
                 {
                     for (int x = 0; x < width; x++)
                     {
-                        SKBitmap tile = tiles[y * width + x];
+                        SKBitmap tile = tiles[y * width + x].BackingImage;
                         SKColor* srcPtr = (SKColor*)tile.GetPixels();
 
                         for (int j = 0; j < tileHeight; j++)
@@ -163,7 +171,7 @@ namespace TileTales.Graphics
                             for (int i = 0; i < tileWidth; i++)
                             {
                                 SKColor srcPixel = srcPtr[i + j * tileWidth];
-                                byte* dstPixel = dstPtr + ((y * tileHeight + j) * totalWidth + x * tileWidth + i) * 4;
+                                byte* dstPixel = dstPtr + ((int)(y * tileHeight * scaleFactor + j * scaleFactor) * totalWidth + (int)(x * tileWidth * scaleFactor + i * scaleFactor)) * 4; // Apply the scale factor to the pixel position
                                 dstPixel[0] = srcPixel.Red;
                                 dstPixel[1] = srcPixel.Green;
                                 dstPixel[2] = srcPixel.Blue;
@@ -182,6 +190,68 @@ namespace TileTales.Graphics
         }
 
 
+        private Texture2D[] ConvertToTexture2DArray2(SKBitmap[] tiles, GraphicsDevice graphicsDevice)
+        {
+            Texture2D[] textures = new Texture2D[tiles.Length];
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                textures[i] = CreateTexture(tiles[i], graphicsDevice);
+            }
+            return textures;
+        }
+
+        private Texture2D[] ConvertToTexture2DArray(SKBitmap[] tiles, GraphicsDevice graphicsDevice)
+        {
+            Texture2D[] textures = new Texture2D[tiles.Length];
+
+            RenderTarget2D renderTarget = new RenderTarget2D(graphicsDevice, tiles[0].Width, tiles[0].Height);
+            SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
+
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                graphicsDevice.SetRenderTarget(renderTarget);
+                graphicsDevice.Clear(Color.Transparent);
+
+                spriteBatch.Begin();
+                spriteBatch.Draw(SkiaSharpExtensions.ToTexture2D(tiles[i], graphicsDevice), Vector2.Zero, Color.White);
+                spriteBatch.End();
+
+                textures[i] = renderTarget;
+            }
+
+            graphicsDevice.SetRenderTarget(null);
+            return textures;
+        }
+
+        /*private Texture2DArray ConvertToTexture2DArrayBest(SKBitmap[] tiles, GraphicsDevice graphicsDevice)
+        {
+            int width = tiles[0].Width;
+            int height = tiles[0].Height;
+            int depth = tiles.Length;
+
+            Texture2DArray textureArray = new Texture2DArray(graphicsDevice, width, height, depth, false, SurfaceFormat.Color);
+
+            Color[] colors = new Color[width * height];
+
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                SKBitmap tile = tiles[i];
+                byte[] pixelData = tile.Bytes;
+
+                for (int j = 0; j < pixelData.Length; j += 4)
+                {
+                    // Convert BGRA to RGBA
+                    colors[j / 4] = new Color(pixelData[j + 2], pixelData[j + 1], pixelData[j], pixelData[j + 3]);
+                }
+
+                textureArray.SetData(i, null, colors, 0, width * height);
+            }
+
+            return textureArray;
+        }*/
+
+
+
 
         public void CreateTextureForChunk(Chunk chunk)
         {
@@ -189,7 +259,7 @@ namespace TileTales.Graphics
             stopwatch1.Start();
             chunk.Image = Texture2D.FromStream(graphicsDevice, chunk.Data.AsStream());
             stopwatch1.Stop();
-            System.Diagnostics.Debug.WriteLine($"CreateTextureForChunk Elapsed time: {stopwatch1.ElapsedMilliseconds} ms");
+            Log.Verbose($"Elapsed time: {stopwatch1.ElapsedMilliseconds} ms");
         }
     }
 

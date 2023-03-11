@@ -58,18 +58,16 @@ namespace TileTales.State
                 deltaX = -16;
             if (ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D))
                 deltaX = +16;
-
+            
             if (deltaX != 0 || deltaY != 0 || deltaZ != 0)
             {
                 sendMoveRequestThrottled(deltaX, deltaY, deltaZ);
             }
-        }
-
-        private void sendTeleportRequest(int teleportX, int teleportY, int z)
-        {
-            TeleportRequest teleportRequest = rf.createTeleportRequest(teleportX, teleportY, z);
-            serverConnector.SendMessage(teleportRequest);
-            moveRequestThrottle = null;
+            var fpsLabel = ui.GetGameUI().positionedText;
+            if (fpsLabel != null)
+            {
+                fpsLabel.Text = "FPS: " + game.FPS;
+            }
         }
 
         private void sendMoveRequestThrottled(int deltaX, int deltaY, int deltaZ)

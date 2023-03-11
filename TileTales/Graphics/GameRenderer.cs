@@ -13,6 +13,7 @@ using Myra.Graphics2D.UI;
 using Google.Protobuf.WellKnownTypes;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Formats.Asn1.AsnWriter;
+using TileTales.Utils;
 
 namespace TileTales.Graphics
 {
@@ -34,6 +35,9 @@ namespace TileTales.Graphics
         private Vector2 origin = new Vector2(0, 0);
         const float rotation = 0f;
         const float layerDepth = 1f;
+        private FrameCounter _frameCounter = new FrameCounter();
+
+        public float FPS { get; internal set; }
 
         public GameRenderer(TileTalesGame tileTalesGame, GraphicsDeviceManager graphicsManager)
         {
@@ -103,8 +107,18 @@ namespace TileTales.Graphics
             batch.End();
         }*/
 
+        private void UpdateFrameCounter(GameTime gameTime)
+        {
+             _frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            FPS = _frameCounter.AverageFramesPerSecond;
+            
+            //var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
+            //game.GameSettings.Fps = fps;
+        }
+
         public void Draw(GameWorld world, GameTime gameTime)
         {
+            UpdateFrameCounter(gameTime);
             Settings settings = game.GameSettings;
             if (settings == null) return;
             float scale = Settings.SCALE_VALUES[settings.ZoomLevel];
@@ -162,7 +176,8 @@ namespace TileTales.Graphics
             float centerY = viewHeight / 2f;
             float txtOffsetX = playerX % pxPerChunk;
             float txtOffsetY = playerY % pxPerChunk;
-            if (playerX < 0 && txtOffsetX != 0) {
+            if (playerX < 0 && txtOffsetX != 0)
+            {
                 txtOffsetX = pxPerChunk + playerX % pxPerChunk;
             }
             if (playerY < 0 && txtOffsetY != 0)
@@ -182,7 +197,7 @@ namespace TileTales.Graphics
             SamplerState samplerState = (scale >= 1) ? SamplerState.PointClamp : SamplerState.AnisotropicClamp;
             tileBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, samplerState, DepthStencilState.Default, null, null, null);
 
-            Point chunksIndex = world.getChunksIndex(p.X, p.Y);
+            Point chunksIndex = world.getMapIndex(p.X, p.Y);
             double yMax = chunksIndex.Y + chunkAmountY / 2f + 1;
             double screenIndexY = -chunkAmountY / 2f;
             for (int y = (int)(chunksIndex.Y - chunkAmountY / 2f); y < yMax; y++, screenIndexY++)
@@ -191,144 +206,155 @@ namespace TileTales.Graphics
                 double xMax = chunksIndex.X + chunkAmountX / 2f + 1;
                 for (int x = (int)(chunksIndex.X - chunkAmountX / 2f); x < xMax; x++, screenIndexX++)
                 {
-                    Chunk chunk = world.GetChunk(x,y);
-                    if (chunk == null || chunk.Image == null) continue;
-                    if (settings.ZoomLevel >= 8)
+                    Chunk chunk = world.GetChunk(x, y);
+                    if (chunk == null) continue;
+                    if (settings.ZoomLevel > 8)
                     {
                         float textureX = (float)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
                         float textureY = (float)(centerY - (txtOffsetY - screenIndexY * pxPerChunk) * scale);
                         Vector2 pos = new Vector2(textureX, textureY);
-                        tileBatch.Draw(chunk.Image, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
-                    } else
+                        chunk.DrawMap(tileBatch, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
+                    }
+                    else if (settings.ZoomLevel > 5)
+                    {
+                        float textureX = (float)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
+                        float textureY = (float)(centerY - (txtOffsetY - screenIndexY * pxPerChunk) * scale);
+                        Vector2 pos = new Vector2(textureX, textureY);
+                        //tileBatch.Draw(chunk.Image, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
+                        chunk.DrawBackingImage(tileBatch, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
+                    }
+                    else
                     {
                         int textureX = (int)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
                         int textureY = (int)(centerY - (txtOffsetY - screenIndexY * pxPerChunk) * scale);
                         Vector2 pos = new Vector2(textureX, textureY);
-                        tileBatch.Draw(chunk.Image, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
+                        //tileBatch.Draw(chunk.Image, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
+
+                        chunk.DrawTiles(tileBatch, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
                     }
                 }
             }
-            
+
             Vector2 centerPos = new Vector2(centerX - (pxPerTileHlf * scale), centerY - (pxPerTileHlf * scale));
             tileBatch.Draw(playerAvatar, centerPos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
 
             tileBatch.End();
         }
 
-            /*public void Draw(GameWorld world, GameTime gameTime)
+        /*public void Draw(GameWorld world, GameTime gameTime)
+        {
+            Settings settings = game.GameSettings;
+            if (settings == null) return;
+            Color tint = Color.White;
+            Player p = world.player;
+            long playerX = p.X;
+            long playerY = p.Y;
+            int cnvWidth = settings.WindowWidth;
+            int cnvHeight = settings.WindowHeight;
+
+            int PIXELS_PER_CHUNK = settings.CHUNK_SIZE;
+            double zFactor = Settings.SCALE_VALUES[settings.ZoomLevel];
+            int destWidth = ((int)((PIXELS_PER_CHUNK * zFactor)));
+            int destHeight = ((int)((PIXELS_PER_CHUNK * zFactor)));
+            //  System.out.println("destHeight: " + destHeight);
+            //  how many chunks do we need?
+            int chunksX = (Math.Max(1, ((int)((cnvWidth
+                            / (PIXELS_PER_CHUNK * zFactor))))) + 3);
+            int chunksY = (Math.Max(1, ((int)((cnvHeight
+                            / (PIXELS_PER_CHUNK * zFactor))))) + 3);
+            int playerD = p.Z;
+            Point chunksIndex = world.getChunksIndex(playerX, playerY);
+            int chunkIndexX = chunksIndex.X;
+            int chunkIndexY = chunksIndex.Y;
+            //  what chunks to draw
+            int chunkY = (chunkIndexY
+                        - (chunksY / 2));
+            int chunkX = (chunkIndexX
+                        - (chunksX / 2));
+            int drawChunkStartX = ((int)(((0
+                        - (chunksX / 2))
+                        * (PIXELS_PER_CHUNK * zFactor))));
+            drawChunkStartX = (drawChunkStartX
+                        + (cnvWidth / 2));
+            int pixelInChunkX = ((int)((playerX % PIXELS_PER_CHUNK)));
+            if ((playerX < 0))
             {
-                Settings settings = game.GameSettings;
-                if (settings == null) return;
-                Color tint = Color.White;
-                Player p = world.player;
-                long playerX = p.X;
-                long playerY = p.Y;
-                int cnvWidth = settings.WindowWidth;
-                int cnvHeight = settings.WindowHeight;
+                if ((pixelInChunkX == 0))
+                {
+                    pixelInChunkX = (PIXELS_PER_CHUNK * -1);
+                }
 
-                int PIXELS_PER_CHUNK = settings.CHUNK_SIZE;
-                double zFactor = Settings.SCALE_VALUES[settings.ZoomLevel];
-                int destWidth = ((int)((PIXELS_PER_CHUNK * zFactor)));
-                int destHeight = ((int)((PIXELS_PER_CHUNK * zFactor)));
-                //  System.out.println("destHeight: " + destHeight);
-                //  how many chunks do we need?
-                int chunksX = (Math.Max(1, ((int)((cnvWidth
-                                / (PIXELS_PER_CHUNK * zFactor))))) + 3);
-                int chunksY = (Math.Max(1, ((int)((cnvHeight
-                                / (PIXELS_PER_CHUNK * zFactor))))) + 3);
-                int playerD = p.Z;
-                Point chunksIndex = world.getChunksIndex(playerX, playerY);
-                int chunkIndexX = chunksIndex.X;
-                int chunkIndexY = chunksIndex.Y;
-                //  what chunks to draw
-                int chunkY = (chunkIndexY
-                            - (chunksY / 2));
-                int chunkX = (chunkIndexX
+                drawChunkStartX = ((int)(drawChunkStartX
+                            - ((PIXELS_PER_CHUNK + pixelInChunkX)
+                            * zFactor)));
+            }
+            else
+            {
+                drawChunkStartX = ((int)(drawChunkStartX
+                            - (pixelInChunkX * zFactor)));
+            }
+
+            int drawChunkY = ((int)(((0
+                        - (chunksY / 2))
+                        * (PIXELS_PER_CHUNK * zFactor))));
+            drawChunkY = (drawChunkY
+                        + (cnvHeight / 2));
+            int pixelInChunkY = ((int)((playerY % PIXELS_PER_CHUNK)));
+            if ((playerY < 0))
+            {
+                if ((pixelInChunkY == 0))
+                {
+                    pixelInChunkY = (PIXELS_PER_CHUNK * -1);
+                }
+
+                drawChunkY = ((int)(drawChunkY
+                            - ((PIXELS_PER_CHUNK + pixelInChunkY)
+                            * zFactor)));
+            }
+            else
+            {
+                drawChunkY = ((int)(drawChunkY
+                            - (pixelInChunkY * zFactor)));
+            }
+
+            // int zSetting = mGameWorld.getZoomSetting();
+            SamplerState samplerState = (zFactor >= 1) ? SamplerState.PointClamp : SamplerState.AnisotropicClamp;
+            batch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, samplerState, DepthStencilState.Default, null, null, null);
+            for (int y = 0; (y < chunksY); y++)
+            {
+                chunkX = (chunkIndexX
                             - (chunksX / 2));
-                int drawChunkStartX = ((int)(((0
-                            - (chunksX / 2))
-                            * (PIXELS_PER_CHUNK * zFactor))));
-                drawChunkStartX = (drawChunkStartX
-                            + (cnvWidth / 2));
-                int pixelInChunkX = ((int)((playerX % PIXELS_PER_CHUNK)));
-                if ((playerX < 0))
+                int drawChunkX = drawChunkStartX;
+                for (int x = 0; (x < chunksX); x++)
                 {
-                    if ((pixelInChunkX == 0))
+                    if (GameWorld.isSeen(drawChunkX, drawChunkY, destWidth, destHeight, cnvWidth, cnvHeight, 0, 0))
                     {
-                        pixelInChunkX = (PIXELS_PER_CHUNK * -1);
-                    }
-
-                    drawChunkStartX = ((int)(drawChunkStartX
-                                - ((PIXELS_PER_CHUNK + pixelInChunkX)
-                                * zFactor)));
-                }
-                else
-                {
-                    drawChunkStartX = ((int)(drawChunkStartX
-                                - (pixelInChunkX * zFactor)));
-                }
-
-                int drawChunkY = ((int)(((0
-                            - (chunksY / 2))
-                            * (PIXELS_PER_CHUNK * zFactor))));
-                drawChunkY = (drawChunkY
-                            + (cnvHeight / 2));
-                int pixelInChunkY = ((int)((playerY % PIXELS_PER_CHUNK)));
-                if ((playerY < 0))
-                {
-                    if ((pixelInChunkY == 0))
-                    {
-                        pixelInChunkY = (PIXELS_PER_CHUNK * -1);
-                    }
-
-                    drawChunkY = ((int)(drawChunkY
-                                - ((PIXELS_PER_CHUNK + pixelInChunkY)
-                                * zFactor)));
-                }
-                else
-                {
-                    drawChunkY = ((int)(drawChunkY
-                                - (pixelInChunkY * zFactor)));
-                }
-
-                // int zSetting = mGameWorld.getZoomSetting();
-                SamplerState samplerState = (zFactor >= 1) ? SamplerState.PointClamp : SamplerState.AnisotropicClamp;
-                batch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, samplerState, DepthStencilState.Default, null, null, null);
-                for (int y = 0; (y < chunksY); y++)
-                {
-                    chunkX = (chunkIndexX
-                                - (chunksX / 2));
-                    int drawChunkX = drawChunkStartX;
-                    for (int x = 0; (x < chunksX); x++)
-                    {
-                        if (GameWorld.isSeen(drawChunkX, drawChunkY, destWidth, destHeight, cnvWidth, cnvHeight, 0, 0))
+                        Chunk chunk = world.GetChunk(chunkX, chunkY);
+                        if (((chunk != null)
+                                    && (chunk.Texture != null)))
                         {
-                            Chunk chunk = world.GetChunk(chunkX, chunkY);
-                            if (((chunk != null)
-                                        && (chunk.Texture != null)))
-                            {
-                                //mWorldRenderer.draw(g, zSetting, chunk.image, drawChunkX, drawChunkY, (drawChunkX + destWidth), (drawChunkY + destHeight), 0, 0, PIXELS_PER_CHUNK, PIXELS_PER_CHUNK, true);
-                                //g.drawImage(image, x, y, endX, endY, srcX, srcY, srcEndX, srcEndY);
+                            //mWorldRenderer.draw(g, zSetting, chunk.image, drawChunkX, drawChunkY, (drawChunkX + destWidth), (drawChunkY + destHeight), 0, 0, PIXELS_PER_CHUNK, PIXELS_PER_CHUNK, true);
+                            //g.drawImage(image, x, y, endX, endY, srcX, srcY, srcEndX, srcEndY);
 
-                                const float rotation = 0f;
-                                const float layerDepth = 1f;
-                                Vector2 pos = new Vector2(drawChunkX, drawChunkY);
-                                Vector2 origin = new Vector2(0, 0);
-                                Vector2 scale = new Vector2((float)zFactor, (float)zFactor);
-                                batch.Draw(chunk.Texture, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
-                            }
-
+                            const float rotation = 0f;
+                            const float layerDepth = 1f;
+                            Vector2 pos = new Vector2(drawChunkX, drawChunkY);
+                            Vector2 origin = new Vector2(0, 0);
+                            Vector2 scale = new Vector2((float)zFactor, (float)zFactor);
+                            batch.Draw(chunk.Texture, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
                         }
 
-                        drawChunkX = (drawChunkX + destWidth);
-                        chunkX++;
                     }
 
-                    drawChunkY = (drawChunkY + destHeight);
-                    chunkY++;
+                    drawChunkX = (drawChunkX + destWidth);
+                    chunkX++;
                 }
 
-                batch.End();
-            }*/
-        }
+                drawChunkY = (drawChunkY + destHeight);
+                chunkY++;
+            }
+
+            batch.End();
+        }*/
+    }
 }

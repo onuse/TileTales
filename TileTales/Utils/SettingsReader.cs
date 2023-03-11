@@ -44,13 +44,13 @@ namespace TileTales.Utils
 
         public UserSettings ReadSettingsFromPersistance()
         {
-            System.Diagnostics.Debug.WriteLine("ReadSettingsFromPersistance() File.Exists(_pathToSettingsFile): " + File.Exists(_pathToSettingsFile));
+            Log.Debug("File.Exists(_pathToSettingsFile): " + File.Exists(_pathToSettingsFile));
             try
             {
                 if (File.Exists(_pathToSettingsFile))
                 {
                     string json = File.ReadAllText(_pathToSettingsFile);
-                    System.Diagnostics.Debug.WriteLine("Reading settings file: " + json);
+                    Log.Debug("Reading settings file: " + json);
                     _settings = JsonConvert.DeserializeObject<UserSettings>(json);
                 } else
                 {
@@ -60,7 +60,7 @@ namespace TileTales.Utils
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Error reading settings file: " + ex.Message);
+                Log.Error("Error reading settings file: " + ex.Message);
             }
 
             return _settings;

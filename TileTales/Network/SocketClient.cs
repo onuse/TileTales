@@ -10,6 +10,7 @@ using Net.Tiletales.Network.Proto.App;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using System.IO;
+using TileTales.Utils;
 
 namespace TileTales.Network
 {
@@ -35,24 +36,24 @@ namespace TileTales.Network
                 return null;
             } catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("SocketClient.Connect() failed: " + e);
+                Log.Error("Connect failed: " + e);
                 return e;
             }
         }
 
         private void Send(byte[] messageBytes)
         {
-            System.Diagnostics.Debug.WriteLine("SocketClient.Send() SENDING: messageBytes: " + messageBytes);
+            Log.Verbose("SENDING messageBytes: " + messageBytes);
             stream.Write(messageBytes, 0, messageBytes.Length);
-            System.Diagnostics.Debug.WriteLine("SocketClient.Send() SENT_A: messageBytes.Length: " + messageBytes.Length);
+            Log.Debug("SENT messageBytes.Length: " + messageBytes.Length);
             // Create String from byte[]
             string strMessage = Encoding.UTF8.GetString(messageBytes);
-            System.Diagnostics.Debug.WriteLine("SocketClient.Send() SENT_B: messageBytes as string: " + strMessage);
+            Log.Verbose("SENT messageBytes as string: " + strMessage);
         }
 
         public void SendMessageBytes(byte[] messageBytes)
         {
-            System.Diagnostics.Debug.WriteLine("SocketClient.SendMessageBytes() SENDING: messageBytes: " + messageBytes);
+            //System.Diagnostics.Debug.WriteLine("SocketClient.SendMessageBytes() SENDING: messageBytes: " + messageBytes);
             // Send a message to the server in its own thread
             //Task.Run(() => Send(messageBytes));
 
@@ -69,11 +70,11 @@ namespace TileTales.Network
 
         public void ReadFromStream(MessageCallback messageCallback)
         {
-            System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream START Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
+            Log.Debug("START Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
             byte[] buffer = new byte[BUFFER_SIZE];
             while (keepReading)
             {
-                System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream keepReading: " + keepReading);
+                Log.Verbose("keepReading: " + keepReading);
                 int bytesRead = 0;
                 int totalBytesRead = 0;
                 try
@@ -92,7 +93,7 @@ namespace TileTales.Network
                 }
                 totalBytesRead += bytesRead;
 
-                System.Diagnostics.Debug.WriteLine("SocketClient.ReadFromStream bytesRead: " + bytesRead);
+                Log.Debug("bytesRead: " + bytesRead);
                 /*
                  * Heres the deal; protobuf messages might come several at once
                  * They are packed with the most recent one first, and the oldest one last
@@ -133,7 +134,7 @@ namespace TileTales.Network
 
         public void shutdown()
         {
-            System.Diagnostics.Debug.WriteLine("SocketClient.shutdown()");
+            Log.Info("Shutting down");
             keepReading = false;
             if (stream != null)
             {

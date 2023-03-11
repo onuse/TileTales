@@ -5,6 +5,7 @@ using Myra.Graphics2D.UI;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -26,7 +27,7 @@ namespace TileTales.GameContent
         //private Dictionary<string, SKBitmap> tiles = new Dictionary<string, SKBitmap>();
         private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
         private Dictionary<string, SKBitmap> sprites = new Dictionary<string, SKBitmap>();
-        private Dictionary<string, SKBitmap> maps = new Dictionary<string, SKBitmap>();
+        private Dictionary<string, Map> maps = new Dictionary<string, Map>();
         private readonly Dictionary<Location, Chunk> _chunks = new Dictionary<Location, Chunk>();
         private readonly ChunkFactory _chunkFactory;
 
@@ -80,7 +81,7 @@ namespace TileTales.GameContent
                     waterMap.SetPixel(x, y, water);
                 }
             }
-            waterChunk = _chunkFactory.CreateChunkFromMap(waterMap);
+            //waterChunk = _chunkFactory.CreateChunkFromMap(waterMap, 0.25f);
         }
 
         public Texture2D GetSprite(string name)
@@ -155,7 +156,7 @@ namespace TileTales.GameContent
             tiles[colorRGB] = texture;
         }*/
 
-        public SKBitmap GetMap(string name)
+        public Map GetMap(string name)
         {
             if (!maps.ContainsKey(name))
             {
@@ -172,33 +173,27 @@ namespace TileTales.GameContent
                 Utils.ContentWriter.WriteFile(FOLDER_SPRITES + "/" + name, texture);
             }
         }
+        
 
-        public void AddMap(string name, ByteString data, Boolean saveToDisc, bool createChunk)
+        public void AddMap(Map map, Boolean saveToDisc, bool createChunk, float scaleFactor)
         {
-            if (data == null || data.Length == 0 || data == ByteString.Empty)
+            if (map.ByteString == null || map.ByteString.Length == 0 || map.ByteString == ByteString.Empty)
             {
                 return;
             }
-            AddMap(name, Utils.ContentReader.bitmapFromByteString(data), saveToDisc, createChunk);
-        }
-        
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void AddMap(string name, SKBitmap bitmap, Boolean saveToDisc, bool createChunk)
-        {
-            {
-                maps[name] = bitmap;
-            }
-            maps[name] = bitmap;
+            map.Image = Utils.ContentReader.bitmapFromByteString(map.ByteString);
+            map.Texture = Utils.ContentReader.textureFromByteString(_graphicsDevice, map.ByteString);
+            maps[map.Name] = map;
             if (saveToDisc)
             {
-                Utils.ContentWriter.WriteFile(FOLDER_MAPS + "/" + name, bitmap);
+                Utils.ContentWriter.WriteFile(FOLDER_MAPS + "/" + map.Name, map.Image);
             }
             if (createChunk)
             {
-                Chunk chunk = _chunkFactory.CreateChunkFromMap(bitmap);
+                Chunk chunk = _chunkFactory.CreateChunkFromMap(map, scaleFactor);
                 if (chunk != null)
                 {
-                    Location location = createLocationFromMapName(name);
+                    Location location = createLocationFromMapName(map.Name);
                     SetChunk(location, chunk);
                 }
             }
@@ -221,6 +216,11 @@ namespace TileTales.GameContent
             //return x + "_" + y + "_" + z + ".png";
         }
         
+        public static String CreateMapName(Location loc, int zoomLevel)
+        {
+            return CreateMapName(loc.X, loc.Y, loc.Z, zoomLevel);
+        }
+
         public Chunk GetChunk(int x, int y, int z)
         {
             return GetChunk(new Location(x, y, z));

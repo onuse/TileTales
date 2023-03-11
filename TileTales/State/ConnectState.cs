@@ -20,8 +20,6 @@ namespace TileTales.State
     internal class ConnectState : BaseState
     {
         private GameUI _gameUI;
-        private int windowWidth;
-        private int windowHeight;
         public ConnectState() : base()
         {
             eventBus.Subscribe(EventType.Connected, (o) =>
@@ -29,8 +27,6 @@ namespace TileTales.State
                 /*_gameUI = ui._gameUI;
                 _gameUI.paddedCenteredButton.Click += (s, a) =>
                 {*/
-                    windowWidth = SettingsReader.Singleton.GetSettings().WindowWidth;
-                    windowHeight = SettingsReader.Singleton.GetSettings().WindowHeight;
                     Login();
                 //};
             });
@@ -46,13 +42,13 @@ namespace TileTales.State
 
             eventBus.Subscribe(RealmInfo.Descriptor, (o) =>
             {
-                System.Diagnostics.Debug.WriteLine("ConnectState(RealmInfo)");
+                Log.Debug("(RealmInfo)");
                 RealmInfo data = RealmInfo.Parser.ParseFrom((o as Any).Value);
                 game.InitGameSettings(data);
             });
 
             eventBus.Subscribe(PlayerObjectInfo.Descriptor, (o) => {
-                System.Diagnostics.Debug.WriteLine("ConnectState(PlayerObjectInfo)");
+                Log.Debug("(PlayerObjectInfo)");
                 PlayerObjectInfo data = PlayerObjectInfo.Parser.ParseFrom((o as Any).Value);
                 game.GameWorld.createPlayerObject(data);
                 AllTilesRequest allTilesRequest = rf.CreateAllTilesRequest();
@@ -61,28 +57,20 @@ namespace TileTales.State
             });
 
             eventBus.Subscribe(AllTilesData.Descriptor, (o) => {
-                System.Diagnostics.Debug.WriteLine("ConnectState(AllTilesData)");
+                Log.Debug("(AllTilesData)");
                 AllTilesData data = AllTilesData.Parser.ParseFrom((o as Any).Value);
                 data.Tiles.ToList().ForEach(tile => AddTile(tile));
                 content.CreateWaterChunk();
                 eventBus.Publish(EventType.AllTilesSaved, null);
                 Player p = game.GameWorld.GetPlayer();
-                System.Diagnostics.Debug.WriteLine("ConnectState(AllTilesData) player: " + p);
+                Log.Debug("(AllTilesData) player: " + p);
                 stateManager.ChangeState(RunningState.Singleton);
                 CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 2);
                 serverConnector.SendMessage(zoneMapsRequest);
-                new Thread(sendDelayedMapsRequest).Start();
+                new Thread(RunningState.Singleton.SendDelayedMapsRequest).Start();
             });
         }
-
-        private void sendDelayedMapsRequest()
-        {
-            Thread.Sleep(2000);
-            Player p = game.GameWorld.GetPlayer();
-            CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 32);
-            //serverConnector.SendMessage(zoneMapsRequest);
-        }
-
+        
         private void AddTile(TileData tileData)
         {
             Tile tile = new Tile(tileData.ReplacementColor);

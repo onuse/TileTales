@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TileTales.GameContent;
+using TileTales.Graphics;
+using Serilog;
 
 namespace TileTales.State
 {
@@ -32,7 +34,7 @@ namespace TileTales.State
         {
             Settings settings = game.GameSettings;
             eventBus.Subscribe(ObjectLocationUpdate.Descriptor, (o) => {
-                System.Diagnostics.Debug.WriteLine("RunningState(ObjectLocationUpdate)");
+                Log.Debug("(ObjectLocationUpdate)");
                 ObjectLocationUpdate response = ObjectLocationUpdate.Parser.ParseFrom((o as Any).Value);
                 if (response.ObjectId == Player.ObjectId)
                 {
@@ -43,7 +45,7 @@ namespace TileTales.State
             });
 
             eventBus.Subscribe(MapInfo.Descriptor, (o) => {
-                System.Diagnostics.Debug.WriteLine("RunningState(MapInfo)");
+                Log.Debug("(MapInfo)");
                 MapInfo response = MapInfo.Parser.ParseFrom((o as Any).Value);
                 Task.Run(() => LoadMap(response));
                 //Parallel.Invoke(() => LoadMap(response));
@@ -56,7 +58,7 @@ namespace TileTales.State
             });
 
             eventBus.Subscribe(MultiMapInfo.Descriptor, (o) => {
-                System.Diagnostics.Debug.WriteLine("RunningState(MultiMapInfo)");
+                Log.Debug("(MultiMapInfo)");
                 MultiMapInfo response = MultiMapInfo.Parser.ParseFrom((o as Any).Value);
                 // Start new thread to load maps
                 Task.Run(() => LoadMaps(response));
@@ -72,7 +74,7 @@ namespace TileTales.State
         {
             ByteString mapBytes = response.Map;
             String mapName = ContentLibrary.CreateMapName(response.X, response.Y, response.Z, response.ZoomLevel);
-            System.Diagnostics.Debug.WriteLine("RunningState.LoadMap mapName: " + mapName + ", Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
+            Log.Debug("mapName: " + mapName + ", Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
             /*if (game.ContentLibrary.HasMap(mapName))
             {
                 System.Diagnostics.Debug.WriteLine("RunningState(MultiMapInfo) - Map already loaded: " + mapName);
@@ -81,7 +83,24 @@ namespace TileTales.State
             //System.Diagnostics.Debug.WriteLine("RunningState.LoadMap ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
             //System.Diagnostics.Debug.WriteLine("RunningState.LoadMap calling Thread.sleep() 60 seconds: ");
             //await Task.Run(() => Thread.Sleep(60000));
-            game.ContentLibrary.AddMap(mapName, mapBytes, false, true);
+            Map map = new(response.X, response.Y, response.Z, response.ZoomLevel)
+            {
+                ByteString = mapBytes
+            };
+            game.ContentLibrary.AddMap(map, false, true, 0.125f);
+        }
+        
+        internal void SendDelayedMapsRequest()
+        {
+            Thread.Sleep(1000);
+            SendMapsRequest();
+        }
+
+        private void SendMapsRequest()
+        {
+            Player p = game.GameWorld.GetPlayer();
+            CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 4);
+            serverConnector.SendMessage(zoneMapsRequest);
         }
 
         internal override void OnClientSizeChanged(int newWindowWidth, int newWindowHeight)
