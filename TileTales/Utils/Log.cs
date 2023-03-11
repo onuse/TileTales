@@ -16,6 +16,8 @@ namespace TileTales.Utils
         private static Logger logger;
         public static LogEventLevel Level { get; private set; }
         public static bool IsTurnedOn => logger != null;
+        
+        private static String _filter;
 
         public static bool IsAtLeastVerbose => IsTurnedOn && Level <= LogEventLevel.Verbose;
         public static bool IsAtLeastDebug => IsTurnedOn && Level <= LogEventLevel.Debug;
@@ -39,43 +41,67 @@ namespace TileTales.Utils
             .CreateLogger();
         }
 
+        public static void Init(LogEventLevel level, String filter)
+        {
+            Init(level);
+            _filter = filter;
+        }
+
         public static void Verbose(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) logger.Verbose(NicePath(path, name) + message);
+            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Verbose);
         }
 
         public static void Debug(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) logger.Debug(NicePath(path, name) + message);
+            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Debug);
         }
 
         public static void Info(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) logger.Information(NicePath(path, name) + message);
+            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Information);
         }
 
         public static void Warning(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) logger.Warning(NicePath(path, name) + message);
+            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Warning);
         }
 
         public static void Error(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) logger.Error(NicePath(path, name) + message);
+            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Error);
         }
 
         public static void Fatal(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) logger.Fatal(NicePath(path, name) + message);
+            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Fatal);
         }
 
+        private static void FilteredLogging(String msg, LogEventLevel level)
+        {
+            if (Filter(_filter, msg))
+            {
+                if (level == LogEventLevel.Fatal) logger.Fatal(msg);
+                else if (level == LogEventLevel.Error) logger.Error(msg);
+                else if (level == LogEventLevel.Warning) logger.Warning(msg);
+                else if (level == LogEventLevel.Information) logger.Information(msg);
+                else if (level == LogEventLevel.Debug) logger.Debug(msg);
+                else logger.Verbose(msg);
+            }
+        }
 
-        private static String NicePath(String callerFilePath, string callerName)
+        private static bool Filter(String filter, String contents)
+        {
+            if (filter == null) return true;
+            return contents.Contains(filter);
+        }
+
+        private static String Format(String callerFilePath, string callerName, string message)
         {
             var segments = callerFilePath.Split('\\', '/');
             var className = Path.GetFileNameWithoutExtension(segments.Last());
             var parentPackage = segments[segments.Length-2];
-            return $"{parentPackage}/{className}.{callerName}(): ";
+            return $"{parentPackage}/{className}.{callerName}(): {message}";
         }
     }
 }
