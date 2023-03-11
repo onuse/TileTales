@@ -89,7 +89,7 @@ namespace TileTales
             stopwatch1.Start();
             EventBus.Update();
             stopwatch1.Stop();
-            if (stopwatch1.ElapsedMilliseconds > 100)
+            if (stopwatch1.ElapsedMilliseconds > 100 && Log.IsAtLeastDebug)
                 Log.Debug("EventBus.Update() took " + stopwatch1.ElapsedMilliseconds + "ms");
             StateManager.Update(gameTime, Keyboard.GetState(), Mouse.GetState());
 

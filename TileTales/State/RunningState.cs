@@ -87,7 +87,7 @@ namespace TileTales.State
             {
                 ByteString = mapBytes
             };
-            game.ContentLibrary.AddMap(map, false, true, 0.125f);
+            game.ContentLibrary.AddMap(map, false, true, 0.25f);
         }
         
         internal void SendDelayedMapsRequest()

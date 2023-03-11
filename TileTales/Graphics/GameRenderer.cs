@@ -215,7 +215,7 @@ namespace TileTales.Graphics
                         Vector2 pos = new Vector2(textureX, textureY);
                         chunk.DrawMap(tileBatch, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
                     }
-                    else if (settings.ZoomLevel > 5)
+                    else if (settings.ZoomLevel > 4)
                     {
                         float textureX = (float)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
                         float textureY = (float)(centerY - (txtOffsetY - screenIndexY * pxPerChunk) * scale);

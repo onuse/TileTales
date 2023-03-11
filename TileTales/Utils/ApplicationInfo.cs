@@ -15,6 +15,6 @@ namespace TileTales.Utils
 
         internal static bool isConnectedToServer = false;
         internal static bool isSignedIn = false;
-        internal static LogEventLevel LogEventLevel = LogEventLevel.Information;
+        internal static LogEventLevel LogEventLevel = LogEventLevel.Verbose;
     }
 }

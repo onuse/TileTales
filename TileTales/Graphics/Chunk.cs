@@ -66,7 +66,7 @@ namespace TileTales.Graphics
 
         internal void DrawBackingImage(SpriteBatch tileBatch, Vector2 pos, object value, Color tint, float rotation, Vector2 origin, float scale, SpriteEffects none, float layerDepth)
         {
-            tileBatch.Draw(Image, pos, null, tint, rotation, origin, scale * 8, SpriteEffects.None, layerDepth);
+            tileBatch.Draw(Image, pos, null, tint, rotation, origin, scale * 4, SpriteEffects.None, layerDepth);
         }
 
         internal void DrawMap(SpriteBatch tileBatch, Vector2 pos, object value, Color tint, float rotation, Vector2 origin, float scale, SpriteEffects none, float layerDepth)

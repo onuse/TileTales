@@ -5,7 +5,7 @@ using TileTales.Utils;
 #if DEBUG
 Log.Init(ApplicationInfo.LogEventLevel);
 #else
-Log.Init(Serilog.Events.LogEventLevel.Fatal);
+
 #endif
 
 SettingsReader settingsReader = SettingsReader.Singleton;
