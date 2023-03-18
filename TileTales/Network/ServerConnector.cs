@@ -20,19 +20,19 @@ namespace TileTales.Network
         private readonly SettingsReader _settingsReader;
         private readonly EventBus _eventBus;
         private SocketClient _socketClient;
-        private Thread thread;
+        private Thread _thread;
 
         public ServerConnector()
         {
             this._eventBus = EventBus.Singleton;
             this._settingsReader = SettingsReader.Singleton;
             _eventBus.Subscribe(EventType.Connect, (o) => {
-                thread = new Thread(connectToServer);
-                thread.Start();
+                _thread = new Thread(ConnectToServer);
+                _thread.Start();
             });
         }
 
-        public void connectToServer()
+        public void ConnectToServer()
         {
             // Initialize the SocketClient
             _socketClient = new SocketClient();
@@ -44,17 +44,17 @@ namespace TileTales.Network
             }
             else
             {
-                startReadingStream();
+                StartReadingStream();
                 _eventBus.Publish(EventType.Connected, null);
             }
         }
 
 
-        public void startReadingStream()
+        public void StartReadingStream()
         {
             Log.Info("Starting reading stream on thread: " + Thread.CurrentThread.ManagedThreadId);
-            thread = new Thread(() => _socketClient.ReadFromStream(MessageCallback));
-            thread.Start();
+            _thread = new Thread(() => _socketClient.ReadFromStream(MessageCallback));
+            _thread.Start();
         }
         public void MessageCallback(Any message)
         {
@@ -90,15 +90,15 @@ namespace TileTales.Network
             SendMessage(msg);
         }
 
-        public bool isConnected()
+        public bool IsConnected()
         {
-            return _socketClient.isConnected();
+            return _socketClient.IsConnected();
         }
 
         internal void Shutdown()
         {
             if (_socketClient != null)
-                _socketClient.shutdown();
+                _socketClient.Shutdown();
         }
     }
 }

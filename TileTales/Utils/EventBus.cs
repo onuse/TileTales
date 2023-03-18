@@ -13,10 +13,10 @@ namespace TileTales.Utils
     internal class EventBus
     {
         private static EventBus _instance;
-        private readonly Dictionary<EventType, List<Action<object>>> _eventListeners = new Dictionary<EventType, List<Action<object>>>();
-        private readonly Dictionary<MessageDescriptor, List<Action<object>>> _protoBufeventListeners = new Dictionary<MessageDescriptor, List<Action<object>>>();
-        private readonly Stack<Event> queue= new Stack<Event>();
-        private readonly Stack<ProtoEvent> protoQueue = new Stack<ProtoEvent>();
+        private readonly Dictionary<EventType, List<Action<object>>> _eventListeners = new();
+        private readonly Dictionary<MessageDescriptor, List<Action<object>>> _protoBufeventListeners = new();
+        private readonly Stack<Event> _queue= new();
+        private readonly Stack<ProtoEvent> _protoQueue = new();
 
         public static EventBus Singleton
         {
@@ -80,7 +80,7 @@ namespace TileTales.Utils
             {
                 return;
             }
-            queue.Push(new Event(eventType, data));
+            _queue.Push(new Event(eventType, data));
         }
 
         public void Publish(MessageDescriptor descriptor, object data)
@@ -89,24 +89,20 @@ namespace TileTales.Utils
             {
                 return;
             }
-            protoQueue.Push(new ProtoEvent(descriptor, data));
+            _protoQueue.Push(new ProtoEvent(descriptor, data));
         }
 
         public void Publish(Any message, object data)
         {
-            String typeUrl = message.TypeUrl;
-            String typeStr = typeUrl.Substring(typeUrl.LastIndexOf(".") + 1);
-            var type = Assembly.GetExecutingAssembly().GetTypes().First(t => t.Name == typeStr);
-            MessageDescriptor descriptor = (MessageDescriptor)type.GetProperty("Descriptor", BindingFlags.Public | BindingFlags.Static).GetValue(null, null);
-            Publish(descriptor, data);
+            Publish(ExtractMessageDescription(message), data);
         }
 
         public void Update()
         {
-            while (protoQueue.Count > 0 || queue.Count > 0)
+            while (_protoQueue.Count > 0 || _queue.Count > 0)
             {
-                if (protoQueue.Count > 0) {
-                    ProtoEvent pe = protoQueue.Pop();
+                if (_protoQueue.Count > 0) {
+                    ProtoEvent pe = _protoQueue.Pop();
                     if (pe != null)
                     {
                         foreach (var callback in _protoBufeventListeners[pe.eventMessage])
@@ -115,9 +111,9 @@ namespace TileTales.Utils
                         }
                     }
                 }
-                if (queue.Count > 0)
+                if (_queue.Count > 0)
                 {
-                    Event e = queue.Pop();
+                    Event e = _queue.Pop();
                     if (e != null)
                     {
                         foreach (var callback in _eventListeners[e.eventType])
@@ -127,6 +123,14 @@ namespace TileTales.Utils
                     }
                 }
             }
+        }
+        private static MessageDescriptor ExtractMessageDescription(Any message)
+        {
+            String typeUrl = message.TypeUrl;
+            String typeStr = typeUrl.Substring(typeUrl.LastIndexOf(".") + 1);
+            var type = Assembly.GetExecutingAssembly().GetTypes().First(t => t.Name == typeStr);
+            MessageDescriptor descriptor = (MessageDescriptor)type.GetProperty("Descriptor", BindingFlags.Public | BindingFlags.Static).GetValue(null, null);
+            return descriptor;
         }
     }
 }

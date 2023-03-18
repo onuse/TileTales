@@ -10,16 +10,16 @@ using TileTales.GameContent;
 
 namespace TileTales.Network
 {
-    internal class RequestFactory
+    internal static class RequestFactory
     {
-        public static RequestFactory Instance { get; } = new RequestFactory();
+        /*public static RequestFactory Instance { get; } = new RequestFactory();
 
         private RequestFactory()
         {
 
-        }
+        }*/
 
-        public CenterMapsRequest CreateZoneMapsRequest(int x, int y, int z, int zoomLevel, int size)
+        internal static CenterMapsRequest CreateZoneMapsRequest(int x, int y, int z, int zoomLevel, int size)
         {
             CenterMapsRequest zoneMapsRequest = new()
             {
@@ -33,12 +33,12 @@ namespace TileTales.Network
             return zoneMapsRequest;
         }
 
-        internal CenterMapsRequest CreateZoneMapsRequest(Point3D mapIndex, int zoomLevel, int size)
+        internal static CenterMapsRequest CreateZoneMapsRequest(Point3D mapIndex, int zoomLevel, int size)
         {
             return CreateZoneMapsRequest(mapIndex.X, mapIndex.Y, mapIndex.Z, zoomLevel, size);
         }
 
-        public MapRequest createZoneMapRequest(int x, int y, int z, int zoomLevel)
+        internal static MapRequest CreateZoneMapRequest(int x, int y, int z, int zoomLevel)
         {
             MapRequest zoneMapRequest = new()
             {
@@ -51,7 +51,7 @@ namespace TileTales.Network
             return zoneMapRequest;
         }
 
-        public MoveRequest createMoveRequest(int deltaX, int deltaY, int deltaZ)
+        internal static MoveRequest createMoveRequest(int deltaX, int deltaY, int deltaZ)
         {
             MoveRequest moveRequest = new()
             {
@@ -62,7 +62,7 @@ namespace TileTales.Network
             return moveRequest;
         }
 
-        internal AllTilesRequest CreateAllTilesRequest()
+        internal static AllTilesRequest CreateAllTilesRequest()
         {
             AllTilesRequest request = new()
             {
@@ -71,7 +71,7 @@ namespace TileTales.Network
             return request;
         }
 
-        internal TeleportRequest createTeleportRequest(int teleportX, int teleportY, int z)
+        internal static TeleportRequest createTeleportRequest(int teleportX, int teleportY, int z)
         {
             TeleportRequest teleportRequest = new()
             {
@@ -82,7 +82,7 @@ namespace TileTales.Network
             return teleportRequest;
         }
 
-        internal DrawLineRequest createDrawLineRequest(int paintStartX, int paintStartY, int paintEndX, int paintEndY, int z)
+        internal static DrawLineRequest createDrawLineRequest(int paintStartX, int paintStartY, int paintEndX, int paintEndY, int z)
         {
             DrawLineRequest drawLineRequest = new()
             {
@@ -95,7 +95,7 @@ namespace TileTales.Network
             return drawLineRequest;
         }
 
-        internal DrawMultiTileRequest createDrawMultiTileRequest(HashSet<Point> paintPoints, int z, uint color)
+        internal static DrawMultiTileRequest createDrawMultiTileRequest(HashSet<Point> paintPoints, int z, uint color)
         {
             DrawMultiTileRequest drawMultiTileRequest = new()
             {
@@ -113,7 +113,7 @@ namespace TileTales.Network
             return drawMultiTileRequest;
         }
 
-        internal BucketFillRequest createBucketFillRequest(int worldX, int worldY, int v, uint legacyColor)
+        internal static BucketFillRequest createBucketFillRequest(int worldX, int worldY, int v, uint legacyColor)
         {
             BucketFillRequest bucketFillRequest = new()
             {

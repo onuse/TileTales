@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TileTales.Graphics;
 
 namespace TileTales.GameContent
 {
@@ -31,14 +32,15 @@ namespace TileTales.GameContent
             return X + "_" + Y + "_" + Z;
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj is Point3D location && Equals(location);
-        }
-
         public bool Equals(Point3D other)
         {
             return X == other.X && Y == other.Y && Z == other.Z;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is null) return false;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Tile)obj);
         }
 
         public int CompareTo(Point3D other)

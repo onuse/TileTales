@@ -1,12 +1,15 @@
 ﻿using Google.Protobuf;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Timers;
 using Myra.Graphics2D.UI;
 using SkiaSharp;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using TileTales.Graphics;
@@ -20,41 +23,40 @@ namespace TileTales.GameContent
         private static readonly String FOLDER_TILES = "Content/assets/gfx/tiles";
         private static readonly String FOLDER_MAPS = "Content/assets/gfx/maps";
         private static readonly String WORLD_MAP = "Content/assets/gfx/worldmap.png";
-        private static String NoTile = "000000";
-        private static String Water = "0000FF";
+        private static readonly String NoTile = "000000";
+        private static readonly String Water = "0000FF";
         //private readonly Dictionary<int, Dictionary<Point, WeakReference<Chunk>>> _chunkLayers = new Dictionary<int, Dictionary<Point, WeakReference<Chunk>>>();
         //private readonly Dictionary<Point, WeakReference<Chunk>> _chunks = new Dictionary<Point, WeakReference<Chunk>>();
         //private Dictionary<string, SKBitmap> tiles = new Dictionary<string, SKBitmap>();
-        private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
-        private Dictionary<string, SKBitmap> sprites = new Dictionary<string, SKBitmap>();
-        private Dictionary<string, Map> maps = new Dictionary<string, Map>();
-        private readonly Dictionary<Point3D, Chunk> _chunks = new Dictionary<Point3D, Chunk>();
-        private readonly ChunkFactory _chunkFactory;
+        private readonly Dictionary<string, Tile> tiles = new();
+        private Dictionary<string, SKBitmap> sprites = new();
+        private readonly ConcurrentDictionary<Point3D, Map> maps = new();
+        private readonly ChunkLibrary _chunkLibrary;
 
-        private GraphicsDevice _graphicsDevice;
-        private SKBitmap waterMap;
-        private SKColor water;
-        private Chunk waterChunk;
+        private readonly GraphicsDevice _graphicsDevice;
+        private readonly SKBitmap waterMap;
+        private readonly SKColor water;
+        private readonly Chunk waterChunk;
 
         private Texture2D worldMap;
 
-        public int MapWidth { get { return GameSettings.MapSize; } }
-        public int MapHeight { get { return GameSettings.MapSize; } }
-        public int TileWidth { get { return GameSettings.TileSize; } }
-        public int TileHeight { get { return GameSettings.TileSize; } }
-        public int ChunkWidth { get { return GameSettings.ChunkSize; } }
-        public int ChunkHeight { get { return GameSettings.ChunkSize; } }
-        public int WorldWidth { get { return GameSettings.WorldSize; } }
-        public int WorldHeight { get { return GameSettings.WorldSize; } }
+        internal int MapWidth { get { return GameSettings.MapSize; } }
+        internal int MapHeight { get { return GameSettings.MapSize; } }
+        internal int TileWidth { get { return GameSettings.TileSize; } }
+        internal int TileHeight { get { return GameSettings.TileSize; } }
+        internal int ChunkWidth { get { return GameSettings.ChunkSize; } }
+        internal int ChunkHeight { get { return GameSettings.ChunkSize; } }
+        internal int WorldWidth { get { return GameSettings.WorldSize; } }
+        internal int WorldHeight { get { return GameSettings.WorldSize; } }
 
-        public Settings GameSettings { get; set; }
+        internal Settings GameSettings { get; set; }
 
-        public ContentLibrary(GraphicsDevice graphicsDevice)
+        internal ContentLibrary(GraphicsDevice graphicsDevice)
         {
-            this._graphicsDevice = graphicsDevice;
-            this._chunkFactory = new ChunkFactory(graphicsDevice, this);
+            _graphicsDevice = graphicsDevice;
+            _chunkLibrary = new ChunkLibrary(graphicsDevice, this);
         }
-        public void LoadPrepackagedContent()
+        internal void LoadPrepackagedContent()
         {
             worldMap = Utils.ContentReader.readTexture(_graphicsDevice, "Content/assets/gfx/worldmap.png");
             sprites = Utils.ContentReader.readTexturesInDirectory(_graphicsDevice, FOLDER_SPRITES);
@@ -70,7 +72,7 @@ namespace TileTales.GameContent
             MapHeight = 100;*/
         }
 
-        public void CreateWaterChunk()
+        internal static void CreateWaterChunk()
         {
             SKBitmap waterMap = new SKBitmap(100, 100, true);
             SKColor water = SKColor.Parse(Water);
@@ -84,14 +86,14 @@ namespace TileTales.GameContent
             //waterChunk = _chunkFactory.CreateChunkFromMap(waterMap, 0.25f);
         }
 
-        public Texture2D GetSprite(string name)
+        internal Texture2D GetSprite(string name)
         {
             SKBitmap sKBitmap = sprites[name];
             Texture2D finalTexture = Texture2D.FromStream(_graphicsDevice, sKBitmap.Encode(SKEncodedImageFormat.Png, 100).AsStream());
             return finalTexture;
         }
 
-        public Tile GetTile(string colorRGB)
+        internal Tile GetTile(string colorRGB)
         {
             if (colorRGB == NoTile)
             {
@@ -104,7 +106,7 @@ namespace TileTales.GameContent
             return tiles[colorRGB];
         }
 
-        public Tile GetTile(byte r, byte g, byte b)
+        internal Tile GetTile(byte r, byte g, byte b)
         {
             return GetTile(string.Format("{0:X2}{1:X2}{2:X2}", r, g, b));
         }
@@ -156,16 +158,16 @@ namespace TileTales.GameContent
             tiles[colorRGB] = texture;
         }*/
 
-        public Map GetMap(string name)
+        internal Map GetMap(Point3D loc)
         {
-            if (!maps.ContainsKey(name))
+            if (!maps.ContainsKey(loc))
             {
                 return null;
             }
-            return maps[name];
+            return maps[loc];
         }
 
-        public void AddSprite(string name, SKBitmap texture, Boolean saveToDisc)
+        internal void AddSprite(string name, SKBitmap texture, Boolean saveToDisc)
         {
             sprites[name] = texture;
             if (saveToDisc)
@@ -173,9 +175,9 @@ namespace TileTales.GameContent
                 Utils.ContentWriter.WriteFile(FOLDER_SPRITES + "/" + name, texture);
             }
         }
-        
 
-        public void AddMap(Map map, Boolean saveToDisc, bool createChunk, float scaleFactor)
+
+        internal void AddMap(Map map, Boolean saveToDisc, bool createChunk, float scaleFactor)
         {
             if (map.ByteString == null || map.ByteString.Length == 0 || map.ByteString == ByteString.Empty)
             {
@@ -183,124 +185,39 @@ namespace TileTales.GameContent
             }
             map.Image = Utils.ContentReader.bitmapFromByteString(map.ByteString);
             map.Texture = Utils.ContentReader.textureFromByteString(_graphicsDevice, map.ByteString);
-            maps[map.Name] = map;
+            maps[map.Location] = map;
             if (saveToDisc)
             {
-                Utils.ContentWriter.WriteFile(FOLDER_MAPS + "/" + map.Name, map.Image);
+                Utils.ContentWriter.WriteFile(FOLDER_MAPS + "/" + map.Location + "." + imageFileType, map.Image);
             }
             if (createChunk)
-            {
-                Chunk chunk = _chunkFactory.CreateChunkFromMap(map, scaleFactor);
-                if (chunk != null)
-                {
-                    Point3D location = createLocationFromMapName(map.Name);
-                    SetChunk(location, chunk);
-                }
+            { 
+                _chunkLibrary.NewMap(map);
             }
         }
-
-        private Point3D createLocationFromMapName(string name)
+        internal void UpdateCaches(Player player)
         {
-            // Texture name is in format: x_y_z.png
-            int _idx = name.IndexOf("_");
-            int _lidx = name.LastIndexOf("_");
-            int x = int.Parse(name.Substring(0, _idx));
-            int y = int.Parse(name.Substring(_idx + 1, _lidx - _idx - 1));
-            int z = int.Parse(name.Substring(_lidx + 1, name.LastIndexOf(".") - _lidx - 1));
-            return new Point3D(x, y, z);
+            _chunkLibrary.UpdateLibrary(player.Location);
         }
 
-        public static String CreateMapName(int x, int y, int z, int zoomLevel)
+        internal Chunk GetChunk(int x, int y, int z)
         {
-            return string.Format("{0}_{1}_{2}.{3}", x, y, z, imageFileType);
-            //return x + "_" + y + "_" + z + ".png";
-        }
-        
-        public static String CreateMapName(Point3D loc, int zoomLevel)
-        {
-            return CreateMapName(loc.X, loc.Y, loc.Z, zoomLevel);
+            return _chunkLibrary.GetChunk(new Point3D(x, y, z));
         }
 
-        public Chunk GetChunk(int x, int y, int z)
-        {
-            return GetChunk(new Point3D(x, y, z));
-        }
-
-        public Chunk GetChunk(Point3D key)
-        {
-            if (_chunks.ContainsKey(key))
-            {
-                /*Chunk chunk = _chunks[key];
-                if (chunk.Image == null)
-                {
-                    _chunkFactory.CreateTextureForChunk(chunk);
-                }*/
-                return _chunks[key];
-            }
-            /*if (hasMap(key))
-            {
-                SKBitmap map = GetMap(CreateMapName(key.X, key.Y, key.Z, 0));
-                if (map == null)
-                {
-                    return null;
-                }
-                Chunk chunk = _chunkFactory.CreateChunkFromMap(map);
-                if (chunk == null)
-                {
-                    return null;
-                }
-                SetChunk(key, chunk);
-                return chunk;
-            }*/
-            //return waterChunk;
-            return null;
-        }
-
-        private bool hasMap(Point3D key)
-        {
-            return HasMap(CreateMapName(key.X, key.Y, key.Z, 0));
-        }
-
-        public void SetChunk(int x, int y, int z, Chunk chunk)
+        internal void SetChunk(int x, int y, int z, Chunk chunk)
         {
             if (chunk == null)
             {
                 return;
             }
             Point3D key = new Point3D(x, y, z);
-            SetChunk(key, chunk);
-        }
-
-        private void SetChunk(Point3D key, Chunk chunk)
-        {
-            if (chunk == null)
-            {
-                return;
-            }
-            if (_chunks.ContainsKey(key))
-            {
-                _chunks[key] = chunk;
-            }
-            else
-            {
-                try
-                {
-                    _chunks.Add(key, chunk);
-                }
-                catch (Exception)
-                {
-                }
-            }
+            _chunkLibrary.SetChunk(key, chunk);
         }
 
         internal Texture2D GetWorldMap()
         {
             return worldMap;
-        }
-
-        internal bool HasMap(string mapName)
-        {
-            return maps.ContainsKey(mapName);
         }
 
         internal List<Tile> GetAllTiles()

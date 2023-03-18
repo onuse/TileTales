@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TileTales.GameContent;
 using TileTales.Graphics;
+using TileTales.Network;
 using TileTales.UI;
 using TileTales.Utils;
 
@@ -20,7 +21,7 @@ namespace TileTales.State
     internal class ConnectState : BaseState
     {
         private GameUI _gameUI;
-        public ConnectState() : base()
+        internal ConnectState() : base()
         {
             eventBus.Subscribe(EventType.Connected, (o) =>
             {
@@ -51,7 +52,7 @@ namespace TileTales.State
                 Log.Debug("(PlayerObjectInfo)");
                 PlayerObjectInfo data = PlayerObjectInfo.Parser.ParseFrom((o as Any).Value);
                 game.GameWorld.createPlayerObject(data);
-                AllTilesRequest allTilesRequest = rf.CreateAllTilesRequest();
+                AllTilesRequest allTilesRequest = RequestFactory.CreateAllTilesRequest();
                 // System.Diagnostics.Debug.WriteLine("eventBus.Subscribe(PlayerObjectInfo");
                 serverConnector.SendMessage(allTilesRequest);
             });
@@ -60,12 +61,12 @@ namespace TileTales.State
                 Log.Debug("(AllTilesData)");
                 AllTilesData data = AllTilesData.Parser.ParseFrom((o as Any).Value);
                 data.Tiles.ToList().ForEach(tile => AddTile(tile));
-                content.CreateWaterChunk();
+                ContentLibrary.CreateWaterChunk();
                 eventBus.Publish(EventType.AllTilesSaved, null);
                 Player p = game.GameWorld.GetPlayer();
                 Log.Debug("(AllTilesData) player: " + p);
                 stateManager.ChangeState(RunningState.Singleton);
-                CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 2);
+                CenterMapsRequest zoneMapsRequest = RequestFactory.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 2);
                 serverConnector.SendMessage(zoneMapsRequest);
                 new Thread(RunningState.Singleton.SendDelayedMapsRequest).Start();
             });
@@ -87,7 +88,7 @@ namespace TileTales.State
 
         private void Login()
         {
-            if (serverConnector.isConnected())
+            if (serverConnector.IsConnected())
             {
                 UserSettings settings = SettingsReader.Singleton.GetSettings();
                 AccountLoginRequest loginRequest = new AccountLoginRequest

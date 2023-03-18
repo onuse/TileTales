@@ -115,7 +115,7 @@ namespace TileTales.Graphics
             return new Chunk(finalTexture, tiles, map, totalWidth, totalHeight, pixelData, null);
         }*/
 
-        private Chunk CreateBackingTexture(Tile[] tiles, Map map, int width, int height, int tileWidth, int tileHeight, SKColor[] pixelData, float scaleFactor)
+        internal Chunk CreateBackingTexture(Tile[] tiles, Map map, int width, int height, int tileWidth, int tileHeight, SKColor[] pixelData, float scaleFactor)
         {
             Stopwatch stopwatch1 = new Stopwatch();
             stopwatch1.Start();
@@ -146,7 +146,12 @@ namespace TileTales.Graphics
             return texture;
         }
 
-        private unsafe Texture2D CreateTextureFast(Tile[] tiles, int width, int height, int tileWidth, int tileHeight, SKColor[] pixelData, GraphicsDevice graphicsDevice, float scaleFactor)
+        internal Texture2D ChunkDataToTexture(Chunk chunk, float scaleFactor)
+        {
+            return CreateTextureFast(chunk.Tiles, contentLibrary.MapWidth, contentLibrary.MapHeight, contentLibrary.TileWidth, contentLibrary.TileHeight, chunk.PixelData, graphicsDevice, scaleFactor);
+        }
+
+            private unsafe Texture2D CreateTextureFast(Tile[] tiles, int width, int height, int tileWidth, int tileHeight, SKColor[] pixelData, GraphicsDevice graphicsDevice, float scaleFactor)
         {
             int totalWidth = (int)(width * tileWidth * scaleFactor); // Apply the scale factor to the width
             int totalHeight = (int)(height * tileHeight * scaleFactor); // Apply the scale factor to the height
@@ -257,7 +262,7 @@ namespace TileTales.Graphics
         {
             Stopwatch stopwatch1 = new Stopwatch();
             stopwatch1.Start();
-            chunk.Image = Texture2D.FromStream(graphicsDevice, chunk.Data.AsStream());
+            chunk.QuarterResolution = Texture2D.FromStream(graphicsDevice, chunk.Data.AsStream());
             stopwatch1.Stop();
             Log.Verbose($"Elapsed time: {stopwatch1.ElapsedMilliseconds} ms");
         }

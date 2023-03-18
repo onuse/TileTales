@@ -7,36 +7,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TileTales.GameContent;
+using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 namespace TileTales.Graphics
 {
     internal class Map : IEquatable<Map>, IComparable<Map>
     {
-        public Map(int x, int y, int z, int zoomLevel)
+        internal Map(int x, int y, int z, ByteString byteString)
         {
             X = x;
             Y = y;
             Z = z;
-            ZoomLevel = zoomLevel;
-            Name = ContentLibrary.CreateMapName(x, y, z, 0);
+            ByteString = byteString;
+            Location = new Point3D(x, y, z);
         }
 
-        public Map(Point3D location) : this(location.X, location.Y, location.Z, 0)
+        internal Map(Point3D location) : this(location.X, location.Y, location.Z, null)
         {
         }
 
-        public String Name { get; }
-        public int X { get; }
-        public int Y { get; }
-        public int Z { get; }
-        public int ZoomLevel { get; }
-        public SKBitmap Image { get; set; }
-        public Texture2D Texture { get; set; }
-        public ByteString ByteString { get; internal set; }
+        internal Point3D Location { get; }
+        internal int X { get; }
+        internal int Y { get; }
+        internal int Z { get; }
+        internal int ZoomLevel { get; }
+        internal SKBitmap Image { get; set; }
+        internal Texture2D Texture { get; set; }
+        public ByteString ByteString { get; }
+
+        internal static Point3D CreateLocationFromMapName(string name)
+        {
+            // Texture name is in format: x_y_z.png
+            int _idx = name.IndexOf("_");
+            int _lidx = name.LastIndexOf("_");
+            int x = int.Parse(name.Substring(0, _idx));
+            int y = int.Parse(name.Substring(_idx + 1, _lidx - _idx - 1));
+            int z = int.Parse(name.Substring(_lidx + 1, name.LastIndexOf(".") - _lidx - 1));
+            return new Point3D(x, y, z);
+        }
 
         public bool Equals(Map other)
         {
             return X == other.X && Y == other.Y && Z == other.Z;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is null) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Tile)obj);
         }
 
         public int CompareTo(Map other)

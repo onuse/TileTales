@@ -13,7 +13,7 @@ namespace TileTales.Utils
         public float AverageFramesPerSecond { get; private set; }
         public float CurrentFramesPerSecond { get; private set; }
 
-        public const int MaximumSamples = 10;
+        public const int MaximumSamples = 60*3;
 
         private Queue<float> _sampleBuffer = new();
         

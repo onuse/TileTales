@@ -29,10 +29,11 @@ namespace TileTales
         public readonly ServerConnector ServerConnector;
         public readonly StateManager StateManager;
         public readonly GameWorld GameWorld;
-        public Settings GameSettings;
         public readonly GraphicsDeviceManager GraphicsManager;
 
         private readonly SettingsReader _settingsReader;
+
+        public Settings GameSettings;
         private ContentManager xnbContentManager;
 
         public static TileTalesGame Singleton { get; private set; }
@@ -40,7 +41,12 @@ namespace TileTales
         public float FPS {
             get => renderer.FPS;
         }
-        public bool IsGameMode => StateManager.HasState(GameState.Singleton);
+
+        public float MPF
+        {
+            get => renderer.MPF;
+        }
+        public bool IsGameMode => StateManager.IsState(GameState.Singleton);
 
         public TileTalesGame()
         {
@@ -61,7 +67,7 @@ namespace TileTales
             ContentLibrary = new ContentLibrary(GraphicsDevice);
             GameWorld = new GameWorld(this);
             renderer = new GameRenderer(this, GraphicsManager);
-            AppUI = new UI.AppUI(this, GraphicsManager);
+            AppUI = new AppUI(this, GraphicsManager);
             AppUI.Width = _settingsReader.GetSettings().WindowWidth;
             AppUI.Height = _settingsReader.GetSettings().WindowHeight;
 
@@ -92,7 +98,7 @@ namespace TileTales
             EventBus.Update();
             stopwatch1.Stop();
             if (stopwatch1.ElapsedMilliseconds > 100 && Log.IsAtLeastDebug)
-                Log.Debug("EventBus.Update() took " + stopwatch1.ElapsedMilliseconds + "ms");
+                Log.Warning("EventBus.Update() took " + stopwatch1.ElapsedMilliseconds + "ms");
             StateManager.Update(gameTime, Keyboard.GetState(), Mouse.GetState());
 
             /*if (Keyboard.GetState().IsKeyDown(Keys.F11))

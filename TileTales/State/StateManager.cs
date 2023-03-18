@@ -15,7 +15,7 @@ namespace TileTales.State
     internal class StateManager : ITTDrawble
     {
         private static StateManager _instance;
-        public static StateManager Singleton
+        internal static StateManager Singleton
         {
             get
             {
@@ -27,44 +27,49 @@ namespace TileTales.State
             }
         }
 
-        private readonly Queue<BaseState> _states = new Queue<BaseState>();
+        private readonly Stack<BaseState> _states = new();
 
         private StateManager()
         {
         }
 
-        public BaseState GetCurrentState()
+        internal BaseState GetCurrentState()
         {
             return _states.Peek();
         }
 
-        public bool HasState(BaseState baseState)
+        internal Boolean IsState(BaseState checkState)
+        {
+            return _states.Peek().Equals(checkState);
+        }
+
+        internal bool HasState(BaseState baseState)
         {
             return _states.Contains(baseState);
         }
 
-        public void PushState(BaseState state)
+        internal void PushState(BaseState state)
         {
-            _states.Enqueue(state);
+            _states.Push(state);
             state.Enter();
         }
 
-        public void PopState()
+        internal void PopState()
         {
-            _states.Dequeue();
+            _states.Pop();
         }
 
-        public void ChangeState(BaseState state)
+        internal void ChangeState(BaseState state)
         {
             PopState();
             PushState(state);
         }
 
-        public void ClearStates()
+        internal void ClearStates()
         {
             _states.Clear();
         }
-        public void Update(GameTime gameTime, KeyboardState keyboardState, MouseState mouseState)
+        internal void Update(GameTime gameTime, KeyboardState keyboardState, MouseState mouseState)
         {
             //_states.Peek().Update(gameTime, keyboardState, mouseState);
             if (_states.Count == 0)

@@ -14,6 +14,7 @@ using Google.Protobuf.WellKnownTypes;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Formats.Asn1.AsnWriter;
 using TileTales.Utils;
+using System.Diagnostics;
 
 namespace TileTales.Graphics
 {
@@ -23,36 +24,45 @@ namespace TileTales.Graphics
      */
     internal class GameRenderer
     {
-        private readonly TileTalesGame game;
-        private readonly GraphicsDeviceManager graphicsManager;
-        private readonly GraphicsDevice graphics;
-        private readonly ContentLibrary contentLib;
+        private readonly TileTalesGame _game;
+        private readonly GraphicsDeviceManager _graphicsManager;
+        private readonly GraphicsDevice _graphics;
+        private readonly ContentLibrary _contentLib;
+        private readonly Player _player;
 
-        private SpriteBatch worldMapBatch;
-        private SpriteBatch tileBatch;
-        private Texture2D worldMap;
-        private Player player;
-        private Vector2 origin = new Vector2(0, 0);
-        const float rotation = 0f;
-        const float layerDepth = 1f;
+        private SpriteBatch _worldMapBatch;
+        private SpriteBatch _tileBatch;
+        private Texture2D _worldMap;
+        
+        const float _rotation = 0f;
+        const float _layerDepth = 1f;
         private FrameCounter _frameCounter = new FrameCounter();
+        private Vector2 _origin = new(0, 0);
 
+        /**
+         * Frame Per Second
+         */
         public float FPS { get; internal set; }
+
+        /**
+         * Milliseconds Per Frame
+         */
+        public long MPF { get; internal set; }
 
         public GameRenderer(TileTalesGame tileTalesGame, GraphicsDeviceManager graphicsManager)
         {
-            game = tileTalesGame;
-            contentLib = game.ContentLibrary;
-            player = game.GameWorld.player;
-            this.graphicsManager = graphicsManager;
-            graphics = graphicsManager.GraphicsDevice;
+            _game = tileTalesGame;
+            _contentLib = _game.ContentLibrary;
+            _player = _game.GameWorld.player;
+            _graphicsManager = graphicsManager;
+            _graphics = graphicsManager.GraphicsDevice;
         }
 
         public void LoadContent()
         {
-            tileBatch = new SpriteBatch(graphics);
-            worldMapBatch = new SpriteBatch(graphics);
-            worldMap = contentLib.GetWorldMap();
+            _tileBatch = new SpriteBatch(_graphics);
+            _worldMapBatch = new SpriteBatch(_graphics);
+            _worldMap = _contentLib.GetWorldMap();
         }
 
         /*public void Draw2(GameWorld world, GameTime gameTime)
@@ -118,8 +128,10 @@ namespace TileTales.Graphics
 
         public void Draw(GameWorld world, GameTime gameTime)
         {
+            Stopwatch stopwatch1 = new Stopwatch();
+            stopwatch1.Start();
             UpdateFrameCounter(gameTime);
-            Settings settings = game.GameSettings;
+            Settings settings = _game.GameSettings;
             if (settings == null) return;
             float scale = Settings.SCALE_VALUES[settings.ZoomLevel];
             //SamplerState samplerState = (scale >= 1) ? SamplerState.PointClamp : SamplerState.AnisotropicClamp;
@@ -129,12 +141,14 @@ namespace TileTales.Graphics
             DrawWorldBackground(world, gameTime);
             DrawTiles(world, gameTime);
             //tileBatch.End();
+            stopwatch1.Stop();
+            MPF = stopwatch1.ElapsedMilliseconds;
 
         }
 
-        public void DrawWorldBackground(GameWorld world, GameTime gameTime)
+        private void DrawWorldBackground(GameWorld world, GameTime gameTime)
         {
-            Settings settings = game.GameSettings;
+            Settings settings = _game.GameSettings;
             if (settings == null) return;
             Color tint = Color.White;
             Player p = world.player;
@@ -150,16 +164,16 @@ namespace TileTales.Graphics
 
             Vector2 pos = new Vector2(-worldMapSizeHlf * wScale + viewWidth / 2 - (pxPerTileHlf * scale) - playerOffsetX, -worldMapSizeHlf * wScale + viewHeight / 2 - (pxPerTileHlf * scale) - playerOffsetY);
             //batch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, null, DepthStencilState.Default, null, null, null);
-            worldMapBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, null, null, null);
-            worldMapBatch.Draw(worldMap, pos, null, tint, rotation, origin, wScale, SpriteEffects.None, layerDepth);
-            worldMapBatch.End();
+            _worldMapBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, null, null, null);
+            _worldMapBatch.Draw(_worldMap, pos, null, tint, _rotation, _origin, wScale, SpriteEffects.None, _layerDepth);
+            _worldMapBatch.End();
             //batch.End();
 
         }
 
-        public void DrawTiles(GameWorld world, GameTime gameTime)
+        private void DrawTiles(GameWorld world, GameTime gameTime)
         {
-            Settings settings = game.GameSettings;
+            Settings settings = _game.GameSettings;
             if (settings == null) return;
             float pxPerTile = settings.TileSize;
             float pxPerTileHlf = pxPerTile / 2;
@@ -194,7 +208,7 @@ namespace TileTales.Graphics
             double chunkAmountY = Math.Min(16, Math.Round(Math.Ceiling(pxSeenY / pxPerChunk) / 2, MidpointRounding.AwayFromZero) * 2);
 
             SamplerState samplerState = (scale >= 1) ? SamplerState.PointClamp : SamplerState.AnisotropicClamp;
-            tileBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, samplerState, DepthStencilState.Default, null, null, null);
+            _tileBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, samplerState, DepthStencilState.Default, null, null, null);
 
             Point chunksIndex = world.getMapIndex(p.X, p.Y);
             double yMax = chunksIndex.Y + chunkAmountY / 2f + 1;
@@ -212,34 +226,34 @@ namespace TileTales.Graphics
                         float textureX = (float)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
                         float textureY = (float)(centerY - (txtOffsetY - screenIndexY * pxPerChunk) * scale);
                         Vector2 pos = new Vector2(textureX, textureY);
-                        chunk.DrawMap(tileBatch, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
+                        chunk.DrawMap(_tileBatch, pos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth);
                     }
-                    else if (settings.ZoomLevel > 4)
+                    else //if (settings.ZoomLevel > 4)
                     {
                         float textureX = (float)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
                         float textureY = (float)(centerY - (txtOffsetY - screenIndexY * pxPerChunk) * scale);
                         Vector2 pos = new Vector2(textureX, textureY);
                         //tileBatch.Draw(chunk.Image, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
-                        chunk.DrawBackingImage(tileBatch, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
+                        chunk.DrawBackingImage(_tileBatch, pos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth);
                     }
-                    else
+                    /*else
                     {
                         int textureX = (int)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
                         int textureY = (int)(centerY - (txtOffsetY - screenIndexY * pxPerChunk) * scale);
                         Vector2 pos = new Vector2(textureX, textureY);
                         //tileBatch.Draw(chunk.Image, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
 
-                        chunk.DrawTiles(tileBatch, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
-                    }
+                        chunk.DrawTiles(_tileBatch, pos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth);
+                    }*/
                 }
             }
-            if (game.IsGameMode && player.Avatar != null)
+            if (_game.IsGameMode && _player.Avatar != null)
             {
                 Vector2 centerPos = new Vector2(centerX - (pxPerTileHlf * scale), centerY - (pxPerTileHlf * scale));
-                tileBatch.Draw(player.Avatar, centerPos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
+                _tileBatch.Draw(_player.Avatar, centerPos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth);
             }
 
-            tileBatch.End();
+            _tileBatch.End();
         }
 
         /*public void Draw(GameWorld world, GameTime gameTime)

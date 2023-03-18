@@ -34,6 +34,8 @@ namespace TileTales.GameContent
         {
             // Update all the chunks around the player
             // Update all the sprites around the player
+
+            //contentLibrary.Update(gameTime, player);
         }
 
         public Chunk[] GetChunksAroundPlayer(int xAmount, int yAmount)

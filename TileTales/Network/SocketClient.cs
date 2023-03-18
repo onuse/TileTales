@@ -16,10 +16,10 @@ namespace TileTales.Network
 {
     public class SocketClient
     {
-        private static int BUFFER_SIZE = 1024 * 1024; // 1 MB read buffer
-        private TcpClient client;
-        private NetworkStream stream;
-        private Boolean keepReading = true;
+        private static readonly int s_bufferSize = 1024 * 1024; // 1 MB read buffer
+        private TcpClient _client;
+        private NetworkStream _stream;
+        private Boolean _keepReading = true;
 
         public delegate void MessageCallback(Any message);
 
@@ -27,12 +27,9 @@ namespace TileTales.Network
         {
             try
             {
-                // Connect to the server
-                client = new TcpClient();
-
-                client.Connect(hostAdress, hostPort);
-                stream = client.GetStream();
-
+                _client = new TcpClient();
+                _client.Connect(hostAdress, hostPort);
+                _stream = _client.GetStream();
                 return null;
             } catch (Exception e)
             {
@@ -44,7 +41,7 @@ namespace TileTales.Network
         private void Send(byte[] messageBytes)
         {
             Log.Verbose("SENDING messageBytes: " + messageBytes);
-            stream.Write(messageBytes, 0, messageBytes.Length);
+            _stream.Write(messageBytes, 0, messageBytes.Length);
             Log.Debug("SENT messageBytes.Length: " + messageBytes.Length);
             // Create String from byte[]
             string strMessage = Encoding.UTF8.GetString(messageBytes);
@@ -71,15 +68,15 @@ namespace TileTales.Network
         public void ReadFromStream(MessageCallback messageCallback)
         {
             Log.Debug("START Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
-            byte[] buffer = new byte[BUFFER_SIZE];
-            while (keepReading)
+            byte[] buffer = new byte[s_bufferSize];
+            while (_keepReading)
             {
-                Log.Verbose("keepReading: " + keepReading);
+                Log.Verbose("keepReading: " + _keepReading);
                 int bytesRead = 0;
                 int totalBytesRead = 0;
                 try
                 {
-                    bytesRead = stream.Read(buffer, totalBytesRead, buffer.Length - totalBytesRead);
+                    bytesRead = _stream.Read(buffer, totalBytesRead, buffer.Length - totalBytesRead);
                 }
                 catch (Exception e)
                 {
@@ -88,7 +85,7 @@ namespace TileTales.Network
                 }
                 if (bytesRead == -1)
                 {
-                    shutdown();
+                    Shutdown();
                     break;
                 }
                 totalBytesRead += bytesRead;
@@ -99,8 +96,9 @@ namespace TileTales.Network
                  * They are packed with the most recent one first, and the oldest one last
                  * Parsing the entire lump of bytes will result in that only the last message in the buffer is "found"
                  * But that is the only way we can figure out how much data that each message used up.
-                 * So we read all messages in reverse order and put them in a list, and then just reverse the list,
+                 * So we read all messages front to back, and then just reverse the list,
                  * to make the client read order match the server send order.
+                 * Not always important, but since we are relying on TCP anyway, someone might rely on it.
                  */
                 List<Any> messages = new List<Any>();
                 int usedBytes = 0;
@@ -113,44 +111,44 @@ namespace TileTales.Network
                     usedBytes += messageLength;
                     messages.Add(messagePart);
                 }
-                //messages.Reverse();
-                 messages.ForEach(message => messageCallback(message));
+                messages.Reverse();
+                messages.ForEach(message => messageCallback(message));
             }
         }
 
         private void handleReadException(Exception e)
         {
             Log.Fatal("ReadFromStream failed: " + e);
-            shutdown();
+            Shutdown();
         }
 
-        public bool isConnected()
+        public bool IsConnected()
         {
-            if (client != null && stream != null)
+            if (_client != null && _stream != null)
             {
-                return client.Connected && stream.CanRead;
+                return _client.Connected && _stream.CanRead;
             }
             return false;
         }
 
-        public void shutdown()
+        public void Shutdown()
         {
             Log.Info("Shutting down");
-            keepReading = false;
-            if (stream != null)
+            _keepReading = false;
+            if (_stream != null)
             {
                 try
                 {
-                    stream.DisposeAsync();
-                    stream.Socket.Shutdown(SocketShutdown.Both);
+                    _stream.Dispose();
+                    _stream.Socket.Shutdown(SocketShutdown.Both);
                 } catch (Exception) { }
             }
-            if (client != null)
+            if (_client != null)
             {
                 try
                 {
-                    client.Close();
-                    client.Dispose();
+                    _client.Close();
+                    _client.Dispose();
                 }
                 catch (Exception) { }
             }

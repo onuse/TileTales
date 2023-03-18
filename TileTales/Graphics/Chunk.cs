@@ -18,7 +18,7 @@ namespace TileTales.Graphics
     {
         public Chunk(Texture2D texture, Tile[] tiles, Texture2D[] t2Tiles, Map map, int width, int height, SKColor[] pixelData, SKData skData)
         {
-            Image = texture;
+            QuarterResolution = texture;
             Tiles = tiles;
             //T2Tiles = t2Tiles;
             Map = map;
@@ -29,9 +29,9 @@ namespace TileTales.Graphics
             Data = skData;
         }
 
-        public Texture2D Image { get; set;  }
+        public Texture2D FullResolution { get; set; }
+        public Texture2D QuarterResolution { get; set; }
         public Tile[] Tiles { get; }
-        //public Texture2D[] T2Tiles { get; }
         public Map Map { get; }
         public int Width { get; }
         public int Height { get; }
@@ -44,7 +44,7 @@ namespace TileTales.Graphics
         {
             if (DrawCacheImage)
             {
-                tileBatch.Draw(Image, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
+                tileBatch.Draw(QuarterResolution, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
                 return;
             }
             else
@@ -64,9 +64,24 @@ namespace TileTales.Graphics
             }
         }
 
+        private bool HasFullResolution
+        {
+            get
+            {
+                return FullResolution != null;
+            }
+        }
+
         internal void DrawBackingImage(SpriteBatch tileBatch, Vector2 pos, object value, Color tint, float rotation, Vector2 origin, float scale, SpriteEffects none, float layerDepth)
         {
-            tileBatch.Draw(Image, pos, null, tint, rotation, origin, scale * 4, SpriteEffects.None, layerDepth);
+            if (HasFullResolution)
+            {
+                tileBatch.Draw(FullResolution, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
+            }
+            else
+            {
+                tileBatch.Draw(QuarterResolution, pos, null, tint, rotation, origin, scale * 4, SpriteEffects.None, layerDepth);
+            }
         }
 
         internal void DrawMap(SpriteBatch tileBatch, Vector2 pos, object value, Color tint, float rotation, Vector2 origin, float scale, SpriteEffects none, float layerDepth)

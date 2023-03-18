@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using TileTales.GameContent;
 using TileTales.Graphics;
 using TileTales.Utils;
+using TileTales.Network;
+using MonoGame.Extended.Timers;
 
 namespace TileTales.State
 {
@@ -77,9 +79,9 @@ namespace TileTales.State
 
         private void LoadMap(MapInfo response)
         {
-            ByteString mapBytes = response.Map;
-            String mapName = ContentLibrary.CreateMapName(response.X, response.Y, response.Z, response.ZoomLevel);
-            Log.Debug("mapName: " + mapName + ", Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
+            Map map = new(response.X, response.Y, response.Z, response.Map);
+            //String mapName = ContentLibrary.CreateMapName(response.X, response.Y, response.Z, response.ZoomLevel);
+            Log.Debug("map: " + map.Location + ", Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
             /*if (game.ContentLibrary.HasMap(mapName))
             {
                 System.Diagnostics.Debug.WriteLine("RunningState(MultiMapInfo) - Map already loaded: " + mapName);
@@ -88,11 +90,8 @@ namespace TileTales.State
             //System.Diagnostics.Debug.WriteLine("RunningState.LoadMap ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
             //System.Diagnostics.Debug.WriteLine("RunningState.LoadMap calling Thread.sleep() 60 seconds: ");
             //await Task.Run(() => Thread.Sleep(60000));
-            Map map = new(response.X, response.Y, response.Z, response.ZoomLevel)
-            {
-                ByteString = mapBytes
-            };
             game.ContentLibrary.AddMap(map, false, true, 0.25f);
+            game.ContentLibrary.UpdateCaches(game.GameWorld.GetPlayer());
         }
         
         internal void SendDelayedMapsRequest()
@@ -105,7 +104,7 @@ namespace TileTales.State
         {
             Player p = game.GameWorld.GetPlayer();
             Point3D mapIndex = CoordinateHelper.WorldCoordsToMapIndex(p.Location, content);
-            CenterMapsRequest zoneMapsRequest = rf.CreateZoneMapsRequest(mapIndex, 0, 6);
+            CenterMapsRequest zoneMapsRequest = RequestFactory.CreateZoneMapsRequest(mapIndex, 0, 6);
             serverConnector.SendMessage(zoneMapsRequest);
             GameWorld world = game.GameWorld;
             world.LastMapFetchLocation = p.Location;

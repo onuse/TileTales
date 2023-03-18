@@ -66,7 +66,7 @@ namespace TileTales.State
             var fpsLabel = ui.GetGameUI().positionedText;
             if (fpsLabel != null)
             {
-                fpsLabel.Text = "FPS: " + game.FPS;
+                fpsLabel.Text = "MPF: " + game.MPF;
             }
         }
 
@@ -78,7 +78,7 @@ namespace TileTales.State
             {
                 moveRequestThrottle = new Timer((o) =>
                 {
-                    MoveRequest moveRequest = rf.createMoveRequest(deltaX, deltaY, deltaZ);
+                    MoveRequest moveRequest = RequestFactory.createMoveRequest(deltaX, deltaY, deltaZ);
                     serverConnector.SendMessage(moveRequest);
                     moveRequestThrottle = null;
                 }, null, 150, Timeout.Infinite);

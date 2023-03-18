@@ -15,14 +15,13 @@ using TileTales.Utils;
 
 namespace TileTales.State
 {
-    internal abstract class BaseState: ITTDrawble
+    internal abstract class BaseState: ITTDrawble, IEquatable<BaseState>
     {
         protected StateManager stateManager;
         protected ServerConnector serverConnector;
         protected UI.AppUI ui;
         protected TileTalesGame game;
         protected EventBus eventBus;
-        protected RequestFactory rf;
         protected Player Player;
         protected ContentLibrary content;
 
@@ -34,7 +33,6 @@ namespace TileTales.State
             this.ui = game.AppUI;
             this.Player = game.GameWorld.player;
             this.eventBus = EventBus.Singleton;
-            this.rf = RequestFactory.Instance;
             this.content = game.ContentLibrary;
         }
 
@@ -64,5 +62,22 @@ namespace TileTales.State
         public virtual void Draw(GameTime gameTime) { }
 
         internal virtual void OnClientSizeChanged(int newWindowWidth, int newWindowHeight) { }
+
+        public bool Equals(BaseState other)
+        {
+            return this == other;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is null) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Tile)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
     }
 }

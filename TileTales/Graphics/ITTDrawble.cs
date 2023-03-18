@@ -10,6 +10,6 @@ namespace TileTales.Graphics
 {
     internal interface ITTDrawble
     {
-        public void Draw(GameTime gameTime);
+        internal void Draw(GameTime gameTime);
     }
 }

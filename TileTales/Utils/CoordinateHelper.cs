@@ -21,12 +21,18 @@ namespace TileTales.Utils
      * */
     internal class CoordinateHelper
     {
-        public static void GetMapIndexForWorldLocation(float x, float y, ContentLibrary contentLibrary, out int mapX, out int mapY)
+        internal static void GetMapIndexForWorldLocation(float x, float y, ContentLibrary contentLibrary, out int mapX, out int mapY)
         {
             float chunkWidth = contentLibrary.ChunkWidth; // (mapWidth * tileWidth) = chunkWidth
             float chunkHeight = contentLibrary.ChunkHeight;
             mapX = (int)Math.Floor(x / chunkWidth);
             mapY = (int)Math.Floor(y / chunkHeight);
+        }
+
+        internal static Point3D GetMapIndexForWorldLocation(Point3D location, ContentLibrary contentLibrary)
+        {
+            GetMapIndexForWorldLocation(location.X, location.Y, contentLibrary, out int mapX, out int mapY);
+            return new Point3D(mapX, mapY, location.Z);
         }
 
         internal static Point3D WorldCoordsToMapIndex(Point3D location, ContentLibrary contentLibrary)
@@ -35,7 +41,7 @@ namespace TileTales.Utils
             return new Point3D(mapX, mapY, location.Z);
         }
 
-        public static Point GetMapIndexForTileIndex(int x, int y, ContentLibrary contentLibrary)
+        internal static Point GetMapIndexForTileIndex(int x, int y, ContentLibrary contentLibrary)
         {
             int mapWidth = contentLibrary.MapWidth;
             int mapHeight = contentLibrary.MapHeight;
@@ -48,7 +54,7 @@ namespace TileTales.Utils
             return new Point(mapX, mapY);
         }
 
-        public static void GetTileIndexForMapIndex(int x, int y, ContentLibrary contentLibrary, out int tileX, out int tileY)
+        internal static void GetTileIndexForMapIndex(int x, int y, ContentLibrary contentLibrary, out int tileX, out int tileY)
         {
             int mapWidth = contentLibrary.MapWidth;
             int mapHeight = contentLibrary.MapHeight;
@@ -59,7 +65,7 @@ namespace TileTales.Utils
             tileY = y * (mapHeight * tileHeight);
         }
 
-        public static void GetTileIndexForTileIndex(int x, int y, ContentLibrary contentLibrary, out int tileX, out int tileY)
+        internal static void GetTileIndexForTileIndex(int x, int y, ContentLibrary contentLibrary, out int tileX, out int tileY)
         {
             int mapWidth = contentLibrary.MapWidth;
             int mapHeight = contentLibrary.MapHeight;
@@ -70,7 +76,7 @@ namespace TileTales.Utils
             tileY = y % (mapHeight * tileHeight);
         }
 
-        public static void GetMapIndexForMapIndex(int x, int y, ContentLibrary contentLibrary, out int mapX, out int mapY)
+        internal static void GetMapIndexForMapIndex(int x, int y, ContentLibrary contentLibrary, out int mapX, out int mapY)
         {
             int mapWidth = contentLibrary.MapWidth;
             int mapHeight = contentLibrary.MapHeight;
@@ -81,12 +87,12 @@ namespace TileTales.Utils
             mapY = y / (mapHeight * tileHeight);
         }
 
-        public static void GetMapIndexForTileIndex(Point3D location, ContentLibrary contentLibrary, out int mapX, out int mapY)
+        internal static void GetMapIndexForTileIndex(Point3D location, ContentLibrary contentLibrary, out int mapX, out int mapY)
         {
             GetMapIndexForWorldLocation(location.X, location.Y, contentLibrary, out mapX, out mapY);
         }
 
-        public static void GetTileIndexForMapIndex(Point3D location, ContentLibrary contentLibrary, out int tileX, out int tileY)
+        internal static void GetTileIndexForMapIndex(Point3D location, ContentLibrary contentLibrary, out int tileX, out int tileY)
         {
             GetTileIndexForMapIndex(location.X, location.Y, contentLibrary, out tileX, out tileY);
         }
@@ -102,7 +108,6 @@ namespace TileTales.Utils
             }
             int pxPerTile = gameSettings.TileSize;
             float scale = gameSettings.Scale;
-            float realScale = 1 / scale;
 
             int screenCenterPointX = gameSettings.WindowWidth / 2;
             int screenCenterPointY = gameSettings.WindowHeight / 2;
@@ -121,13 +126,36 @@ namespace TileTales.Utils
             worldY = player.Y + worldYOffset;
         }
 
-        public static float GetDistanceInMapsForWorldCoords(Point3D one, Point3D two, ContentLibrary contentLibrary)
+        internal static float GetDistanceInMapsForWorldCoords(Point3D one, Point3D two, ContentLibrary contentLibrary)
         {
-            Vector2 vOne = new Vector2(one.X, one.Y);
-            Vector2 vTwo = new Vector2(two.X, two.Y);
+            Vector2 vOne = new(one.X, one.Y);
+            Vector2 vTwo = new(two.X, two.Y);
             float distancePixels = Vector2.Distance(vOne, vTwo);
             float chunkSize = contentLibrary.MapWidth * contentLibrary.TileWidth;
             return distancePixels / chunkSize;
+        }
+
+        internal static float GetDistanceInTilesForWorldCoords(Point3D one, Point3D two, ContentLibrary contentLibrary)
+        {
+            Vector2 vOne = new(one.X, one.Y);
+            Vector2 vTwo = new(two.X, two.Y);
+            float distancePixels = Vector2.Distance(vOne, vTwo);
+            float tileSize = contentLibrary.TileWidth;
+            return distancePixels / tileSize;
+        }
+
+        internal static List<Point3D> GetPointsInRadius(Point3D center, int radius)
+        {
+            List<Point3D> points = new();
+            // Create all points that exists within radius from center
+            for (int x = center.X - radius; x <= center.X + radius; x++)
+            {
+                for (int y = center.Y - radius; y <= center.Y + radius; y++)
+                {
+                    points.Add(new Point3D(x, y, center.Z));
+                }
+            }
+            return points;
         }
     }
 }

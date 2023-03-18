@@ -166,7 +166,7 @@ namespace TileTales.State
 
         private void SendBucketFillRequest(int worldX, int worldY, int v)
         {
-            BucketFillRequest bucketFillRequest = rf.createBucketFillRequest(worldX, worldY, v, (uint)ui.getSelectedTile().LegacyColor);
+            BucketFillRequest bucketFillRequest = RequestFactory.createBucketFillRequest(worldX, worldY, v, (uint)ui.getSelectedTile().LegacyColor);
             serverConnector.SendMessage(bucketFillRequest);
         }
 
@@ -177,7 +177,7 @@ namespace TileTales.State
             {
                 return;
             }
-            DrawMultiTileRequest drawMultiTileRequest = rf.createDrawMultiTileRequest(paintPoints, z, (uint)selectedTile.LegacyColor);
+            DrawMultiTileRequest drawMultiTileRequest = RequestFactory.createDrawMultiTileRequest(paintPoints, z, (uint)selectedTile.LegacyColor);
             serverConnector.SendMessage(drawMultiTileRequest);
         }
 
@@ -189,7 +189,7 @@ namespace TileTales.State
             {
                 return;
             }
-            DrawLineRequest drawLineRequest = rf.createDrawLineRequest(paintStartX, paintStartY, paintEndX, paintEndY, z);
+            DrawLineRequest drawLineRequest = RequestFactory.createDrawLineRequest(paintStartX, paintStartY, paintEndX, paintEndY, z);
             drawLineRequest.TileId = (uint)selectedTile.LegacyColor;
             serverConnector.SendMessage(drawLineRequest);
         }
@@ -197,7 +197,7 @@ namespace TileTales.State
         private void SendTeleportRequest(int teleportX, int teleportY, int z)
         {
             Log.Debug("ArtistState.SendTeleportRequest(teleportX: " + teleportX + ", teleportY: " + teleportY + ", z: " + z);
-            TeleportRequest teleportRequest = rf.createTeleportRequest(teleportX, teleportY, z);
+            TeleportRequest teleportRequest = RequestFactory.createTeleportRequest(teleportX, teleportY, z);
             serverConnector.SendMessage(teleportRequest);
         }
     }
