@@ -12,7 +12,7 @@ namespace TileTales.GameContent
 {
     internal class GameWorld
     {
-        public readonly Player player = new Player();
+        public readonly Player Player = new Player();
         private readonly TileTalesGame game;
         private readonly ContentLibrary contentLibrary;
 
@@ -45,7 +45,7 @@ namespace TileTales.GameContent
             //int chunkWidth = contentLibrary.ChunkWidth;
             //int chunkHeight = contentLibrary.ChunkHeight;
 
-            CoordinateHelper.GetMapIndexForWorldLocation(player.X, player.Y, contentLibrary, out int PlayerMapX, out int PlayerMapY);
+            CoordinateHelper.GetMapIndexForWorldLocation(Player.X, Player.Y, contentLibrary, out int PlayerMapX, out int PlayerMapY);
             Chunk[] chunks = new Chunk[xAmount * yAmount];
             for (int y = 0; y < yAmount; y++)
             {
@@ -54,7 +54,7 @@ namespace TileTales.GameContent
                     int mapX = PlayerMapX + x - xAmount / 2;
                     int mapY = PlayerMapY + y - yAmount / 2;
                     int index = x + y * xAmount;
-                    chunks[index] = contentLibrary.GetChunk(mapX, mapY, player.Z);
+                    chunks[index] = contentLibrary.GetChunk(mapX, mapY, Player.Z);
                 }
             }
             return chunks;
@@ -62,12 +62,12 @@ namespace TileTales.GameContent
 
         internal void MovePlayer(int x, int y)
         {
-            player.Move(x, y, 0);
+            Player.Move(x, y, 0);
         }
 
         internal void TeleportPlayer(int x, int y)
         {
-            player.Teleport(x, y, 0);
+            Player.Teleport(x, y, 0);
         }
 
         internal Point getMapIndex(int locationX, int locationY)
@@ -83,24 +83,19 @@ namespace TileTales.GameContent
 
         internal Player createPlayerObject(PlayerObjectInfo playerObjectInfo)
         {
-            player.Init(playerObjectInfo, contentLibrary);
-            return player;
-        }
-
-        internal Player GetPlayer()
-        {
-            return player;
+            Player.Init(playerObjectInfo, contentLibrary);
+            return Player;
         }
 
         internal Chunk GetChunk(int chunkX, int chunkY)
         {
-            return contentLibrary.GetChunk(chunkX, chunkY, player.Z);
+            return contentLibrary.GetChunk(chunkX, chunkY, Player.Z);
         }
 
         internal void ScreenToWorldX(int screenX, int screenY, out int worldX, out int worldY)
         {
             //System.Diagnostics.Debug.WriteLine("GameWorld screenX: " + screenX + " screenY: " + screenY);
-            CoordinateHelper.ScreenToWorldCoords(screenX, screenY, contentLibrary, player, out worldX, out worldY);
+            CoordinateHelper.ScreenToWorldCoords(screenX, screenY, contentLibrary, Player, out worldX, out worldY);
         }
     }
 }

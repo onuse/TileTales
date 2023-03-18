@@ -53,7 +53,7 @@ namespace TileTales.Graphics
         {
             _game = tileTalesGame;
             _contentLib = _game.ContentLibrary;
-            _player = _game.GameWorld.player;
+            _player = _game.GameWorld.Player;
             _graphicsManager = graphicsManager;
             _graphics = graphicsManager.GraphicsDevice;
         }
@@ -151,7 +151,7 @@ namespace TileTales.Graphics
             Settings settings = _game.GameSettings;
             if (settings == null) return;
             Color tint = Color.White;
-            Player p = world.player;
+            Player p = world.Player;
             float worldMapSizeHlf = settings.WorldSize / 2;
             float pxPerTileHlf = settings.TileSize / 2;
             float viewWidth = settings.WindowWidth;
@@ -179,7 +179,7 @@ namespace TileTales.Graphics
             float pxPerTileHlf = pxPerTile / 2;
             float pxPerChunk = settings.ChunkSize;
             Color tint = Color.White;
-            Player p = world.player;
+            Player p = world.Player;
             float playerX = p.X;
             float playerY = p.Y;
             float viewWidth = settings.WindowWidth;

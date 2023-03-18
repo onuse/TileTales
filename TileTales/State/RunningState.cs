@@ -43,7 +43,7 @@ namespace TileTales.State
                     Point3D newLocation = new Point3D(response.X, response.Y, response.Z);
                     Player.Teleport(newLocation);
                     GameWorld world = game.GameWorld;
-                    float mapDistances = CoordinateHelper.GetDistanceInMapsForWorldCoords(world.LastMapFetchLocation, newLocation, content);
+                    float mapDistances = CoordinateHelper.GetDistanceInMapsForWorldCoords(game.GameWorld.LastMapFetchLocation, newLocation, content);
                     if (mapDistances > 1)
                     {
                         SendMapsRequest();
@@ -79,7 +79,7 @@ namespace TileTales.State
 
         private void LoadMap(MapInfo response)
         {
-            Map map = new(response.X, response.Y, response.Z, response.Map);
+            Map map = new(response.X, response.Y, response.Z, response.Version, response.Map);
             //String mapName = ContentLibrary.CreateMapName(response.X, response.Y, response.Z, response.ZoomLevel);
             Log.Debug("map: " + map.Location + ", Thread.CurrentThread.ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
             /*if (game.ContentLibrary.HasMap(mapName))
@@ -90,8 +90,8 @@ namespace TileTales.State
             //System.Diagnostics.Debug.WriteLine("RunningState.LoadMap ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
             //System.Diagnostics.Debug.WriteLine("RunningState.LoadMap calling Thread.sleep() 60 seconds: ");
             //await Task.Run(() => Thread.Sleep(60000));
-            game.ContentLibrary.AddMap(map, false, true, 0.25f);
-            game.ContentLibrary.UpdateCaches(game.GameWorld.GetPlayer());
+            game.ContentLibrary.AddMap(map);
+            game.ContentLibrary.UpdateCaches(game.GameWorld.Player);
         }
         
         internal void SendDelayedMapsRequest()
@@ -102,9 +102,9 @@ namespace TileTales.State
 
         private void SendMapsRequest()
         {
-            Player p = game.GameWorld.GetPlayer();
+            Player p = game.GameWorld.Player;
             Point3D mapIndex = CoordinateHelper.WorldCoordsToMapIndex(p.Location, content);
-            CenterMapsRequest zoneMapsRequest = RequestFactory.CreateZoneMapsRequest(mapIndex, 0, 6);
+            CenterMapsRequest zoneMapsRequest = RequestFactory.CreateZoneMapsRequest(mapIndex, 0, 3);
             serverConnector.SendMessage(zoneMapsRequest);
             GameWorld world = game.GameWorld;
             world.LastMapFetchLocation = p.Location;

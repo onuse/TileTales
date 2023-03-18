@@ -177,23 +177,24 @@ namespace TileTales.GameContent
         }
 
 
-        internal void AddMap(Map map, Boolean saveToDisc, bool createChunk, float scaleFactor)
+        internal void AddMap(Map map)
         {
             if (map.ByteString == null || map.ByteString.Length == 0 || map.ByteString == ByteString.Empty)
             {
                 return;
             }
+            Map currentMap = GetMap(map.Location);
+            if (currentMap != null)
+            {
+                if (currentMap.ByteString == map.ByteString)
+                {
+                    return;
+                }
+            }
             map.Image = Utils.ContentReader.bitmapFromByteString(map.ByteString);
             map.Texture = Utils.ContentReader.textureFromByteString(_graphicsDevice, map.ByteString);
             maps[map.Location] = map;
-            if (saveToDisc)
-            {
-                Utils.ContentWriter.WriteFile(FOLDER_MAPS + "/" + map.Location + "." + imageFileType, map.Image);
-            }
-            if (createChunk)
-            { 
-                _chunkLibrary.NewMap(map);
-            }
+            _chunkLibrary.NewMap(map);
         }
         internal void UpdateCaches(Player player)
         {
@@ -228,6 +229,11 @@ namespace TileTales.GameContent
         internal float GetScale()
         {
             return GameSettings.Scale;
+        }
+
+        internal bool HasMap(Point3D loc)
+        {
+            return maps.ContainsKey(loc);
         }
     }
 }

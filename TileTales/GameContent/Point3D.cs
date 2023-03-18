@@ -10,9 +10,7 @@ namespace TileTales.GameContent
 {
     internal readonly struct Point3D : IEquatable<Point3D>, IComparable<Point3D>
     {
-        private static readonly Point3D zeroPoint;
-
-        public static Point3D Zero => zeroPoint;
+        public static Point3D Zero { get; }
 
         public readonly Point Index;
         public readonly int Layer;

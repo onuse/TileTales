@@ -31,7 +31,7 @@ namespace TileTales.State
             this.stateManager = game.StateManager;
             this.serverConnector = game.ServerConnector;
             this.ui = game.AppUI;
-            this.Player = game.GameWorld.player;
+            this.Player = game.GameWorld.Player;
             this.eventBus = EventBus.Singleton;
             this.content = game.ContentLibrary;
         }

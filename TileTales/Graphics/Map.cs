@@ -13,27 +13,21 @@ namespace TileTales.Graphics
 {
     internal class Map : IEquatable<Map>, IComparable<Map>
     {
-        internal Map(int x, int y, int z, ByteString byteString)
+        internal Map(int x, int y, int z, long version, ByteString byteString)
         {
-            X = x;
-            Y = y;
-            Z = z;
-            ByteString = byteString;
             Location = new Point3D(x, y, z);
-        }
-
-        internal Map(Point3D location) : this(location.X, location.Y, location.Z, null)
-        {
+            Version = version;
+            ByteString = byteString;
         }
 
         internal Point3D Location { get; }
-        internal int X { get; }
-        internal int Y { get; }
-        internal int Z { get; }
-        internal int ZoomLevel { get; }
+        internal int X => Location.X;
+        internal int Y => Location.Y;
+        internal int Z => Location.Z;
+        internal long Version { get; }
         internal SKBitmap Image { get; set; }
         internal Texture2D Texture { get; set; }
-        public ByteString ByteString { get; }
+        internal ByteString ByteString { get; }
 
         internal static Point3D CreateLocationFromMapName(string name)
         {

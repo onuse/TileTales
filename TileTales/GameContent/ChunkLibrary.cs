@@ -16,9 +16,9 @@ namespace TileTales.GameContent
      */
     internal class ChunkLibrary
     {
-        private static readonly float s_fullResThreshold = 2.0f;
-        private static readonly float s_quarterResThreshold = 8.0f;
-        private static readonly float s_purgeThreshold = 16.0f;
+        private static readonly int s_fullResThreshold = 2;
+        private static readonly int s_quarterResThreshold = 8;
+        private static readonly int s_purgeThreshold = 16;
         private readonly GraphicsDevice _graphicsDevice;
         private readonly ContentLibrary _contentLibrary;
         private readonly ChunkFactory _chunkFactory;
@@ -36,11 +36,28 @@ namespace TileTales.GameContent
             // Locations are in WorldCoordinates
             // A typical world coordinate would be the player position
             // This also means that all other locations are way less relevant
+            // get all relevant maps and see if anyone of them should get turned into a chunk
+            Point3D currentMapIndex = CoordinateHelper.GetMapIndexForWorldLocation(relevantWorldCoord, _contentLibrary);
+            List<Point3D> shouldBeChunks = CoordinateHelper.GetPointsInRadius(currentMapIndex, s_purgeThreshold - 1);
+            foreach (var point in shouldBeChunks)
+            {
+                if (!_chunks.ContainsKey(point))
+                {
+                    if (_contentLibrary.HasMap(point))
+                    {
+                        Map map = _contentLibrary.GetMap(point);
+                        if (map != null)
+                        {
+                            NewMap(map);
+                        }
+                    }
+                }
+            }
+
             List<Point3D> chunksToRemove = new();
             foreach (var chunkIndex in _chunks)
             {
                 Chunk chunk = chunkIndex.Value;
-                if (chunk == null) continue;
                 Point3D mapLoc = chunk.Map.Location;
                 float dist = CoordinateHelper.GetDistanceInMapsForWorldCoords(relevantWorldCoord, mapLoc, _contentLibrary);
 
@@ -49,7 +66,11 @@ namespace TileTales.GameContent
                     if (chunk.FullResolution == null)
                     {
                         //chunk.FullResolution = _chunkFactory.ChunkDataToTexture(chunk, 1f);
-                        Parallel.Invoke(() => SetFullResolutionOnChunk(chunk));
+                        if (!chunk.IsWorking)
+                        {
+                            chunk.IsWorking = true;
+                            Parallel.Invoke(() => SetFullResolutionOnChunk(chunk));
+                        }
                     }
                 }
                 else if (dist <  s_quarterResThreshold)
@@ -71,13 +92,17 @@ namespace TileTales.GameContent
 
             foreach (var point in chunksToRemove)
             {
-                _chunks[point] = null;
+                //_chunks[point] = null;
+                _chunks.Remove(point, out Chunk chunk);
             }
+
+            
         }
 
         private void SetFullResolutionOnChunk(Chunk chunk)
         {
             chunk.FullResolution = _chunkFactory.ChunkDataToTexture(chunk, 1f);
+            chunk.IsWorking = false;
         }
 
         internal void SetChunk(Point3D key, Chunk chunk)

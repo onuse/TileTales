@@ -63,7 +63,7 @@ namespace TileTales.State
                 data.Tiles.ToList().ForEach(tile => AddTile(tile));
                 ContentLibrary.CreateWaterChunk();
                 eventBus.Publish(EventType.AllTilesSaved, null);
-                Player p = game.GameWorld.GetPlayer();
+                Player p = game.GameWorld.Player;
                 Log.Debug("(AllTilesData) player: " + p);
                 stateManager.ChangeState(RunningState.Singleton);
                 CenterMapsRequest zoneMapsRequest = RequestFactory.CreateZoneMapsRequest(p.X, p.Y, p.Z, 0, 2);
