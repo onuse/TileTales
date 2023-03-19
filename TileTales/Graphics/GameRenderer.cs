@@ -213,6 +213,7 @@ namespace TileTales.Graphics
             Point chunksIndex = world.getMapIndex(p.X, p.Y);
             double yMax = chunksIndex.Y + chunkAmountY / 2f + 1;
             double screenIndexY = -chunkAmountY / 2f;
+            bool allNull = true;
             for (int y = (int)(chunksIndex.Y - chunkAmountY / 2f); y < yMax; y++, screenIndexY++)
             {
                 double screenIndexX = -chunkAmountX / 2f;
@@ -221,6 +222,7 @@ namespace TileTales.Graphics
                 {
                     Chunk chunk = world.GetChunk(x, y);
                     if (chunk == null) continue;
+                    allNull = false;
                     if (settings.ZoomLevel > 8)
                     {
                         float textureX = (float)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
@@ -246,6 +248,11 @@ namespace TileTales.Graphics
                         chunk.DrawTiles(_tileBatch, pos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth);
                     }*/
                 }
+            }
+            if (allNull)
+            {
+                _tileBatch.End();
+                return;
             }
             if (_game.IsGameMode && _player.Avatar != null)
             {

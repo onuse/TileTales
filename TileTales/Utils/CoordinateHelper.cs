@@ -157,5 +157,15 @@ namespace TileTales.Utils
             }
             return points;
         }
+
+        internal static Point3D MapCoordsToWorldCoords(Point3D mapLoc, ContentLibrary contentLibrary)
+        {
+            return new Point3D(mapLoc.X * contentLibrary.MapWidth * contentLibrary.TileWidth, mapLoc.Y * contentLibrary.MapHeight * contentLibrary.TileHeight, mapLoc.Z);
+        }
+
+        internal static Point3D MapCoordsToWorldCoordsCentered(Point3D mapLoc, ContentLibrary contentLibrary)
+        {
+            return new Point3D(mapLoc.X * contentLibrary.ChunkWidth + (contentLibrary.ChunkWidth / 2), mapLoc.Y * contentLibrary.ChunkHeight + (contentLibrary.ChunkHeight / 2), mapLoc.Z);
+        }
     }
 }

@@ -1,9 +1,10 @@
 ﻿
+using Serilog.Events;
 using System;
 using TileTales.Utils;
 
 #if DEBUG
-Log.Init(ApplicationInfo.LogEventLevel);
+Log.Init(LogEventLevel.Verbose, null);
 #else
 
 #endif

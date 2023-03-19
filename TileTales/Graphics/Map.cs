@@ -72,6 +72,11 @@ namespace TileTales.Graphics
             }
         }
 
+        public override string ToString()
+        {
+            return Location.ToString();
+        }
+
         public override int GetHashCode()
         {
             return X ^ Y ^ Z;

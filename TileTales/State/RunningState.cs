@@ -42,6 +42,7 @@ namespace TileTales.State
                 {
                     Point3D newLocation = new Point3D(response.X, response.Y, response.Z);
                     Player.Teleport(newLocation);
+                    game.ContentLibrary.UpdateCaches(Player);
                     GameWorld world = game.GameWorld;
                     float mapDistances = CoordinateHelper.GetDistanceInMapsForWorldCoords(game.GameWorld.LastMapFetchLocation, newLocation, content);
                     if (mapDistances > 1)
@@ -91,7 +92,6 @@ namespace TileTales.State
             //System.Diagnostics.Debug.WriteLine("RunningState.LoadMap calling Thread.sleep() 60 seconds: ");
             //await Task.Run(() => Thread.Sleep(60000));
             game.ContentLibrary.AddMap(map);
-            game.ContentLibrary.UpdateCaches(game.GameWorld.Player);
         }
         
         internal void SendDelayedMapsRequest()

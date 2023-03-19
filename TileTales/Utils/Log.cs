@@ -49,44 +49,44 @@ namespace TileTales.Utils
 
         public static void Verbose(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Verbose);
+            if (IsAtLeastVerbose) FilteredLogging(Format(path, name, message), LogEventLevel.Verbose);
         }
 
         public static void Debug(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Debug);
+            if (IsAtLeastDebug) FilteredLogging(Format(path, name, message), LogEventLevel.Debug);
         }
 
         public static void Info(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Information);
+            if (IsAtLeastInfo) FilteredLogging(Format(path, name, message), LogEventLevel.Information);
         }
 
         public static void Warning(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Warning);
+            if (IsAtLeastWarning) FilteredLogging(Format(path, name, message), LogEventLevel.Warning);
         }
 
         public static void Error(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Error);
+            if (IsAtLeastError) FilteredLogging(Format(path, name, message), LogEventLevel.Error);
         }
 
         public static void Fatal(string message, [CallerFilePath] string path = "", [CallerMemberName] string name = "")
         {
-            if (IsTurnedOn) FilteredLogging(Format(path, name, message), LogEventLevel.Fatal);
+            if (IsAtLeastFatal) FilteredLogging(Format(path, name, message), LogEventLevel.Fatal);
         }
 
         private static void FilteredLogging(String msg, LogEventLevel level)
         {
             if (Filter(_filter, msg))
             {
-                if (level == LogEventLevel.Fatal) logger.Fatal(msg);
-                else if (level == LogEventLevel.Error) logger.Error(msg);
-                else if (level == LogEventLevel.Warning) logger.Warning(msg);
-                else if (level == LogEventLevel.Information) logger.Information(msg);
+                if (level == LogEventLevel.Verbose) logger.Verbose(msg);
                 else if (level == LogEventLevel.Debug) logger.Debug(msg);
-                else logger.Verbose(msg);
+                else if (level == LogEventLevel.Information) logger.Information(msg);
+                else if (level == LogEventLevel.Warning) logger.Warning(msg);
+                else if (level == LogEventLevel.Error) logger.Error(msg);
+                else if (level == LogEventLevel.Fatal) logger.Fatal(msg);
             }
         }
 

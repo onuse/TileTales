@@ -12,7 +12,9 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using TileTales.Graphics;
+using TileTales.Utils;
 
 namespace TileTales.GameContent
 {
@@ -186,15 +188,18 @@ namespace TileTales.GameContent
             Map currentMap = GetMap(map.Location);
             if (currentMap != null)
             {
-                if (currentMap.ByteString == map.ByteString)
+                if (currentMap.Version == map.Version)
                 {
+                    Log.Verbose("Map " + map + " already exists, skipping");
                     return;
                 }
+                Log.Verbose("Map " + map + " already exists, but is outdated, updating");
             }
+            Log.Verbose("Adding map " + map);
             map.Image = Utils.ContentReader.bitmapFromByteString(map.ByteString);
             map.Texture = Utils.ContentReader.textureFromByteString(_graphicsDevice, map.ByteString);
             maps[map.Location] = map;
-            _chunkLibrary.NewMap(map);
+            Task.Run(() => _chunkLibrary.NewMap(map));
         }
         internal void UpdateCaches(Player player)
         {

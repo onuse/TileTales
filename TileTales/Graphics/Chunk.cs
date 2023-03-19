@@ -70,6 +70,7 @@ namespace TileTales.Graphics
         {
             if (FullResolution != null)
             {
+                //tint = Color.Red;
                 tileBatch.Draw(FullResolution, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
             }
             else if (QuarterResolution != null)

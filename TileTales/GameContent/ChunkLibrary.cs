@@ -16,8 +16,8 @@ namespace TileTales.GameContent
      */
     internal class ChunkLibrary
     {
-        private static readonly int s_fullResThreshold = 2;
-        private static readonly int s_quarterResThreshold = 8;
+        private static readonly float s_fullResThreshold = 1.5f;
+        private static readonly int s_quarterResThreshold = 3;
         private static readonly int s_purgeThreshold = 16;
         private readonly GraphicsDevice _graphicsDevice;
         private readonly ContentLibrary _contentLibrary;
@@ -48,6 +48,10 @@ namespace TileTales.GameContent
                         Map map = _contentLibrary.GetMap(point);
                         if (map != null)
                         {
+                            if (Log.IsAtLeastVerbose)
+                            {
+                                Log.Verbose("Adding new chunk for map " + map.Location);
+                            }
                             NewMap(map);
                         }
                     }
@@ -59,34 +63,55 @@ namespace TileTales.GameContent
             {
                 Chunk chunk = chunkIndex.Value;
                 Point3D mapLoc = chunk.Map.Location;
-                float dist = CoordinateHelper.GetDistanceInMapsForWorldCoords(relevantWorldCoord, mapLoc, _contentLibrary);
+                float dist = CoordinateHelper.GetDistanceInMapsForWorldCoords(relevantWorldCoord, CoordinateHelper.MapCoordsToWorldCoordsCentered(mapLoc, _contentLibrary), _contentLibrary);
 
                 if (dist <= s_fullResThreshold)
                 {
                     if (chunk.FullResolution == null)
                     {
                         //chunk.FullResolution = _chunkFactory.ChunkDataToTexture(chunk, 1f);
+                        if (Log.IsAtLeastVerbose)
+                        {
+                            Log.Verbose("Starting work on full resolution for " + mapLoc);
+                        }
                         if (!chunk.IsWorking)
                         {
                             chunk.IsWorking = true;
-                            Parallel.Invoke(() => SetFullResolutionOnChunk(chunk));
+                            Task.Run(() => SetFullResolutionOnChunk(chunk));
                         }
                     }
                 }
-                else if (dist <  s_quarterResThreshold)
+                else if (dist <=  s_quarterResThreshold)
                 {
                     chunk.FullResolution = null;
                     if (chunk.QuarterResolution == null)
                     {
-                        chunk.QuarterResolution = _chunkFactory.ChunkDataToTexture(chunk, 0.25f);
+                        if (Log.IsAtLeastVerbose)
+                        {
+                            Log.Verbose("Starting work on quarter resolution for " + mapLoc);
+                        }
+                        if (!chunk.IsWorking)
+                        {
+                            chunk.IsWorking = true;
+                            Task.Run(() => SetQuarterResolutionOnChunk(chunk));
+                        }
                     }
                 }
                 else if (dist > s_purgeThreshold)
                 {
+                    if (Log.IsAtLeastVerbose)
+                    {
+                        Log.Verbose("Purging " + mapLoc);
+                    }
                     chunk.FullResolution = null;
                     chunk.QuarterResolution = null;
                     chunksToRemove.Add(mapLoc);
                     //_chunks[mapLoc] = null;
+                }
+                else
+                {
+                    chunk.FullResolution = null;
+                    chunk.QuarterResolution = null;
                 }
             }
 
@@ -95,13 +120,17 @@ namespace TileTales.GameContent
                 //_chunks[point] = null;
                 _chunks.Remove(point, out Chunk chunk);
             }
-
-            
         }
 
         private void SetFullResolutionOnChunk(Chunk chunk)
         {
             chunk.FullResolution = _chunkFactory.ChunkDataToTexture(chunk, 1f);
+            chunk.IsWorking = false;
+        }
+
+        private void SetQuarterResolutionOnChunk(Chunk chunk)
+        {
+            chunk.QuarterResolution = _chunkFactory.ChunkDataToTexture(chunk, 0.25f);
             chunk.IsWorking = false;
         }
 
@@ -148,6 +177,32 @@ namespace TileTales.GameContent
             {
                 SetChunk(map.Location, chunk);
             }
+        }
+
+        internal int AmountOfFullResolutionTextures()
+        {
+            int count = 0;
+            foreach (var chunk in _chunks)
+            {
+                if (chunk.Value.FullResolution != null)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        internal int AmountOfQuarterResolutionTextures()
+        {
+            int count = 0;
+            foreach (var chunk in _chunks)
+            {
+                if (chunk.Value.QuarterResolution != null)
+                {
+                    count++;
+                }
+            }
+            return count;
         }
     }
 }
