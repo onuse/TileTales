@@ -45,7 +45,7 @@ namespace TileTales.State
                     game.ContentLibrary.UpdateCaches(Player);
                     GameWorld world = game.GameWorld;
                     float mapDistances = CoordinateHelper.GetDistanceInMapsForWorldCoords(game.GameWorld.LastMapFetchLocation, newLocation, content);
-                    if (mapDistances > 1)
+                    if (mapDistances > 0.5)
                     {
                         SendMapsRequest();
                     }
@@ -91,7 +91,7 @@ namespace TileTales.State
             //System.Diagnostics.Debug.WriteLine("RunningState.LoadMap ManagedThreadId: " + Thread.CurrentThread.ManagedThreadId);
             //System.Diagnostics.Debug.WriteLine("RunningState.LoadMap calling Thread.sleep() 60 seconds: ");
             //await Task.Run(() => Thread.Sleep(60000));
-            game.ContentLibrary.AddMap(map);
+            game.ContentLibrary.AddMap(map, Player.Location);
         }
         
         internal void SendDelayedMapsRequest()
@@ -104,7 +104,7 @@ namespace TileTales.State
         {
             Player p = game.GameWorld.Player;
             Point3D mapIndex = CoordinateHelper.WorldCoordsToMapIndex(p.Location, content);
-            CenterMapsRequest zoneMapsRequest = RequestFactory.CreateZoneMapsRequest(mapIndex, 0, 3);
+            CenterMapsRequest zoneMapsRequest = RequestFactory.CreateZoneMapsRequest(mapIndex, 0, 5);
             serverConnector.SendMessage(zoneMapsRequest);
             GameWorld world = game.GameWorld;
             world.LastMapFetchLocation = p.Location;

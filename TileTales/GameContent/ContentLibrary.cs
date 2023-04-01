@@ -26,7 +26,7 @@ namespace TileTales.GameContent
         private static readonly String FOLDER_MAPS = "Content/assets/gfx/maps";
         private static readonly String WORLD_MAP = "Content/assets/gfx/worldmap.png";
         private static readonly String NoTile = "000000";
-        private static readonly String Water = "0000FF";
+        //private static readonly String Water = "0000FF";
         //private readonly Dictionary<int, Dictionary<Point, WeakReference<Chunk>>> _chunkLayers = new Dictionary<int, Dictionary<Point, WeakReference<Chunk>>>();
         //private readonly Dictionary<Point, WeakReference<Chunk>> _chunks = new Dictionary<Point, WeakReference<Chunk>>();
         //private Dictionary<string, SKBitmap> tiles = new Dictionary<string, SKBitmap>();
@@ -74,7 +74,7 @@ namespace TileTales.GameContent
             MapHeight = 100;*/
         }
 
-        internal static void CreateWaterChunk()
+        /*internal static void CreateWaterChunk()
         {
             SKBitmap waterMap = new SKBitmap(100, 100, true);
             SKColor water = SKColor.Parse(Water);
@@ -86,7 +86,7 @@ namespace TileTales.GameContent
                 }
             }
             //waterChunk = _chunkFactory.CreateChunkFromMap(waterMap, 0.25f);
-        }
+        }*/
 
         internal Texture2D GetSprite(string name)
         {
@@ -99,11 +99,11 @@ namespace TileTales.GameContent
         {
             if (colorRGB == NoTile)
             {
-                return tiles[Water];
+                //return tiles[Water];
             }
             if (!tiles.ContainsKey(colorRGB))
             {
-                return tiles[Water];
+                //return tiles[Water];
             }
             return tiles[colorRGB];
         }
@@ -179,7 +179,7 @@ namespace TileTales.GameContent
         }
 
 
-        internal void AddMap(Map map)
+        internal void AddMap(Map map, Point3D playerLoc)
         {
             if (map.ByteString == null || map.ByteString.Length == 0 || map.ByteString == ByteString.Empty)
             {
@@ -199,11 +199,11 @@ namespace TileTales.GameContent
             map.Image = Utils.ContentReader.bitmapFromByteString(map.ByteString);
             map.Texture = Utils.ContentReader.textureFromByteString(_graphicsDevice, map.ByteString);
             maps[map.Location] = map;
-            Task.Run(() => _chunkLibrary.NewMap(map));
+            Task.Run(() => _chunkLibrary.NewMap(map, playerLoc));
         }
         internal void UpdateCaches(Player player)
         {
-            _chunkLibrary.UpdateLibrary(player.Location);
+            Task.Run(() => _chunkLibrary.UpdateLibrary(player.Location));
         }
 
         internal Chunk GetChunk(int x, int y, int z)

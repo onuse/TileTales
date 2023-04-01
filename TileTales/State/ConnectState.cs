@@ -61,7 +61,7 @@ namespace TileTales.State
                 Log.Debug("(AllTilesData)");
                 AllTilesData data = AllTilesData.Parser.ParseFrom((o as Any).Value);
                 data.Tiles.ToList().ForEach(tile => AddTile(tile));
-                ContentLibrary.CreateWaterChunk();
+                //ContentLibrary.CreateWaterChunk();
                 eventBus.Publish(EventType.AllTilesSaved, null);
                 Player p = game.GameWorld.Player;
                 Log.Debug("(AllTilesData) player: " + p);

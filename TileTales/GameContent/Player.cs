@@ -19,6 +19,12 @@ namespace TileTales.GameContent
         {
             Location = Point3D.Zero;
         }
+        public String Name
+        {
+            get;
+            set;
+        }
+
         public int X
         {
             get { return Location.X; }
@@ -45,7 +51,8 @@ namespace TileTales.GameContent
 
         internal void Init(PlayerObjectInfo playerObjectInfo, ContentLibrary contentLib)
         {
-            Avatar = contentLib.GetSprite("gobbe.png");
+            Avatar = contentLib.GetSprite(playerObjectInfo.Avatar + ".png");
+            Name = playerObjectInfo.Name;
             Location = new Point3D(playerObjectInfo.X, playerObjectInfo.Y, playerObjectInfo.Z);
             _objectId = playerObjectInfo.ObjectId;
 

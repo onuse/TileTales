@@ -17,8 +17,8 @@ namespace TileTales.GameContent
     internal class ChunkLibrary
     {
         private static readonly float s_fullResThreshold = 1.5f;
-        private static readonly int s_quarterResThreshold = 3;
-        private static readonly int s_purgeThreshold = 16;
+        private static readonly int s_quarterResThreshold = 16;
+        private static readonly int s_purgeThreshold = 512;
         private readonly GraphicsDevice _graphicsDevice;
         private readonly ContentLibrary _contentLibrary;
         private readonly ChunkFactory _chunkFactory;
@@ -52,7 +52,7 @@ namespace TileTales.GameContent
                             {
                                 Log.Verbose("Adding new chunk for map " + map.Location);
                             }
-                            NewMap(map);
+                            Task.Run(() => NewMap(map, relevantWorldCoord));
                         }
                     }
                 }
@@ -62,66 +62,77 @@ namespace TileTales.GameContent
             foreach (var chunkIndex in _chunks)
             {
                 Chunk chunk = chunkIndex.Value;
-                Point3D mapLoc = chunk.Map.Location;
-                float dist = CoordinateHelper.GetDistanceInMapsForWorldCoords(relevantWorldCoord, CoordinateHelper.MapCoordsToWorldCoordsCentered(mapLoc, _contentLibrary), _contentLibrary);
-
-                if (dist <= s_fullResThreshold)
-                {
-                    if (chunk.FullResolution == null)
-                    {
-                        //chunk.FullResolution = _chunkFactory.ChunkDataToTexture(chunk, 1f);
-                        if (Log.IsAtLeastVerbose)
-                        {
-                            Log.Verbose("Starting work on full resolution for " + mapLoc);
-                        }
-                        if (!chunk.IsWorking)
-                        {
-                            chunk.IsWorking = true;
-                            Task.Run(() => SetFullResolutionOnChunk(chunk));
-                        }
-                    }
-                }
-                else if (dist <=  s_quarterResThreshold)
-                {
-                    chunk.FullResolution = null;
-                    if (chunk.QuarterResolution == null)
-                    {
-                        if (Log.IsAtLeastVerbose)
-                        {
-                            Log.Verbose("Starting work on quarter resolution for " + mapLoc);
-                        }
-                        if (!chunk.IsWorking)
-                        {
-                            chunk.IsWorking = true;
-                            Task.Run(() => SetQuarterResolutionOnChunk(chunk));
-                        }
-                    }
-                }
-                else if (dist > s_purgeThreshold)
-                {
-                    if (Log.IsAtLeastVerbose)
-                    {
-                        Log.Verbose("Purging " + mapLoc);
-                    }
-                    chunk.FullResolution = null;
-                    chunk.QuarterResolution = null;
-                    chunksToRemove.Add(mapLoc);
-                    //_chunks[mapLoc] = null;
-                }
-                else
-                {
-                    chunk.FullResolution = null;
-                    chunk.QuarterResolution = null;
-                }
+                bool purge = setCorrectResolutionForChunk(chunk, relevantWorldCoord);
+                if (purge)
+                    chunksToRemove.Add(chunk.Map.Location);
             }
 
             foreach (var point in chunksToRemove)
             {
+                if (shouldBeChunks.Contains(point))
+                    continue;
+
+                if (Log.IsAtLeastVerbose)
+                {
+                    Log.Verbose("Purging " + point);
+                }
                 //_chunks[point] = null;
                 _chunks.Remove(point, out Chunk chunk);
             }
         }
 
+        private bool setCorrectResolutionForChunk(Chunk chunk, Point3D playerLoc)
+        {
+            bool purge = false;
+            Point3D mapLoc = chunk.Map.Location;
+            float dist = CoordinateHelper.GetDistanceInMapsForWorldCoords(playerLoc, CoordinateHelper.MapCoordsToWorldCoordsCentered(mapLoc, _contentLibrary), _contentLibrary);
+
+            if (dist <= s_fullResThreshold)
+            {
+                if (chunk.FullResolution == null)
+                {
+                    //chunk.FullResolution = _chunkFactory.ChunkDataToTexture(chunk, 1f);
+                    if (Log.IsAtLeastVerbose)
+                    {
+                        Log.Verbose("Starting work on full resolution for " + mapLoc);
+                    }
+                    if (!chunk.IsWorking)
+                    {
+                        chunk.IsWorking = true;
+                        Task.Run(() => SetFullResolutionOnChunk(chunk));
+                    }
+                }
+            }
+            else if (dist <= s_quarterResThreshold)
+            {
+                chunk.FullResolution = null;
+                if (chunk.QuarterResolution == null)
+                {
+                    if (Log.IsAtLeastVerbose)
+                    {
+                        Log.Verbose("Starting work on quarter resolution for " + mapLoc);
+                    }
+                    if (!chunk.IsWorking)
+                    {
+                        chunk.IsWorking = true;
+                        Task.Run(() => SetQuarterResolutionOnChunk(chunk));
+                    }
+                }
+            }
+            else if (dist > s_purgeThreshold)
+            {
+                chunk.FullResolution = null;
+                chunk.QuarterResolution = null;
+                purge = true;
+            }
+            else
+            {
+                chunk.FullResolution = null;
+                chunk.QuarterResolution = null;
+            }
+
+            return purge;
+        }
         private void SetFullResolutionOnChunk(Chunk chunk)
         {
             chunk.FullResolution = _chunkFactory.ChunkDataToTexture(chunk, 1f);
@@ -169,12 +180,13 @@ namespace TileTales.GameContent
             return null;
         }
 
-        internal void NewMap(Map map)
+        internal void NewMap(Map map, Point3D playerLoc)
         {
 
-            Chunk chunk = _chunkFactory.CreateChunkFromMap(map, 0.25f);
+            Chunk chunk = _chunkFactory.CreateChunkFromMap(map, 0f);
             if (chunk != null)
             {
+                setCorrectResolutionForChunk(chunk, playerLoc);
                 SetChunk(map.Location, chunk);
             }
         }

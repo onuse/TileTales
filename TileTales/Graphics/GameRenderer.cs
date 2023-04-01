@@ -203,9 +203,9 @@ namespace TileTales.Graphics
             // How many chunks are shown on screen?
             float pxSeenX = viewWidth / scale;
             float pxSeenY = viewHeight / scale;
-            // How many chunks needed? Rounded to nearest larger even number, At max 32 per direction
-            double chunkAmountX = Math.Min(16, Math.Round(Math.Ceiling(pxSeenX / pxPerChunk) / 2, MidpointRounding.AwayFromZero) * 2);
-            double chunkAmountY = Math.Min(16, Math.Round(Math.Ceiling(pxSeenY / pxPerChunk) / 2, MidpointRounding.AwayFromZero) * 2);
+            // How many chunks should we render?
+            double chunkAmountX = Math.Min(512, Math.Round(Math.Ceiling(pxSeenX / pxPerChunk) / 2, MidpointRounding.AwayFromZero) * 2);
+            double chunkAmountY = Math.Min(256, Math.Round(Math.Ceiling(pxSeenY / pxPerChunk) / 2, MidpointRounding.AwayFromZero) * 2);
 
             SamplerState samplerState = (scale >= 1) ? SamplerState.PointClamp : SamplerState.AnisotropicClamp;
             _tileBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, samplerState, DepthStencilState.Default, null, null, null);
@@ -223,14 +223,14 @@ namespace TileTales.Graphics
                     Chunk chunk = world.GetChunk(x, y);
                     if (chunk == null) continue;
                     allNull = false;
-                    if (settings.ZoomLevel > 8)
+                    if (settings.ZoomLevel < 13 && settings.ZoomLevel >= 8)
                     {
                         float textureX = (float)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
                         float textureY = (float)(centerY - (txtOffsetY - screenIndexY * pxPerChunk) * scale);
                         Vector2 pos = new Vector2(textureX, textureY);
                         chunk.DrawMap(_tileBatch, pos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth);
                     }
-                    else //if (settings.ZoomLevel > 4)
+                    else if (settings.ZoomLevel < 8)
                     {
                         float textureX = (float)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
                         float textureY = (float)(centerY - (txtOffsetY - screenIndexY * pxPerChunk) * scale);
