@@ -16,14 +16,12 @@ using static System.Formats.Asn1.AsnWriter;
 using TileTales.Utils;
 using System.Diagnostics;
 
-namespace TileTales.Graphics
-{
+namespace TileTales.Graphics {
     /**
      *  The Canvas object is where all the drawing happens.
      *  It holds the scene graph (tile collections, sprites etc) and does the necessary calculations for perspective/zoom.
      */
-    internal class GameRenderer
-    {
+    internal class GameRenderer {
         private readonly TileTalesGame _game;
         private readonly GraphicsDeviceManager _graphicsManager;
         private readonly GraphicsDevice _graphics;
@@ -33,7 +31,7 @@ namespace TileTales.Graphics
         private SpriteBatch _worldMapBatch;
         private SpriteBatch _tileBatch;
         private Texture2D _worldMap;
-        
+
         const float _rotation = 0f;
         const float _layerDepth = 1f;
         private FrameCounter _frameCounter = new FrameCounter();
@@ -49,8 +47,7 @@ namespace TileTales.Graphics
          */
         public long MPF { get; internal set; }
 
-        public GameRenderer(TileTalesGame tileTalesGame, GraphicsDeviceManager graphicsManager)
-        {
+        public GameRenderer(TileTalesGame tileTalesGame, GraphicsDeviceManager graphicsManager) {
             _game = tileTalesGame;
             _contentLib = _game.ContentLibrary;
             _player = _game.GameWorld.Player;
@@ -58,8 +55,7 @@ namespace TileTales.Graphics
             _graphics = graphicsManager.GraphicsDevice;
         }
 
-        public void LoadContent()
-        {
+        public void LoadContent() {
             _tileBatch = new SpriteBatch(_graphics);
             _worldMapBatch = new SpriteBatch(_graphics);
             _worldMap = _contentLib.GetWorldMap();
@@ -117,17 +113,15 @@ namespace TileTales.Graphics
             batch.End();
         }*/
 
-        private void UpdateFrameCounter(GameTime gameTime)
-        {
-             _frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+        private void UpdateFrameCounter(GameTime gameTime) {
+            _frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             FPS = _frameCounter.AverageFramesPerSecond;
-            
+
             //var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
             //game.GameSettings.Fps = fps;
         }
 
-        public void Draw(GameWorld world, GameTime gameTime)
-        {
+        public void Draw(GameWorld world, GameTime gameTime) {
             Stopwatch stopwatch1 = new Stopwatch();
             stopwatch1.Start();
             UpdateFrameCounter(gameTime);
@@ -146,8 +140,7 @@ namespace TileTales.Graphics
 
         }
 
-        private void DrawWorldBackground(GameWorld world, GameTime gameTime)
-        {
+        private void DrawWorldBackground(GameWorld world, GameTime gameTime) {
             Settings settings = _game.GameSettings;
             if (settings == null) return;
             Color tint = Color.White;
@@ -171,8 +164,7 @@ namespace TileTales.Graphics
 
         }
 
-        private void DrawTiles(GameWorld world, GameTime gameTime)
-        {
+        private void DrawTiles(GameWorld world, GameTime gameTime) {
             Settings settings = _game.GameSettings;
             if (settings == null) return;
             float pxPerTile = settings.TileSize;
@@ -189,12 +181,10 @@ namespace TileTales.Graphics
             float centerY = viewHeight / 2f;
             float txtOffsetX = playerX % pxPerChunk;
             float txtOffsetY = playerY % pxPerChunk;
-            if (playerX < 0 && txtOffsetX != 0)
-            {
+            if (playerX < 0 && txtOffsetX != 0) {
                 txtOffsetX = pxPerChunk + playerX % pxPerChunk;
             }
-            if (playerY < 0 && txtOffsetY != 0)
-            {
+            if (playerY < 0 && txtOffsetY != 0) {
                 txtOffsetY = pxPerChunk + playerY % pxPerChunk;
             }
             txtOffsetX += pxPerTileHlf;
@@ -214,31 +204,25 @@ namespace TileTales.Graphics
             double yMax = chunksIndex.Y + chunkAmountY / 2f + 1;
             double screenIndexY = -chunkAmountY / 2f;
             bool allNull = true;
-            for (int y = (int)(chunksIndex.Y - chunkAmountY / 2f); y < yMax; y++, screenIndexY++)
-            {
+            for (int y = (int)(chunksIndex.Y - chunkAmountY / 2f); y < yMax; y++, screenIndexY++) {
                 double screenIndexX = -chunkAmountX / 2f;
                 double xMax = chunksIndex.X + chunkAmountX / 2f + 1;
-                for (int x = (int)(chunksIndex.X - chunkAmountX / 2f); x < xMax; x++, screenIndexX++)
-                {
+                for (int x = (int)(chunksIndex.X - chunkAmountX / 2f); x < xMax; x++, screenIndexX++) {
                     Chunk chunk = world.GetChunk(x, y);
                     if (chunk == null) continue;
                     allNull = false;
-                    if (settings.ZoomLevel < 13 && settings.ZoomLevel >= 8)
-                    {
+                    if (settings.ZoomLevel < 13 && settings.ZoomLevel >= 8) {
                         float textureX = (float)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
                         float textureY = (float)(centerY - (txtOffsetY - screenIndexY * pxPerChunk) * scale);
                         Vector2 pos = new Vector2(textureX, textureY);
                         chunk.DrawMap(_tileBatch, pos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth);
-                    }
-                    else if (settings.ZoomLevel < 8)
-                    {
+                    } else if (settings.ZoomLevel < 8) {
                         float textureX = (float)(centerX - (txtOffsetX - screenIndexX * pxPerChunk) * scale);
                         float textureY = (float)(centerY - (txtOffsetY - screenIndexY * pxPerChunk) * scale);
                         Vector2 pos = new Vector2(textureX, textureY);
                         //tileBatch.Draw(chunk.Image, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
                         chunk.DrawBackingImage(_tileBatch, pos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth);
-                        if (_game.IsGameMode)
-                        {
+                        if (_game.IsGameMode) {
                             world.getAllSpritesInMap(chunk.Map).ForEach(s => s.Draw(_tileBatch, pos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth));
                         }
                     }
@@ -253,13 +237,11 @@ namespace TileTales.Graphics
                     }*/
                 }
             }
-            if (allNull)
-            {
+            if (allNull) {
                 _tileBatch.End();
                 return;
             }
-            if (_game.IsGameMode && _player.Avatar != null)
-            {
+            if (_game.IsGameMode && _player.Avatar != null) {
                 Vector2 centerPos = new Vector2(centerX - (pxPerTileHlf * scale), centerY - (pxPerTileHlf * scale));
                 _tileBatch.Draw(_player.Avatar, centerPos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth);
             }

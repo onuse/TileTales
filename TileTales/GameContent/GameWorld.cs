@@ -15,6 +15,7 @@ namespace TileTales.GameContent
         public readonly Player Player = new Player();
         private readonly TileTalesGame game;
         private readonly ContentLibrary contentLibrary;
+        private List<Sprite> visibleSprites = new List<Sprite>();
 
         public GameWorld(TileTalesGame tileTalesGame)
         {
@@ -100,7 +101,7 @@ namespace TileTales.GameContent
 
         internal List<Sprite> getAllSpritesInMap(Map map)
         {
-            throw new NotImplementedException();
+            return visibleSprites;
         }
     }
 }
