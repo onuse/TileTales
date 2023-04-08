@@ -31,6 +31,11 @@ namespace TileTales.State
                 eventBus.Publish(EventType.LoadGameUI, null);
             };
 
+            menu.menuWorldGen.Selected += (s, a) =>
+            {
+                stateManager.ChangeState(new WorldGenState());
+                eventBus.Publish(EventType.LoadWorldGenUI, null);
+            };
 
             menu.menuQuit.Selected += (s, a) =>
             {

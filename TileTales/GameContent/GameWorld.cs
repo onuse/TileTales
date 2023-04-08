@@ -97,5 +97,10 @@ namespace TileTales.GameContent
             //System.Diagnostics.Debug.WriteLine("GameWorld screenX: " + screenX + " screenY: " + screenY);
             CoordinateHelper.ScreenToWorldCoords(screenX, screenY, contentLibrary, Player, out worldX, out worldY);
         }
+
+        internal List<Sprite> getAllSpritesInMap(Map map)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

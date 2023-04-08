@@ -16,7 +16,10 @@ namespace TileTales.Utils
         ConnectFailed,
         Connected,
         GameUILoaded,
-        AllTilesSaved
+        AllTilesSaved,
+        LoadWorldGenUI,
+        GameWorldGenUILoaded,
+        LoadWorldGenUII
     }
     internal class Event
     {

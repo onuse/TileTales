@@ -97,14 +97,6 @@ namespace TileTales.GameContent
 
         internal Tile GetTile(string colorRGB)
         {
-            if (colorRGB == NoTile)
-            {
-                //return tiles[Water];
-            }
-            if (!tiles.ContainsKey(colorRGB))
-            {
-                //return tiles[Water];
-            }
             return tiles[colorRGB];
         }
 

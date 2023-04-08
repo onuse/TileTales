@@ -28,6 +28,8 @@ namespace TileTales.UI
         internal ArtistUI _artistUI;
         internal GameUI _gameUI;
 
+        internal WorldGenUI _worldGenUI;
+
         public AppUI(TileTalesGame game, GraphicsDeviceManager graphics)
         {
             _graphics = graphics;
@@ -69,6 +71,14 @@ namespace TileTales.UI
                 _desktop.Root = _uiContainer;
                 EventBus.Singleton.Publish(EventType.GameUILoaded, null);
             });
+            EventBus.Singleton.Subscribe(EventType.LoadWorldGenUI, (data) =>
+            {
+                _worldGenUI = new WorldGenUI();
+                _uiContainer.Widgets.Add(_worldGenUI.GetWidget());
+                _desktop.Root = _uiContainer;
+                EventBus.Singleton.Publish(EventType.GameWorldGenUILoaded, null);
+            });
+
             EventBus.Singleton.Subscribe(EventType.ConnectFailed, (data) =>
             {
                 popConnectErrorUI((string)data);

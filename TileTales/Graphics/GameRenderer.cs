@@ -237,6 +237,10 @@ namespace TileTales.Graphics
                         Vector2 pos = new Vector2(textureX, textureY);
                         //tileBatch.Draw(chunk.Image, pos, null, tint, rotation, origin, scale, SpriteEffects.None, layerDepth);
                         chunk.DrawBackingImage(_tileBatch, pos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth);
+                        if (_game.IsGameMode)
+                        {
+                            world.getAllSpritesInMap(chunk.Map).ForEach(s => s.Draw(_tileBatch, pos, null, tint, _rotation, _origin, scale, SpriteEffects.None, _layerDepth));
+                        }
                     }
                     /*else
                     {
