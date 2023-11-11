@@ -1,15 +1,7 @@
-﻿using Google.Protobuf;
-using Google.Protobuf.Reflection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Google.Protobuf.Reflection;
 
-namespace TileTales.Utils
-{
-    enum EventType
-    {
+namespace TileTales.Utils {
+    enum EventType {
         Connect,
         LoadGameUI,
         Quit,
@@ -21,23 +13,19 @@ namespace TileTales.Utils
         GameWorldGenUILoaded,
         LoadWorldGenUII
     }
-    internal class Event
-    {
+    internal class Event {
         public EventType eventType;
         public object data;
-        public Event(EventType eventType, object data)
-        {
+        public Event(EventType eventType, object data) {
             this.eventType = eventType;
             this.data = data;
         }
     }
 
-    internal class ProtoEvent
-    {
+    internal class ProtoEvent {
         public MessageDescriptor eventMessage;
         public object data;
-        public ProtoEvent(MessageDescriptor eventMessage, object data)
-        {
+        public ProtoEvent(MessageDescriptor eventMessage, object data) {
             this.eventMessage = eventMessage;
             this.data = data;
         }

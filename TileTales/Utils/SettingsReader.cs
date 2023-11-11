@@ -1,73 +1,54 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TileTales.Utils
-{
-    internal class SettingsReader
-    {
-        private static string HARDCODED_PATH = "settings.json";
+namespace TileTales.Utils {
+    internal class SettingsReader {
+        private static readonly string HARDCODED_PATH = "settings.json";
         private static SettingsReader _instance;
-        private string _pathToSettingsFile;
+        private readonly string _pathToSettingsFile;
         private UserSettings _settings;
 
-        private SettingsReader(string pathToSettingsFile)
-        {
+        private SettingsReader(string pathToSettingsFile) {
             _pathToSettingsFile = pathToSettingsFile;
         }
 
-        public static SettingsReader Singleton
-        {
-            get
-            {
-                if (_instance == null)
-                {
+        public static SettingsReader Singleton {
+            get {
+                if (_instance == null) {
                     _instance = new SettingsReader(HARDCODED_PATH);
                 }
                 return _instance;
             }
         }
 
-        public UserSettings GetSettings()
-        {
-            if (_settings != null)
-            {
+        public UserSettings GetSettings() {
+            if (_settings != null) {
                 return _settings;
             }
 
             return ReadSettingsFromPersistance();
         }
 
-        public UserSettings ReadSettingsFromPersistance()
-        {
+        public UserSettings ReadSettingsFromPersistance() {
             Log.Debug("File.Exists(_pathToSettingsFile): " + File.Exists(_pathToSettingsFile));
-            try
-            {
-                if (File.Exists(_pathToSettingsFile))
-                {
+            try {
+                if (File.Exists(_pathToSettingsFile)) {
                     string json = File.ReadAllText(_pathToSettingsFile);
                     Log.Debug("Reading settings file: " + json);
                     _settings = JsonConvert.DeserializeObject<UserSettings>(json);
-                } else
-                {
+                } else {
                     _settings = new UserSettings();
                     SaveSettings();
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 Log.Error("Error reading settings file: " + ex.Message);
             }
 
             return _settings;
         }
 
-        public void SaveSettings()
-        {
+        public void SaveSettings() {
             var json = JsonConvert.SerializeObject(_settings);
             File.WriteAllText(_pathToSettingsFile, json);
         }

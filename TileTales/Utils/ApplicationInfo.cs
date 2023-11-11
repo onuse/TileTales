@@ -1,14 +1,5 @@
-﻿using Serilog.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TileTales.Utils
-{
-    internal static class ApplicationInfo
-    {
+﻿namespace TileTales.Utils {
+    internal static class ApplicationInfo {
         internal static string Name = "Tile Tales";
         internal static string Version = "0.0.1";
         internal static string Author = "Jonas Karlsson";

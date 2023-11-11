@@ -1,29 +1,18 @@
 ﻿using Google.Protobuf;
-using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
-using Net.Tiletales.Network.Proto.Game;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using TileTales.Utils;
-using static Google.Protobuf.Reflection.FieldDescriptorProto.Types;
 
-namespace TileTales.Network
-{
-    internal class ServerConnector
-    {
+namespace TileTales.Network {
+    internal class ServerConnector {
         private readonly SettingsReader _settingsReader;
         private readonly EventBus _eventBus;
         private SocketClient _socketClient;
         private Thread _thread;
 
-        public ServerConnector()
-        {
+        public ServerConnector() {
             this._eventBus = EventBus.Singleton;
             this._settingsReader = SettingsReader.Singleton;
             _eventBus.Subscribe(EventType.Connect, (o) => {
@@ -32,32 +21,26 @@ namespace TileTales.Network
             });
         }
 
-        public void ConnectToServer()
-        {
+        public void ConnectToServer() {
             // Initialize the SocketClient
             _socketClient = new SocketClient();
             UserSettings set = _settingsReader.GetSettings();
             Exception e = _socketClient.Connect(IPAddress.Parse(set.ServerAdress), set.ServerPort);
-            if (e != null)
-            {
+            if (e != null) {
                 _eventBus.Publish(EventType.ConnectFailed, e.Message);
-            }
-            else
-            {
+            } else {
                 StartReadingStream();
                 _eventBus.Publish(EventType.Connected, null);
             }
         }
 
 
-        public void StartReadingStream()
-        {
+        public void StartReadingStream() {
             Log.Info("Starting reading stream on thread: " + Thread.CurrentThread.ManagedThreadId);
             _thread = new Thread(() => _socketClient.ReadFromStream(MessageCallback));
             _thread.Start();
         }
-        public void MessageCallback(Any message)
-        {
+        public void MessageCallback(Any message) {
             Log.Verbose("message RECIEVED: " + message);
 
             /*String typeUrl = message.TypeUrl;
@@ -76,27 +59,22 @@ namespace TileTales.Network
             _eventBus.Publish(message, message);
         }
 
-        public void SendMessage(Any message)
-        {
+        public void SendMessage(Any message) {
             _socketClient.SendMessage(message);
         }
-        public void SendMessageBytes(byte[] messageBytes)
-        {
+        public void SendMessageBytes(byte[] messageBytes) {
             _socketClient.SendMessageBytes(messageBytes);
         }
-        public void SendMessage(IMessage message)
-        {
+        public void SendMessage(IMessage message) {
             Any msg = Any.Pack(message);
             SendMessage(msg);
         }
 
-        public bool IsConnected()
-        {
+        public bool IsConnected() {
             return _socketClient.IsConnected();
         }
 
-        internal void Shutdown()
-        {
+        internal void Shutdown() {
             if (_socketClient != null)
                 _socketClient.Shutdown();
         }

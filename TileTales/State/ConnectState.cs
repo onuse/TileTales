@@ -1,34 +1,25 @@
 ﻿using Google.Protobuf.WellKnownTypes;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Net.Tiletales.Network.Proto.App;
 using Net.Tiletales.Network.Proto.Game;
 using SkiaSharp;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using TileTales.GameContent;
 using TileTales.Graphics;
 using TileTales.Network;
 using TileTales.UI;
 using TileTales.Utils;
 
-namespace TileTales.State
-{
-    internal class ConnectState : BaseState
-    {
-        private GameUI _gameUI;
-        internal ConnectState() : base()
-        {
-            eventBus.Subscribe(EventType.Connected, (o) =>
-            {
+namespace TileTales.State {
+    internal class ConnectState: BaseState {
+        private readonly GameUI _gameUI;
+        internal ConnectState() : base() {
+            eventBus.Subscribe(EventType.Connected, (o) => {
                 /*_gameUI = ui._gameUI;
                 _gameUI.paddedCenteredButton.Click += (s, a) =>
                 {*/
-                    Login();
+                Login();
                 //};
             });
 
@@ -41,8 +32,7 @@ namespace TileTales.State
                  }
              });*/
 
-            eventBus.Subscribe(RealmInfo.Descriptor, (o) =>
-            {
+            eventBus.Subscribe(RealmInfo.Descriptor, (o) => {
                 Log.Debug("(RealmInfo)");
                 RealmInfo data = RealmInfo.Parser.ParseFrom((o as Any).Value);
                 game.InitGameSettings(data);
@@ -71,28 +61,25 @@ namespace TileTales.State
                 new Thread(RunningState.Singleton.SendDelayedMapsRequest).Start();
             });
         }
-        
-        private void AddTile(TileData tileData)
-        {
-            Tile tile = new Tile(tileData.ReplacementColor);
-            tile.Name = tileData.Name;
-            tile.Description = tileData.Description;
-            tile.LegacyColor = tileData.LegacyColor;
-            tile.Tags = tileData.Tags.ToList();
+
+        private void AddTile(TileData tileData) {
+            Tile tile = new(tileData.ReplacementColor) {
+                Name = tileData.Name,
+                Description = tileData.Description,
+                LegacyColor = tileData.LegacyColor,
+                Tags = tileData.Tags.ToList()
+            };
             byte[] byteArray = tileData.Image.ToByteArray();
             tile.BackingImage = SKBitmap.Decode(byteArray);
-            tile.Image =  Texture2D.FromStream(game.GraphicsDevice, tile.BackingImage.Encode(SKEncodedImageFormat.Png, 100).AsStream());
+            tile.Image = Texture2D.FromStream(game.GraphicsDevice, tile.BackingImage.Encode(SKEncodedImageFormat.Png, 100).AsStream());
             content.AddTile(tile);
         }
 
 
-        private void Login()
-        {
-            if (serverConnector.IsConnected())
-            {
+        private void Login() {
+            if (serverConnector.IsConnected()) {
                 UserSettings settings = SettingsReader.Singleton.GetSettings();
-                AccountLoginRequest loginRequest = new AccountLoginRequest
-                {
+                AccountLoginRequest loginRequest = new AccountLoginRequest {
                     Username = settings.AccountUsername,
                     Password = settings.AccountPassword
                 };
@@ -100,8 +87,7 @@ namespace TileTales.State
             }
         }
 
-        public override void Enter()
-        {
+        public override void Enter() {
             eventBus.Publish(EventType.Connect, null);
         }
     }

@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TileTales.Graphics;
 using TileTales.Utils;
@@ -52,7 +49,7 @@ namespace TileTales.GameContent {
             List<Point3D> chunksToRemove = new();
             foreach (var chunkIndex in _chunks) {
                 Chunk chunk = chunkIndex.Value;
-                bool purge = setCorrectResolutionForChunk(chunk, relevantWorldCoord);
+                bool purge = SetCorrectResolutionForChunk(chunk, relevantWorldCoord);
                 if (purge)
                     chunksToRemove.Add(chunk.Map.Location);
             }
@@ -69,7 +66,7 @@ namespace TileTales.GameContent {
             }
         }
 
-        private bool setCorrectResolutionForChunk(Chunk chunk, Point3D playerLoc) {
+        private bool SetCorrectResolutionForChunk(Chunk chunk, Point3D playerLoc) {
             bool purge = false;
             Point3D mapLoc = chunk.Map.Location;
             float dist = CoordinateHelper.GetDistanceInMapsForWorldCoords(playerLoc, CoordinateHelper.MapCoordsToWorldCoordsCentered(mapLoc, _contentLibrary), _contentLibrary);
@@ -152,7 +149,7 @@ namespace TileTales.GameContent {
         internal void NewMap(Map map, Point3D playerLoc) {
             Chunk chunk = _chunkFactory.CreateChunkFromMap(map, 0f);
             if (chunk != null) {
-                setCorrectResolutionForChunk(chunk, playerLoc);
+                SetCorrectResolutionForChunk(chunk, playerLoc);
                 SetChunk(map.Location, chunk);
             }
         }

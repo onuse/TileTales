@@ -1,6 +1,5 @@
 ﻿
 using Serilog.Events;
-using System;
 using TileTales.Utils;
 
 #if DEBUG

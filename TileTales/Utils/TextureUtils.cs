@@ -1,43 +1,31 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TileTales.Utils
-{
-    internal class TextureUtils
-    {
+namespace TileTales.Utils {
+    internal class TextureUtils {
         private static TextureUtils _instance;
 
-        public static TextureUtils Singleton
-        {
-            get
-            {
-                if (_instance == null)
-                {
+        public static TextureUtils Singleton {
+            get {
+                if (_instance == null) {
                     _instance = new TextureUtils();
                 }
                 return _instance;
             }
         }
 
-        public static Texture2D CreateTexture(GraphicsDevice graphicsDevice, int width, int height, Color color)
-        {
+        public static Texture2D CreateTexture(GraphicsDevice graphicsDevice, int width, int height, Color color) {
             var texture = new Texture2D(graphicsDevice, width, height);
             var data = new Color[width * height];
-            for (var i = 0; i < data.Length; ++i)
-            {
+            for (var i = 0; i < data.Length; ++i) {
                 data[i] = color;
             }
             texture.SetData(data);
             return texture;
         }
 
-        public static Texture2D scaleTexture(Texture2D texture, int newWidth, int newHeight)
-        {
+        public static Texture2D scaleTexture(Texture2D texture, int newWidth, int newHeight) {
             Color[] data = new Color[texture.Width * texture.Height];
             texture.GetData(data);
             Color[] newData = new Color[newWidth * newHeight];
@@ -47,10 +35,8 @@ namespace TileTales.Utils
             float yRatio = (float)sourceHeight / newHeight;
             float xPosition, yPosition;
             int sourcePosition, targetPosition;
-            for (int y = 0; y < newHeight; y++)
-            {
-                for (int x = 0; x < newWidth; x++)
-                {
+            for (int y = 0; y < newHeight; y++) {
+                for (int x = 0; x < newWidth; x++) {
                     xPosition = x * xRatio;
                     yPosition = y * yRatio;
                     sourcePosition = (int)(Math.Floor(yPosition) * sourceWidth + Math.Floor(xPosition));
@@ -63,8 +49,7 @@ namespace TileTales.Utils
             return newTexture;
         }
 
-        public static Texture2D scaleTexture(Texture2D texture, float scale)
-        {
+        public static Texture2D scaleTexture(Texture2D texture, float scale) {
             return scaleTexture(texture, (int)(texture.Width * scale), (int)(texture.Height * scale));
         }
     }
