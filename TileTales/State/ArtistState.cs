@@ -1,30 +1,18 @@
-﻿using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Net.Tiletales.Network.Proto.App;
 using Net.Tiletales.Network.Proto.Game;
 using Net.Tiletales.Network.Proto.Paint;
-using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using TileTales.GameContent;
 using TileTales.Graphics;
 using TileTales.Network;
 using TileTales.UI;
 using TileTales.Utils;
 
-namespace TileTales.State
-{
-    internal class ArtistState : BaseState
-    {
-        public enum BrushType
-        {
+namespace TileTales.State {
+    internal class ArtistState: BaseState {
+        public enum BrushType {
             TilePen,
             TileLine,
             TileBrush,
@@ -32,19 +20,14 @@ namespace TileTales.State
         }
         private static ArtistState _instance;
 
-        public static ArtistState Singleton
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new ArtistState();
-                }
+        public static ArtistState Singleton {
+            get {
+                _instance ??= new ArtistState();
                 return _instance;
             }
         }
 
-        public BrushType ActiveBrushType  { get; set; }
+        public BrushType ActiveBrushType { get; set; }
 
         private int teleportX = 0;
         private int teleportY = 0;
@@ -59,8 +42,7 @@ namespace TileTales.State
 
         private readonly ArtistUI artistUI;
 
-        private ArtistState() : base()
-        {
+        private ArtistState() : base() {
             ActiveBrushType = BrushType.TilePen;
             artistUI = game.AppUI.GetArtistUI();
             artistUI.btnLineTool.Click += (s, a) => { ActiveBrushType = BrushType.TileLine; };
@@ -68,47 +50,37 @@ namespace TileTales.State
             artistUI.btnBrushTool.Click += (s, a) => { ActiveBrushType = BrushType.TileBrush; };
             artistUI.btnFillTool.Click += (s, a) => { ActiveBrushType = BrushType.TileFill; };
         }
-        
-        public override void Update(GameTime gameTime, KeyboardState ks, MouseState ms)
-        {
+
+        public override void Update(GameTime gameTime, KeyboardState ks, MouseState ms) {
             base.Update(gameTime, ks, ms);
 
-            if (!IsMouseInsideWindow() || IsMouseOverUI())
-            {
+            if (!IsMouseInsideWindow() || IsMouseOverUI()) {
                 return;
             }
 
-            if (ms.LeftButton == ButtonState.Pressed)
-            {
-                if (paintIndicator == null)
-                {
+            if (ms.LeftButton == ButtonState.Pressed) {
+                if (paintIndicator == null) {
                     paintIndicator = "";
                     game.GameWorld.ScreenToWorldX(ms.X, ms.Y, out int worldX, out int worldY);
                     paintStartX = worldX;
                     paintStartY = worldY;
                     paintLastX = worldX;
                     paintLastY = worldY;
-                    if (ActiveBrushType == BrushType.TilePen || ActiveBrushType == BrushType.TileBrush)
-                    {
+                    if (ActiveBrushType == BrushType.TilePen || ActiveBrushType == BrushType.TileBrush) {
                         paintPoints = new HashSet<Point>
                         {
                             new Point(worldX, worldY)
                         };
                     }
                     //paintPoints.Add(new Point(worldX, worldY));
-                }
-                else
-                {
+                } else {
                     game.GameWorld.ScreenToWorldX(ms.X, ms.Y, out int worldX, out int worldY);
                     if (worldX != paintLastX || worldY != paintLastY) {
-                        if (ActiveBrushType == BrushType.TilePen || ActiveBrushType == BrushType.TileBrush)
-                        {
-                            if (ActiveBrushType == BrushType.TilePen)
-                            {
+                        if (ActiveBrushType == BrushType.TilePen || ActiveBrushType == BrushType.TileBrush) {
+                            if (ActiveBrushType == BrushType.TilePen) {
                                 Point latestPoint = paintPoints.Last();
                                 List<Point> points = PointUtils.GetPointsBetween(latestPoint.X, latestPoint.Y, worldX, worldY);
-                                foreach (Point point in points)
-                                {
+                                foreach (Point point in points) {
                                     paintPoints.Add(point);
                                 }
                             }
@@ -119,23 +91,15 @@ namespace TileTales.State
                         paintLastY = worldY;
                     }
                 }
-            }
-            else if (ms.LeftButton == ButtonState.Released)
-            {
-                if (paintIndicator != null)
-                {
+            } else if (ms.LeftButton == ButtonState.Released) {
+                if (paintIndicator != null) {
                     paintIndicator = null;
                     game.GameWorld.ScreenToWorldX(ms.X, ms.Y, out int worldX, out int worldY);
-                    if (ActiveBrushType == BrushType.TilePen || ActiveBrushType == BrushType.TileBrush)
-                    {
+                    if (ActiveBrushType == BrushType.TilePen || ActiveBrushType == BrushType.TileBrush) {
                         SendDrawMultiTileRequest(paintPoints, 0);
-                    }
-                    else if (ActiveBrushType == BrushType.TileLine)
-                    {
+                    } else if (ActiveBrushType == BrushType.TileLine) {
                         SendDrawLineRequest(paintStartX, paintStartY, worldX, worldY, 0);
-                    }
-                    else if (ActiveBrushType == BrushType.TileFill)
-                    {
+                    } else if (ActiveBrushType == BrushType.TileFill) {
                         SendBucketFillRequest(worldX, worldY, 0);
                     }
                     paintStartX = 0;
@@ -147,16 +111,12 @@ namespace TileTales.State
             }
 
 
-            if (ms.RightButton == ButtonState.Pressed)
-            {
+            if (ms.RightButton == ButtonState.Pressed) {
                 game.GameWorld.ScreenToWorldX(ms.X, ms.Y, out int worldX, out int worldY);
                 teleportX = worldX;
                 teleportY = worldY;
-            }
-            else if (ms.RightButton == ButtonState.Released)
-            {
-                if (teleportX != 0 || teleportY != 0)
-                {
+            } else if (ms.RightButton == ButtonState.Released) {
+                if (teleportX != 0 || teleportY != 0) {
                     SendTeleportRequest(teleportX, teleportY, 0);
                     teleportX = 0;
                     teleportY = 0;
@@ -164,29 +124,24 @@ namespace TileTales.State
             }
         }
 
-        private void SendBucketFillRequest(int worldX, int worldY, int v)
-        {
-            BucketFillRequest bucketFillRequest = RequestFactory.createBucketFillRequest(worldX, worldY, v, (uint)ui.getSelectedTile().LegacyColor);
+        private void SendBucketFillRequest(int worldX, int worldY, int v) {
+            BucketFillRequest bucketFillRequest = RequestFactory.createBucketFillRequest(worldX, worldY, v, (uint)ui.GetSelectedTile().LegacyColor);
             serverConnector.SendMessage(bucketFillRequest);
         }
 
-        private void SendDrawMultiTileRequest(HashSet<Point> paintPoints, int z)
-        {
-            Tile selectedTile = ui.getSelectedTile();
-            if (selectedTile == null)
-            {
+        private void SendDrawMultiTileRequest(HashSet<Point> paintPoints, int z) {
+            Tile selectedTile = ui.GetSelectedTile();
+            if (selectedTile == null) {
                 return;
             }
             DrawMultiTileRequest drawMultiTileRequest = RequestFactory.createDrawMultiTileRequest(paintPoints, z, (uint)selectedTile.LegacyColor);
             serverConnector.SendMessage(drawMultiTileRequest);
         }
 
-        private void SendDrawLineRequest(int paintStartX, int paintStartY, int paintEndX, int paintEndY, int z)
-        {
+        private void SendDrawLineRequest(int paintStartX, int paintStartY, int paintEndX, int paintEndY, int z) {
             Log.Debug("ArtistState.sendDrawLineRequest(paintStartX: " + paintStartX + ", paintStartY: " + paintStartY + ", paintEndX: " + paintEndX + ", paintEndY: " + paintEndY + ", z: " + z);
-            Tile selectedTile = ui.getSelectedTile();
-            if (selectedTile == null)
-            {
+            Tile selectedTile = ui.GetSelectedTile();
+            if (selectedTile == null) {
                 return;
             }
             DrawLineRequest drawLineRequest = RequestFactory.createDrawLineRequest(paintStartX, paintStartY, paintEndX, paintEndY, z);
@@ -194,8 +149,7 @@ namespace TileTales.State
             serverConnector.SendMessage(drawLineRequest);
         }
 
-        private void SendTeleportRequest(int teleportX, int teleportY, int z)
-        {
+        private void SendTeleportRequest(int teleportX, int teleportY, int z) {
             Log.Debug("ArtistState.SendTeleportRequest(teleportX: " + teleportX + ", teleportY: " + teleportY + ", z: " + z);
             TeleportRequest teleportRequest = RequestFactory.createTeleportRequest(teleportX, teleportY, z);
             serverConnector.SendMessage(teleportRequest);

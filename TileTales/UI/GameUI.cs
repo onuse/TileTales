@@ -1,68 +1,60 @@
 ﻿using Myra.Graphics2D.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TileTales.UI
-{
-    internal class GameUI
-    {
-        private MultipleItemsContainerBase panel;
+namespace TileTales.UI {
+    internal class GameUI {
+        private Panel panel;
 
-        internal TextButton paddedCenteredButton;
-        internal TextButton fixedSizeButton;
-        internal Label positionedText;
+        internal Button paddedCenteredButton;
+        private Label paddedCenteredButtonLabel;
 
-        public GameUI()
-        {
+        internal Button fixedSizeButton;
+        private Label fixedSizeButtonLabel;
 
+        public GameUI() {
         }
-        
-        public Widget GetWidget()
-        {
+
+        public Widget GetWidget() {
             return panel;
         }
 
-        internal void Load()
-        {
+        internal void Load() {
             panel = new Panel();
-            
-            positionedText = new Label();
-            positionedText.Text = "Positioned Text";
-            positionedText.Left = 50;
-            positionedText.Top = 100;
-            panel.Widgets.Add(positionedText);
 
-            paddedCenteredButton = new TextButton();
-            paddedCenteredButton.Text = "Padded Centered Button";
-            paddedCenteredButton.HorizontalAlignment = HorizontalAlignment.Center;
-            paddedCenteredButton.VerticalAlignment = VerticalAlignment.Center;
+            paddedCenteredButtonLabel = new Label {
+                Text = "Padded Centered Button"
+            };
+            paddedCenteredButton = new Button {
+                Content = paddedCenteredButtonLabel,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
             panel.Widgets.Add(paddedCenteredButton);
 
-            var rightBottomText = new Label();
-            rightBottomText.Text = "Right Bottom Text";
-            rightBottomText.Left = -30;
-            rightBottomText.Top = -20;
-            rightBottomText.HorizontalAlignment = HorizontalAlignment.Right;
-            rightBottomText.VerticalAlignment = VerticalAlignment.Bottom;
+            var rightBottomText = new Label {
+                Text = "Right Bottom Text",
+                Left = -30,
+                Top = -20,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Bottom
+            };
             panel.Widgets.Add(rightBottomText);
 
-            fixedSizeButton = new TextButton();
-            fixedSizeButton.Text = "Fixed Size Button";
-            fixedSizeButton.Width = 110;
-            fixedSizeButton.Height = 80;
+            fixedSizeButtonLabel = new Label {
+                Text = "Fixed Size Button"
+            };
+            fixedSizeButton = new Button {
+                Content = fixedSizeButtonLabel,
+                Width = 110,
+                Height = 80
+            };
             panel.Widgets.Add(fixedSizeButton);
         }
 
-        internal void SetWidth(int value)
-        {
+        internal void SetWidth(int value) {
             panel.Width = value;
         }
 
-        internal void SetHeight(int value)
-        {
+        internal void SetHeight(int value) {
             panel.Height = value;
         }
     }

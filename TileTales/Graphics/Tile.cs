@@ -2,22 +2,14 @@
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TileTales.Graphics
-{
-    internal class Tile : IEquatable<Tile>, IComparable<Tile>
-    {
-        public Tile(int replacementColor)
-        {
+namespace TileTales.Graphics {
+    internal class Tile: IEquatable<Tile>, IComparable<Tile> {
+        public Tile(int replacementColor) {
             Tags = new List<string>();
             ReplacementColor = replacementColor;
         }
-        public Tile(int replacementColor, SKBitmap image) : this(replacementColor)
-        {
+        public Tile(int replacementColor, SKBitmap image) : this(replacementColor) {
             BackingImage = image;
         }
         public int ReplacementColor { get; }
@@ -25,12 +17,11 @@ namespace TileTales.Graphics
         public SKBitmap BackingImage { get; set; }
         public Texture2D Image { get; set; }
         public int LegacyColor { get; set; }
-        public string LegacyColorAsString { 
+        public string LegacyColorAsString {
             get {
                 return LegacyColor.ToString("X6");
             }
-            set
-            {
+            set {
                 LegacyColor = int.Parse(value, System.Globalization.NumberStyles.HexNumber);
             }
         }
@@ -38,26 +29,22 @@ namespace TileTales.Graphics
         public string Name { get; internal set; }
         public string Description { get; internal set; }
 
-        public int CompareTo(Tile other)
-        {
+        public int CompareTo(Tile other) {
             return ReplacementColor.CompareTo(other.ReplacementColor);
         }
 
-        public bool Equals(Tile other)
-        {
+        public bool Equals(Tile other) {
             return ReplacementColor == other.ReplacementColor;
         }
 
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
             return Equals((Tile)obj);
         }
 
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return ReplacementColor;
         }
     }

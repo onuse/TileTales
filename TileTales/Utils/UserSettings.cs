@@ -1,15 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Serilog.Events;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TileTales.Utils
-{
-    internal class UserSettings
-    {
+namespace TileTales.Utils {
+    internal class UserSettings {
         public string ServerAdress { get; set; }
         public int ServerPort { get; set; }
         public string AccountUsername { get; set; }
@@ -18,8 +11,7 @@ namespace TileTales.Utils
         public int WindowWidth { get; set; }
         public bool Fullscreen { get; set; }
 
-        public UserSettings()
-        {
+        public UserSettings() {
             // Set default values for the variables
             ServerAdress = "127.0.0.1";
             ServerPort = 27020;
@@ -30,8 +22,7 @@ namespace TileTales.Utils
             Fullscreen = false;
         }
 
-        public override String ToString()
-        {
+        public override String ToString() {
             return JsonConvert.SerializeObject(this);
         }
     }

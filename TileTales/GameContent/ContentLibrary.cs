@@ -1,25 +1,16 @@
 ﻿using Google.Protobuf;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Timers;
-using Myra.Graphics2D.UI;
 using SkiaSharp;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.SymbolStore;
 using System.Linq;
-using System.Numerics;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using TileTales.Graphics;
 using TileTales.Utils;
 
-namespace TileTales.GameContent
-{
-    internal class ContentLibrary
-    {
+namespace TileTales.GameContent {
+    internal class ContentLibrary {
         private static readonly String imageFileType = "png";
         private static readonly String FOLDER_SPRITES = "Content/assets/gfx/sprites";
         private static readonly String FOLDER_TILES = "Content/assets/gfx/tiles";
@@ -53,13 +44,11 @@ namespace TileTales.GameContent
 
         internal Settings GameSettings { get; set; }
 
-        internal ContentLibrary(GraphicsDevice graphicsDevice)
-        {
+        internal ContentLibrary(GraphicsDevice graphicsDevice) {
             _graphicsDevice = graphicsDevice;
             _chunkLibrary = new ChunkLibrary(graphicsDevice, this);
         }
-        internal void LoadPrepackagedContent()
-        {
+        internal void LoadPrepackagedContent() {
             worldMap = Utils.ContentReader.readTexture(_graphicsDevice, "Content/assets/gfx/worldmap.png");
             sprites = Utils.ContentReader.readTexturesInDirectory(_graphicsDevice, FOLDER_SPRITES);
             //tiles = Utils.ContentReader.readTilesInDirectory(_graphicsDevice, FOLDER_TILES);
@@ -88,20 +77,17 @@ namespace TileTales.GameContent
             //waterChunk = _chunkFactory.CreateChunkFromMap(waterMap, 0.25f);
         }*/
 
-        internal Texture2D GetSprite(string name)
-        {
+        internal Texture2D GetSprite(string name) {
             SKBitmap sKBitmap = sprites[name];
             Texture2D finalTexture = Texture2D.FromStream(_graphicsDevice, sKBitmap.Encode(SKEncodedImageFormat.Png, 100).AsStream());
             return finalTexture;
         }
 
-        internal Tile GetTile(string colorRGB)
-        {
+        internal Tile GetTile(string colorRGB) {
             return tiles[colorRGB];
         }
 
-        internal Tile GetTile(byte r, byte g, byte b)
-        {
+        internal Tile GetTile(byte r, byte g, byte b) {
             return GetTile(string.Format("{0:X2}{1:X2}{2:X2}", r, g, b));
         }
 
@@ -123,8 +109,7 @@ namespace TileTales.GameContent
             return GetTile(string.Format("{0:X2}{1:X2}{2:X2}", r, g, b));
         }*/
 
-        internal void AddTile(Tile tile)
-        {
+        internal void AddTile(Tile tile) {
             //System.Diagnostics.Debug.WriteLine("AddTile tile.LegacyColor: " + tile.LegacyColor + " (#"+ tile.LegacyColor.ToString("X6") + "), image.width: " + tile.Image.Width);
             // ToDo change LegacyColor to ReplacementColor
             //SetTile(tile.LegacyColor, tile.Image);
@@ -152,36 +137,28 @@ namespace TileTales.GameContent
             tiles[colorRGB] = texture;
         }*/
 
-        internal Map GetMap(Point3D loc)
-        {
-            if (!maps.ContainsKey(loc))
-            {
+        internal Map GetMap(Point3D loc) {
+            if (!maps.ContainsKey(loc)) {
                 return null;
             }
             return maps[loc];
         }
 
-        internal void AddSprite(string name, SKBitmap texture, Boolean saveToDisc)
-        {
+        internal void AddSprite(string name, SKBitmap texture, Boolean saveToDisc) {
             sprites[name] = texture;
-            if (saveToDisc)
-            {
+            if (saveToDisc) {
                 Utils.ContentWriter.WriteFile(FOLDER_SPRITES + "/" + name, texture);
             }
         }
 
 
-        internal void AddMap(Map map, Point3D playerLoc)
-        {
-            if (map.ByteString == null || map.ByteString.Length == 0 || map.ByteString == ByteString.Empty)
-            {
+        internal void AddMap(Map map, Point3D playerLoc) {
+            if (map.ByteString == null || map.ByteString.Length == 0 || map.ByteString == ByteString.Empty) {
                 return;
             }
             Map currentMap = GetMap(map.Location);
-            if (currentMap != null)
-            {
-                if (currentMap.Version == map.Version)
-                {
+            if (currentMap != null) {
+                if (currentMap.Version == map.Version) {
                     Log.Verbose("Map " + map + " already exists, skipping");
                     return;
                 }
@@ -193,43 +170,35 @@ namespace TileTales.GameContent
             maps[map.Location] = map;
             Task.Run(() => _chunkLibrary.NewMap(map, playerLoc));
         }
-        internal void UpdateCaches(Player player)
-        {
+        internal void UpdateCaches(Player player) {
             Task.Run(() => _chunkLibrary.UpdateLibrary(player.Location));
         }
 
-        internal Chunk GetChunk(int x, int y, int z)
-        {
+        internal Chunk GetChunk(int x, int y, int z) {
             return _chunkLibrary.GetChunk(new Point3D(x, y, z));
         }
 
-        internal void SetChunk(int x, int y, int z, Chunk chunk)
-        {
-            if (chunk == null)
-            {
+        internal void SetChunk(int x, int y, int z, Chunk chunk) {
+            if (chunk == null) {
                 return;
             }
             Point3D key = new Point3D(x, y, z);
             _chunkLibrary.SetChunk(key, chunk);
         }
 
-        internal Texture2D GetWorldMap()
-        {
+        internal Texture2D GetWorldMap() {
             return worldMap;
         }
 
-        internal List<Tile> GetAllTiles()
-        {
+        internal List<Tile> GetAllTiles() {
             return tiles.Values.ToList();
         }
 
-        internal float GetScale()
-        {
+        internal float GetScale() {
             return GameSettings.Scale;
         }
 
-        internal bool HasMap(Point3D loc)
-        {
+        internal bool HasMap(Point3D loc) {
             return maps.ContainsKey(loc);
         }
     }

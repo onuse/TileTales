@@ -1,27 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Net;
-using TileTales.State;
-using TileTales.Network;
-using TileTales.Utils;
-using Microsoft.Xna.Framework.Content;
-using System.Collections.Generic;
-using System.IO;
-using TileTales.GameContent;
-using Google.Protobuf.Collections;
-using Myra.Graphics2D.UI;
-using TileTales.Graphics;
 using Net.Tiletales.Network.Proto.App;
-using TileTales.UI;
+using System;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
+using TileTales.GameContent;
+using TileTales.Graphics;
+using TileTales.Network;
+using TileTales.State;
+using TileTales.UI;
+using TileTales.Utils;
 
-namespace TileTales
-{
-    internal class TileTalesGame : Game
-    {
+namespace TileTales {
+    internal class TileTalesGame: Game {
         public readonly EventBus EventBus;
         public readonly ContentLibrary ContentLibrary;
         public readonly GameRenderer renderer;
@@ -42,14 +34,12 @@ namespace TileTales
             get => renderer.FPS;
         }
 
-        public float MPF
-        {
+        public float MPF {
             get => renderer.MPF;
         }
         public bool IsGameMode => StateManager.IsState(GameState.Singleton);
 
-        public TileTalesGame()
-        {
+        public TileTalesGame() {
             Singleton = this;
             Log.Info("TileTalesGame");
             _settingsReader = SettingsReader.Singleton;
@@ -76,8 +66,7 @@ namespace TileTales
             EventBus.Subscribe(EventType.Quit, (data) => Exit());
         }
 
-        protected override void LoadContent()
-        {
+        protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             xnbContentManager = new ContentManager(Services, "Content");
             ContentLibrary.LoadPrepackagedContent();
@@ -85,14 +74,12 @@ namespace TileTales
             AppUI.LoadMainMenu();
         }
 
-        protected override void Initialize()
-        {
+        protected override void Initialize() {
             base.Initialize();
             StateManager.PushState(new StartupState());
         }
 
-        protected override void Update(GameTime gameTime)
-        {
+        protected override void Update(GameTime gameTime) {
             Stopwatch stopwatch1 = new Stopwatch();
             stopwatch1.Start();
             EventBus.Update();
@@ -109,8 +96,7 @@ namespace TileTales
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
-        {
+        protected override void Draw(GameTime gameTime) {
             if (!this.IsActive) return;
             GraphicsDevice.Clear(Color.Black);
             StateManager.Draw(gameTime);
@@ -118,8 +104,7 @@ namespace TileTales
             base.Draw(gameTime);
         }
 
-        private void OnClientSizeChanged(object sender, EventArgs e)
-        {
+        private void OnClientSizeChanged(object sender, EventArgs e) {
             Log.Verbose("OnClientSizeChanged w: " + Window.ClientBounds.Width + " h: " + Window.ClientBounds.Height);
             StateManager.OnClientSizeChanged(Window.ClientBounds.Width, Window.ClientBounds.Height);
             UserSettings userSettings = _settingsReader.GetSettings();
@@ -132,29 +117,25 @@ namespace TileTales
             AppUI.Height = userSettings.WindowHeight;
             _settingsReader.SaveSettings();
         }
-        public void Shutdown(object sender, EventArgs e)
-        {
+        public void Shutdown(object sender, EventArgs e) {
             ServerConnector.Shutdown();
             //Checking if Shutdown works, and it does.
             Log.Info("Exiting Game");
-}
+        }
 
-        internal void InitGameSettings(RealmInfo realmData)
-        {
+        internal void InitGameSettings(RealmInfo realmData) {
             Log.Debug("InitGameSettings");
             GameSettings = new Settings(realmData.WorldSize, realmData.TileSize, realmData.MapSize, _settingsReader.GetSettings());
             ContentLibrary.GameSettings = GameSettings;
         }
 
-        internal void ActivateArtistState()
-        {
+        internal void ActivateArtistState() {
             StateManager.ClearStates();
             StateManager.PushState(RunningState.Singleton);
             StateManager.PushState(ArtistState.Singleton);
         }
 
-        internal void ActivateGameState()
-        {
+        internal void ActivateGameState() {
             StateManager.ClearStates();
             StateManager.PushState(RunningState.Singleton);
             StateManager.PushState(GameState.Singleton);

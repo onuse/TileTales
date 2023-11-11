@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TileTales.Utils;
 
-namespace TileTales.GameContent
-{
-    internal class Settings
-    {
+namespace TileTales.GameContent {
+    internal class Settings {
         public int WorldSize { get; }
         public int MapSize { get; }
         public int TileSize { get; }
@@ -67,8 +62,7 @@ namespace TileTales.GameContent
             1f / 4f
         }.ToList();
 
-        public Settings(int worldSize, int tileSize, int mapSize, UserSettings userSettings)
-        {
+        public Settings(int worldSize, int tileSize, int mapSize, UserSettings userSettings) {
             // TODO Get this from Server
             WorldSize = worldSize;
             MapSize = mapSize;

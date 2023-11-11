@@ -1,20 +1,9 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-using SkiaSharp;
-using MonoGame.Extended;
-using TileTales.GameContent;
-using Myra.Graphics2D.UI;
-using Google.Protobuf.WellKnownTypes;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Formats.Asn1.AsnWriter;
-using TileTales.Utils;
 using System.Diagnostics;
+using TileTales.GameContent;
+using TileTales.Utils;
 
 namespace TileTales.Graphics {
     /**
@@ -34,7 +23,7 @@ namespace TileTales.Graphics {
 
         const float _rotation = 0f;
         const float _layerDepth = 1f;
-        private FrameCounter _frameCounter = new FrameCounter();
+        private readonly FrameCounter _frameCounter = new FrameCounter();
         private Vector2 _origin = new(0, 0);
 
         /**
